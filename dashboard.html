@@ -1,0 +1,757 @@
+<!--Created separate 2025 html file, removed 2025 related code except animations-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- ================= DASHBOARD ================= -->
+<div class="card page" id="dashboard" style="display:block;">
+<h1>Select a Year</h1>
+<button class="logout-btn" onclick="logout()">Logout</button>
+<div class="tiles">
+  <div class="tile" onclick="openYear('2021')">2021</div>
+  <div class="tile" onclick="openYear('2022')">2022</div>
+  <div class="tile" onclick="window.location.href='2023.html'">2023</div>
+  <div class="tile" onclick="window.location.href='2024.html'">2024</div>
+  <div class="tile" onclick="window.location.href='2025.html'">2025</div>
+  <div class="tile" onclick="window.location.href='2026.html'">2026</div>
+</div>
+</div>
+
+<!-- ================= YEAR PAGES ================= -->
+<!-- 2021 -->
+<div class="card page" id="page-2021">
+  <h1>2021</h1>
+  <p>Select an event:</p>
+  <button class="logout-btn" onclick="logout()">Logout</button>
+  <div class="tiles">
+    <div class="tile" onclick="openBirthday('2021')">🎂 Birthday</div>
+    <div class="tile" onclick="openChristmas('2021')">🎄 Christmas</div>
+  </div>
+  <button class="back-btn" onclick="goHome()">Back</button>
+</div>
+
+<div class="card page" id="page-2021-birthday">
+  <h1>2021 Birthday 🎂</h1>
+  <p>Celebration and memories of 2021.</p>
+  <div class="flower-container" id="flower2021">
+    <div class="flower-center">
+        <div class="jp">お誕生日おめでとう妹</div>
+        <div class="romaji">Otanjōbi omedetō imōto-chan</div>
+        <div class="en">Hope you have the greatest B-day ever! ✨</div>
+    </div>
+    <img src="Images/petal1.png" class="flower-petal" />
+    <img src="Images/petal2.png" class="flower-petal" />
+    <img src="Images/petal3.png" class="flower-petal" />
+    <img src="Images/petal4.png" class="flower-petal" />
+    <img src="Images/petal5.png" class="flower-petal" />
+    <img src="Images/petal6.png" class="flower-petal" />
+  </div>
+  <button class="back-btn" onclick="backToYear('2021')">Back</button>
+</div>
+
+<!-- 2021 Christmas -->
+<div class="card page" id="page-2021-christmas">
+  <h1>2021 Christmas 🎄</h1>
+
+  <div class="xmas-photo-card">
+
+    <div class="xmas-image-wrap">
+      <img
+        src="Images/christmas2021.jpg"
+        alt="Christmas 2021 memory"
+        class="xmas-clickable"
+      >
+      <div class="snow-local" id="snowLocal2021"></div>
+    </div>
+
+    <p class="xmas-caption">
+      Our first Christmas together in 2021 ❄️<br>
+      Warm lights, happy hearts, and beautiful memories ❤️
+    </p>
+
+  </div>
+
+  <button class="back-btn" onclick="backToYear('2021')">Back</button>
+</div>
+
+
+<!-- 2022 -->
+<div class="card page" id="page-2022">
+  <h1>2022</h1>
+  <p>Select an event:</p>
+  <button class="logout-btn" onclick="logout()">Logout</button>
+  <div class="tiles">
+    <div class="tile" onclick="openBirthday('2022')">🎂 Birthday</div>
+    <div class="tile" onclick="openChristmas('2022')">🎄 Christmas</div>
+  </div>
+  <button class="back-btn" onclick="goHome()">Back</button>
+</div>
+
+<div class="card page" id="page-2022-birthday">
+  <h1>2022 Birthday 🎂</h1>
+  <p>Select you Birthday surprise</p>
+  <div class="tiles">
+    <div class="tile" onclick="open2022Card()">💌 Card</div>
+    <div class="tile" onclick="open2022Video()">🎥 Video</div>
+  </div>
+  <button class="back-btn" onclick="backToYear('2022')">Back</button>
+</div>
+
+<!-- 2022 Card -->
+<div class="card page" id="page-2022-card">
+  <h1>Birthday Card 💌</h1>
+
+  <div class="birthday-card-container">
+    <!-- Bottom layer: inner2 -->
+    <div class="card-inner2">
+      <img src="Images/card-inner2.png" class="card-photo">
+    </div>
+
+    <!-- Top layer: double-sided cover -->
+    <div class="card-flip" id="cardFlip">
+      <!-- Front face -->
+      <div class="card-front">
+        <img src="Images/card-front.png" class="card-photo">
+        <!-- Edge shadow for realism -->
+        <div class="page-shadow"></div>
+      </div>
+
+      <!-- Back face = inner1 -->
+      <div class="card-inner1">
+        <img src="Images/card-inner1.png" class="card-photo">
+      </div>
+    </div>
+  </div>
+
+  <button class="back-btn" onclick="openBirthday('2022')">Back</button>
+</div>
+
+<!-- 2022 Video -->
+<div class="card page" id="page-2022-video">
+  <h1>Birthday Video 🎥</h1>
+
+  <div class="video-wrap video-16x9">
+      <iframe 
+            id="driveVideo2022"
+            src="https://drive.google.com/file/d/1qY40I4qMtDJPwqCwBsutMvZDnp-0VXSY/preview"
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+            allowfullscreen
+            style="border-radius:1rem;">
+      </iframe>
+  </div>
+
+  <button class="back-btn" onclick="openBirthday('2022')">Back</button>
+</div>
+
+
+<div class="card page" id="page-2022-christmas">
+  <h1>2022 Christmas 🎄</h1>
+  <p>Christmas memories of 2022</p>
+
+  <div class="memory-wall">
+    <div class="polaroid" data-src="https://drive.google.com/file/d/1Wm0sghpvERLhImt9g0kSjWP1e-5a6ZoV/preview">
+        <img src="Images/thumb1.png">
+        <span>...</span>
+    </div>
+    <div class="polaroid" data-src="https://drive.google.com/file/d/1TfBE2sYzWPnNALq8Rtv_CudvqlYTHftR/preview">
+        <img src="Images/thumb2.png">
+        <span>...</span>
+    </div>
+    <div class="polaroid" data-src="https://drive.google.com/file/d/1j-UdakTpN7FRji3cvBMaHTQ3jhnCQa37/preview">
+        <img src="Images/thumb3.png">
+        <span>Evening Fun</span>
+    </div>
+  </div>
+
+  <button class="back-btn" onclick="backToYear('2022')">Back</button>
+</div>
+
+<!-- ================= AUDIO ================= -->
+<audio id="birthdayAudio" src="Images/birthday.mp3" loop></audio>
+<audio id="christmasAudio" src="Images/christmas.mp3" loop></audio>
+
+<!-- ================= EFFECTS ================= -->
+<div id="snow" class="effect-layer"></div>
+<div id="confetti" class="effect-layer"></div>
+<div id="balloons" class="effect-layer"></div>
+<div id="balloonsB" class="effect-layer"></div>
+<div id="fireworks" class="effect-layer"></div>
+<div id="heartConfetti" class="effect-layer"></div>
+
+<!-- Photo Modal -->
+<div id="photoModal" class="photo-modal">
+  <span class="photo-close">&times;</span>
+
+  <button class="nav prev">&#10094;</button>
+  <img id="photoPreview">
+  <button class="nav next">&#10095;</button>
+</div>
+
+<!-- Video Modal -->
+<div id="videoModal" class="photo-modal">
+  <span class="photo-close">&times;</span>
+
+  <button class="nav prev">&#10094;</button>
+  <div class="video-wrap video-9x16">
+    <iframe id="drivePlayer" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+  </div>
+  
+  <button class="nav next">&#10095;</button>
+</div>
+
+<script>
+const snow=document.getElementById("snow");
+const confetti=document.getElementById("confetti");
+const balloons=document.getElementById("balloons");
+const bdayAudio=document.getElementById("birthdayAudio");
+const xmasAudio=document.getElementById("christmasAudio");
+const balloonsB=document.getElementById("balloonsB");
+const fireworks = document.getElementById("fireworks");
+const hearts = document.getElementById("heartConfetti");
+
+let balloonBInterval=null;
+
+function hideAll(){
+  document.querySelectorAll(".page").forEach(p=>p.style.display="none");
+  stopAllEffects();
+  stopDriveVideos();   // ⭐ ADD THIS
+}
+
+function goHome(){
+  hideAll();
+  document.getElementById("dashboard").style.display="block";
+  document.body.classList.remove("christmas-bg");
+}
+
+function openYear(y){
+  hideAll();
+  document.getElementById("page-"+y).style.display="block";
+}
+
+function backToYear(y){
+  hideAll();
+  document.getElementById("page-"+y).style.display="block";
+  document.body.classList.remove("christmas-bg");
+}
+
+function positionPetals(containerId) {
+  const container = document.getElementById(containerId);
+  const petals = container.querySelectorAll(".flower-petal");
+
+  const centerX = container.clientWidth / 2;
+  const centerY = container.clientHeight / 2;
+
+  const radius = 190;
+  const petalCount = petals.length;
+
+  let angleOffset = 0;
+
+  function animate() {
+    angleOffset += 0.003; // speed
+
+    petals.forEach((petal, i) => {
+      const angle = (2 * Math.PI / petalCount) * i + angleOffset;
+
+      const x = centerX + radius * Math.cos(angle) - petal.clientWidth / 2;
+      const y = centerY + radius * Math.sin(angle) - petal.clientHeight / 2;
+
+      // ONLY move — no rotation
+      petal.style.left = `${x}px`;
+      petal.style.top = `${y}px`;
+    });
+
+    requestAnimationFrame(animate);
+  }
+
+  animate();
+}
+
+function openBirthday(y){
+  hideAll();
+  document.getElementById("page-"+y+"-birthday").style.display="block";
+  bdayAudio.play();
+  if(y==="2021") {
+    startConfetti();
+    positionPetals("flower2021"); // ⭐ position petals precisely
+  }
+  if(y==="2022") startBalloons();
+}
+
+function openChristmas(y){
+  hideAll();
+  document.getElementById("page-"+y+"-christmas").style.display="block";
+  document.body.classList.add("christmas-bg");
+  xmasAudio.play();
+  startSnow();
+}
+
+function logout(){
+  window.location.replace("login.html");
+}
+
+/* ================= EFFECTS ================= */
+function stopAllEffects(){
+  [snow,confetti,balloons,balloonsB,fireworks,hearts].forEach(e=>{e.style.display="none"; e.innerHTML="";});
+  if(balloonBInterval) clearInterval(balloonBInterval);
+  if(fireworksInterval) clearInterval(fireworksInterval);
+  if(heartConfettiInterval) clearInterval(heartConfettiInterval);
+  bdayAudio.pause(); xmasAudio.pause();
+  bdayAudio.currentTime=0; xmasAudio.currentTime=0;
+}
+
+function startSnow(){
+  snow.style.display="block";
+  setInterval(()=>{
+    const s=document.createElement("div");
+    s.innerHTML="❄";
+    s.style.position="absolute";
+    s.style.left=Math.random()*100+"vw";
+    s.style.animation="fallSnow 5s linear forwards";
+    snow.appendChild(s);
+    setTimeout(()=>s.remove(),5000);
+  },150);
+}
+
+function startConfetti(){
+  confetti.style.display="block";
+  setInterval(()=>{
+    const c=document.createElement("div");
+    c.style.position="absolute";
+    c.style.width="8px"; c.style.height="8px";
+    c.style.background=`hsl(${Math.random()*360},80%,60%)`;
+    c.style.left=Math.random()*100+"vw";
+    c.style.animation="fallConfetti 3s linear forwards";
+    confetti.appendChild(c);
+    setTimeout(()=>c.remove(),3000);
+  },60);
+}
+
+function startBalloons(){
+  balloons.style.display="block";
+  setInterval(()=>{
+    const b=document.createElement("div");
+    b.innerHTML="🎈";
+    b.style.position="absolute";
+    b.style.left=Math.random()*100+"vw";
+    b.style.bottom="-40px";
+    b.style.fontSize="30px";
+    b.style.animation="riseBalloon 6s linear forwards";
+    balloons.appendChild(b);
+    setTimeout(()=>b.remove(),6000);
+  },400);
+}
+
+function startBalloonsB(){
+  balloonsB.style.display="block";
+
+  const colors=[
+    "#ff6b6b","#fbbf24","#34d399","#60a5fa","#a78bfa","#f472b6"
+  ];
+
+  balloonBInterval=setInterval(()=>{
+    const b=document.createElement("div");
+    b.className="balloonB";
+
+    b.style.left=Math.random()*100+"vw";
+    b.style.bottom="-40px";
+    b.style.background=colors[Math.floor(Math.random()*colors.length)];
+
+    const duration=5+Math.random()*3;
+    b.style.animationDuration=duration+"s";
+
+    balloonsB.appendChild(b);
+    setTimeout(()=>b.remove(),duration*1000);
+  },300);
+}
+
+function startConfettiBurst(){
+  confetti.style.display="block";
+
+  const burstCount = 350; // how many pieces
+
+  for(let i=0;i<burstCount;i++){
+    const c=document.createElement("div");
+
+    c.style.position="absolute";
+    c.style.width="8px";
+    c.style.height="8px";
+    c.style.background=`hsl(${Math.random()*360},80%,60%)`;
+
+    // start near center for "burst"
+    c.style.left = 45 + Math.random()*10 + "vw";
+    c.style.top = "40vh";
+
+    const angle = Math.random()*360;
+    const distance = 40 + Math.random()*60;
+
+    c.style.transform = `translate(0,0)`;
+
+    c.animate([
+      { transform: "translate(0,0)", opacity: 1 },
+      {
+        transform: `translate(${Math.cos(angle*Math.PI/180)*distance}vw,
+                              ${Math.sin(angle*Math.PI/180)*distance}vh)
+                    rotate(720deg)`,
+        opacity: 0
+      }
+    ],{
+      duration: 1400 + Math.random()*400,
+      easing: "ease-out"
+    });
+
+    confetti.appendChild(c);
+  }
+}
+
+let fireworksInterval = null;
+
+function startFireworks(){
+  const fireworks = document.getElementById("fireworks");
+  fireworks.style.display = "block";
+
+  const colors = ["#ff3838","#ff9f1a","#32ff7e","#18dcff","#7d5fff","#fffa65"];
+
+  fireworksInterval = setInterval(() => {
+    const fX = Math.random() * 100; // anywhere across width
+    const fY = 20 + Math.random() * 60; // slightly top to center
+
+    const particleCount = 15 + Math.floor(Math.random()*25);
+
+    for(let i=0;i<particleCount;i++){
+      const p = document.createElement("div");
+      p.className = "firework-particle";
+      const color = colors[Math.floor(Math.random()*colors.length)];
+      p.style.background = color;
+      p.style.width = "6px"; // bigger particles
+      p.style.height = "6px"; // bigger particles
+      p.style.left = fX + "vw";
+      p.style.top = fY + "vh";
+
+      fireworks.appendChild(p);
+
+      const angle = Math.random() * 2 * Math.PI;
+      const distance = 15 + Math.random() * 50; // wider spread
+      const duration = 1200 + Math.random()*800;
+
+      // Animate particle with trailing glow using keyframes
+      p.animate([
+        { transform: "translate(0,0)", opacity: 1 },
+        { transform: `translate(${Math.cos(angle)*distance}vw, ${Math.sin(angle)*distance}vh)`, opacity: 0 }
+      ],{
+        duration: duration,
+        easing: "ease-out",
+        fill: "forwards"
+      });
+
+      setTimeout(()=>p.remove(), duration);
+    }
+
+  }, 400); // burst interval
+}
+
+let heartConfettiInterval = null;
+
+function startHeartConfetti(){
+  hearts.style.display = "block";
+
+  heartConfettiInterval = setInterval(() => {
+    const h = document.createElement("div");
+    h.className = "heart";
+
+    h.style.left = Math.random() * 100 + "vw";
+    h.style.top = "-20px"; // start above viewport
+    h.style.transform += ` scale(${0.8 + Math.random()*0.4}) rotate(${Math.random()*360}deg)`;
+    h.style.backgroundColor = `hsl(${Math.random()*360}, 80%, 65%)`; // colorful hearts
+
+    hearts.appendChild(h);
+
+    // Animate falling with rotation
+    h.animate([
+      { transform: h.style.transform, opacity: 1 },
+      { transform: `translateY(110vh) rotate(${Math.random()*720}deg)`, opacity: 0 }
+    ], {
+      duration: 5000 + Math.random()*2000,
+      easing: "ease-in"
+    });
+
+    setTimeout(()=>h.remove(), 7000);
+  }, 250); // new heart every 0.25s
+}
+
+/* ===============================
+   Universal Swipeable Photo Viewer
+   (petals + 2022 cards + christmas)
+================================= */
+
+const modal = document.getElementById("photoModal");
+const preview = document.getElementById("photoPreview");
+const closeBtn = document.querySelector(".photo-close");
+const nextBtn = document.querySelector(".next");
+const prevBtn = document.querySelector(".prev");
+
+let currentIndex = 0;
+let galleryImages = [];
+
+/* setup gallery from selector */
+function setupGallery(selector){
+  galleryImages = Array.from(document.querySelectorAll(selector));
+}
+
+/* show image */
+function showImage(index){
+  if(index < 0) index = galleryImages.length - 1;
+  if(index >= galleryImages.length) index = 0;
+
+  currentIndex = index;
+
+  preview.style.opacity = 0;
+
+  setTimeout(()=>{
+    preview.src = galleryImages[currentIndex].src;
+    preview.style.opacity = 1;
+  },120);
+}
+
+/* ========= CLICK HANDLER ========= */
+
+document.addEventListener("click", function(e){
+
+  /* 2021 petals */
+  if(e.target.classList.contains("flower-petal")){
+    setupGallery("#flower2021 .flower-petal");
+    setNavVisible(true);
+  }
+
+  /* 2022 card photos */
+  if(e.target.classList.contains("card-photo")){
+    setupGallery("#page-2022-card .card-photo");
+    setNavVisible(true);
+  }
+
+  /* christmas single image */
+  if(e.target.classList.contains("xmas-clickable")){
+    setNavVisible(false);
+    preview.src = e.target.src;
+    modal.style.display = "flex";
+    return;
+  }
+
+  /* open modal for galleries */
+  if(
+    e.target.classList.contains("flower-petal") ||
+    e.target.classList.contains("card-photo")
+  ){
+    currentIndex = galleryImages.indexOf(e.target);
+    showImage(currentIndex);
+    modal.style.display = "flex";
+  }
+});
+
+/* arrows */
+nextBtn.onclick = () => showImage(currentIndex + 1);
+prevBtn.onclick = () => showImage(currentIndex - 1);
+
+/* close */
+closeBtn.onclick = () => modal.style.display = "none";
+modal.onclick = (e)=>{ if(e.target === modal) modal.style.display="none"; };
+
+/* keyboard */
+document.addEventListener("keydown", (e)=>{
+  if(modal.style.display !== "flex") return;
+
+  if(e.key === "ArrowRight") showImage(currentIndex + 1);
+  if(e.key === "ArrowLeft") showImage(currentIndex - 1);
+  if(e.key === "Escape") modal.style.display = "none";
+});
+
+/* swipe */
+let startX = 0;
+
+preview.addEventListener("touchstart", e=>{
+  startX = e.touches[0].clientX;
+});
+
+preview.addEventListener("touchend", e=>{
+  let endX = e.changedTouches[0].clientX;
+  let diff = startX - endX;
+
+  if(Math.abs(diff) > 50){
+    if(diff > 0) showImage(currentIndex + 1);
+    else showImage(currentIndex - 1);
+  }
+});
+
+/* show/hide arrows */
+function setNavVisible(show){
+  nextBtn.style.display = show ? "block" : "none";
+  prevBtn.style.display = show ? "block" : "none";
+}
+
+
+/* 2022 Birthday card and video ----------------------------------------------------------------*/
+function open2022Card() {
+  hideAll();
+
+  const cardPage = document.getElementById("page-2022-card");
+  const cardFlip = document.getElementById("cardFlip");
+
+  const cardFront = document.querySelector(".card-front");
+  const cardInner1 = document.querySelector(".card-inner1");
+  const cardInner2 = document.querySelector(".card-inner2");
+
+  cardPage.style.display = "block";
+
+  /* ========= RESET ========= */
+
+  cardFlip.style.transition = "none";
+  cardFlip.style.transform = "rotateY(0deg)";
+
+  [cardFront, cardInner1, cardInner2].forEach(c=>{
+    c.classList.remove("card-horizontal");
+    c.style.transform = "";
+  });
+
+  /* ========= FLIP ========= */
+
+  setTimeout(()=>{
+    cardFlip.style.transition = "transform 0.8s ease-out";
+    cardFlip.style.transform = "rotateY(-90deg)";
+  },300);
+
+  setTimeout(()=>{
+    cardFlip.style.transition = "transform 0.8s ease-in";
+    cardFlip.style.transform = "rotateY(-180deg)";
+  },1200);
+
+  /* ========= LINE UP (NO DOM MOVING) ========= */
+
+  setTimeout(()=>{
+
+    // disable flip transform so children behave normally
+    cardFlip.style.transition = "none";
+    cardFlip.style.transform = "none";
+
+    [cardFront, cardInner1, cardInner2].forEach(c =>
+      c.classList.add("card-horizontal")
+    );
+
+    // Use translateX instead of left
+    cardFront.style.transform  = "translateX(-120%)";
+    cardInner1.style.transform = "translateX(0%)";
+    cardInner2.style.transform = "translateX(120%)";
+
+  },2000);
+}
+
+
+function open2022Video(){
+  hideAll();
+  document.getElementById("page-2022-video").style.display="block";
+}
+
+function stopDriveVideos(){
+  const iframe2022 = document.getElementById("driveVideo2022");
+  if(iframe2022) iframe2022.src = iframe2022.src;
+
+  drivePlayer.src = ""; // stop modal video too
+}
+
+
+/* ========= Video Modal ========= */
+/* ===============================
+   Swipeable Video Viewer (2022 Christmas)
+================================= */
+
+const videoModal = document.getElementById("videoModal");
+const drivePlayer = document.getElementById("drivePlayer");
+
+const videoNext = videoModal.querySelector(".next");
+const videoPrev = videoModal.querySelector(".prev");
+const videoClose = videoModal.querySelector(".photo-close");
+
+let videoIndex = 0;
+let videoList = [];
+
+/* collect all videos */
+function setupVideoGallery(){
+  videoList = Array.from(document.querySelectorAll("#page-2022-christmas .polaroid"));
+  videoNext.style.display = videoList.length > 1 ? "block" : "none"; // hide arrows whn only 1 vid
+  videoPrev.style.display = videoList.length > 1 ? "block" : "none"; // hide arrows when only 1 vid
+}
+
+/* show video */
+function showVideo(index){
+  if(index < 0) index = videoList.length - 1;
+  if(index >= videoList.length) index = 0;
+
+  videoIndex = index;
+
+  drivePlayer.src = videoList[videoIndex].dataset.src;
+}
+
+/* open video */
+document.addEventListener("click", function(e){
+  const card = e.target.closest(".polaroid");
+  if(!card) return;
+
+  setupVideoGallery();
+
+  xmasAudio.pause();
+
+  videoIndex = videoList.indexOf(card);
+  showVideo(videoIndex);
+
+  videoModal.style.display = "flex";
+});
+
+/* arrows */
+videoNext.onclick = () => showVideo(videoIndex + 1);
+videoPrev.onclick = () => showVideo(videoIndex - 1);
+
+/* keyboard */
+document.addEventListener("keydown", e=>{
+  if(videoModal.style.display !== "flex") return;
+
+  if(e.key === "ArrowRight") showVideo(videoIndex + 1);
+  if(e.key === "ArrowLeft") showVideo(videoIndex - 1);
+});
+
+/* swipe */
+let videoStartX = 0;
+
+drivePlayer.addEventListener("touchstart", e=>{
+  videoStartX = e.touches[0].clientX;
+});
+
+drivePlayer.addEventListener("touchend", e=>{
+  const diff = videoStartX - e.changedTouches[0].clientX;
+
+  if(Math.abs(diff) > 50){
+    if(diff > 0) showVideo(videoIndex + 1);
+    else showVideo(videoIndex - 1);
+  }
+});
+
+/* close */
+function closeVideoModal(){
+  drivePlayer.src = "";
+  videoModal.style.display = "none";
+  xmasAudio.play();
+}
+
+videoClose.onclick = closeVideoModal;
+
+videoModal.onclick = (e)=>{
+  if(e.target === videoModal) closeVideoModal();
+};
+
+</script>
+</body>
+</html>
