@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🔐 Login 💖</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, rgba(168,85,247,0.18), rgba(255,255,255,0.95)),
+                  repeating-linear-gradient(45deg, #f3e8ff, #f3e8ff 20px, #ffffff 20px, #ffffff 40px);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #4a044e;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(12px);
+      padding: 2rem;
+      border-radius: 1.25rem;
+      width: 100%;
+      max-width: 420px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+      text-align: center;
+    }
+
+    input {
+      width: 100%;
+      padding: 0.75rem;
+      margin-bottom: 1rem;
+      border-radius: 0.5rem;
+      border: 1px solid #f0abfc;
+      font-size: 1rem;
+      outline: none;
+      background: #fff;
+      color: #4a044e;
+    }
+
+    button {
+      width: 60%;
+      padding: 0.75rem;
+      border-radius: 999px;
+      border: none;
+      background: linear-gradient(135deg, #f472b6, #c084fc);
+      color: white;
+      font-weight: bold;
+      font-size: 1rem;
+      cursor: pointer;
+      margin: 0 auto;
+      display: block;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+    }
+
+    .error {
+      color: #f87171;
+      margin-top: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h1>🔐 Login 💖</h1>
+    <input type="text" id="username" placeholder="Username">
+    <input type="password" id="password" placeholder="Password">
+    <button onclick="login()">Login</button>
+    <div class="error" id="error"></div>
+  </div>
+
+  <script>
+    const users = [
+      { username: "Ichigo7", password: "miraculous" },
+      { username: "Yume7", password: "miraculous" }
+    ];
+
+    function login() {
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+      const found = users.find(u => u.username === username && u.password === password);
+
+      if (found) {
+        // Redirect to main index/dashboard
+        window.location.href = "dashboard.html";
+      } else {
+        document.getElementById("error").textContent = "Invalid username or password";
+      }
+    }
+  </script>
+
+</body>
+</html>
