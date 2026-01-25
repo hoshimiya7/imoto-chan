@@ -94,6 +94,23 @@ button:hover{
   from { background-position: 0% center; }
   to { background-position: 200% center; }
 }
+
+/* ================= Mobile Controls ================= */
+#mobileControls{
+  position:absolute;
+  bottom:20px;
+  left:50%;
+  transform:translateX(-50%);
+  display:flex;
+  gap:15px;
+  z-index:30;
+}
+#mobileControls button{
+  width:60px;
+  height:60px;
+  font-size:24px;
+  padding:0;
+}
 </style>
 </head>
 <body>
@@ -105,8 +122,8 @@ button:hover{
     <p>
       ⭐ Collect stars (+5)<br>
       ⛔ Avoid obstacles<br>
-      ⬆️⬇️ Arrow keys or swipe up/down to change lanes<br>
-      Tap to shoot
+      ⬆️⬇️ Arrow keys, swipe, or mobile buttons<br>
+      Tap/click to shoot
     </p>
     <h3>🏆 Highest Score: <span id="highScore">0</span></h3>
     <button onclick="startGame()">▶ Play Game</button>
@@ -118,6 +135,13 @@ button:hover{
 <div id="gameWrapper" class="hidden">
   <canvas id="gameCanvas" width="900" height="350"></canvas>
   <div id="hud" class="hidden">Score: 0</div>
+</div>
+
+<!-- Mobile Controls -->
+<div id="mobileControls" class="hidden">
+  <button id="upBtn">⬆</button>
+  <button id="downBtn">⬇</button>
+  <button id="shootBtn">🔥</button>
 </div>
 
 <!-- Game Over -->
@@ -138,52 +162,47 @@ const hud = document.getElementById("hud");
 const gameOverScreen = document.getElementById("gameOver");
 const finalScoreText = document.getElementById("finalScore");
 const highScoreText = document.getElementById("highScore");
+const mobileControls = document.getElementById("mobileControls");
+const upBtn = document.getElementById("upBtn");
+const downBtn = document.getElementById("downBtn");
+const shootBtn = document.getElementById("shootBtn");
 
-let running = false;
-let score = 0;
-let speed = 6;
-const lanes = [80, 170, 260];
-let player = { x:120, lane:1, width:80, height:80 };
-let objects = [];
-let bullets = [];
+let running=false, score=0, speed=6;
+const lanes=[80,170,260];
+let player={x:120, lane:1, width:80, height:80};
+let objects=[], bullets=[];
 
 // =========================
 // Load Images
 // =========================
-const playerImg = new Image(); playerImg.src="Images/happy.png";
-const starImg = new Image(); starImg.src="Images/star.png";
-const rockFrames = [];
-for (let i = 1; i <= 4; i++){
-  const img = new Image(); img.src=`Images/bat${i}.png`; rockFrames.push(img);
-}
-const bgFrames = [];
-for (let i=1;i<=7;i++){ const img = new Image(); img.src=`Images/background${i}.png`; bgFrames.push(img); }
-let imagesLoaded = 0;
+const playerImg=new Image(); playerImg.src="Images/happy.png";
+const starImg=new Image(); starImg.src="Images/star.png";
+const rockFrames=[];
+for(let i=1;i<=4;i++){ const img=new Image(); img.src=`Images/bat${i}.png`; rockFrames.push(img); }
+const bgFrames=[];
+for(let i=1;i<=7;i++){ const img=new Image(); img.src=`Images/background${i}.png`; bgFrames.push(img); }
+let imagesLoaded=0;
 [playerImg, starImg, ...rockFrames, ...bgFrames].forEach(img=>{ img.onload=()=>{ imagesLoaded++; } });
 
 // High Score
-let highScore = localStorage.getItem("birthdayHighScore") || 0;
-highScoreText.textContent = highScore;
+let highScore=localStorage.getItem("birthdayHighScore")||0;
+highScoreText.textContent=highScore;
 
 // =========================
 // Responsive Canvas
 // =========================
 function resizeCanvas(){
-  const wrapper = document.getElementById("gameWrapper");
-  const width = wrapper.clientWidth;
-  const height = width * (350/900);
-  canvas.width = 900;
-  canvas.height = 350;
-  canvas.style.width = width + "px";
-  canvas.style.height = height + "px";
+  const wrapper=document.getElementById("gameWrapper");
+  const width=wrapper.clientWidth;
+  const height=width*(350/900);
+  canvas.width=900; canvas.height=350;
+  canvas.style.width=width+"px";
+  canvas.style.height=height+"px";
 }
 window.addEventListener("resize", resizeCanvas);
 resizeCanvas();
 
-function getLaneY(lane){
-  const ratio = canvas.height / 350;
-  return lanes[lane] * ratio;
-}
+function getLaneY(lane){ return lanes[lane]*(canvas.height/350); }
 
 // =========================
 // Controls
@@ -195,36 +214,41 @@ document.addEventListener("keydown", e=>{
   if(e.key===" ") shoot();
 });
 
-// Touch Controls
-let touchStartY = null;
-canvas.addEventListener("touchstart", e=>{
-  if(!running) return;
-  if(e.touches.length===1) touchStartY = e.touches[0].clientY;
-});
+// Touch swipe
+let touchStartY=null;
+canvas.addEventListener("touchstart", e=>{ if(!running) return; if(e.touches.length===1) touchStartY=e.touches[0].clientY; });
 canvas.addEventListener("touchmove", e=>{
   if(!running || touchStartY===null) return;
-  const deltaY = e.touches[0].clientY - touchStartY;
+  const deltaY=e.touches[0].clientY-touchStartY;
   if(deltaY<-30 && player.lane>0){ player.lane--; touchStartY=e.touches[0].clientY; }
   else if(deltaY>30 && player.lane<2){ player.lane++; touchStartY=e.touches[0].clientY; }
 });
-canvas.addEventListener("touchend", e=>{
-  if(!running) return;
-  if(e.changedTouches.length===1) shoot();
-  touchStartY=null;
-});
+canvas.addEventListener("touchend", e=>{ if(!running) return; if(e.changedTouches.length===1) shoot(); touchStartY=null; });
 canvas.addEventListener("click", shoot);
+
+// =========================
+// Mobile Buttons
+// =========================
+upBtn.addEventListener("touchstart", ()=>{ if(player.lane>0) player.lane--; });
+downBtn.addEventListener("touchstart", ()=>{ if(player.lane<2) player.lane++; });
+shootBtn.addEventListener("touchstart", shoot);
+
+// Show/hide mobile controls based on screen width
+function showMobileControls(){ if(window.innerWidth<=768) mobileControls.classList.remove("hidden"); }
+function hideMobileControls(){ mobileControls.classList.add("hidden"); }
 
 // =========================
 // Game Flow
 // =========================
 function startGame(){
-  if(imagesLoaded < (2 + rockFrames.length + bgFrames.length)){ alert("Loading images, please wait..."); return; }
+  if(imagesLoaded<(2+rockFrames.length+bgFrames.length)){ alert("Loading images..."); return; }
   dashboard.classList.add("hidden");
   gameOverScreen.classList.add("hidden");
   document.getElementById("gameWrapper").classList.remove("hidden");
   hud.classList.remove("hidden");
   canvas.style.display="block";
   score=0; speed=6; objects=[]; bullets=[]; running=true;
+  showMobileControls();
   loop();
 }
 
@@ -233,23 +257,23 @@ function endGame(){
   document.getElementById("gameWrapper").classList.add("hidden");
   hud.classList.add("hidden");
   canvas.style.display="none";
-  finalScoreText.textContent = score;
+  hideMobileControls();
+  finalScoreText.textContent=score;
   if(score>highScore){ highScore=score; localStorage.setItem("birthdayHighScore", highScore); }
-  highScoreText.textContent = highScore;
+  highScoreText.textContent=highScore;
 
-  const gameBox = gameOverScreen.querySelector(".game-box");
-  let message = document.getElementById("gameOverMessage");
+  const gameBox=gameOverScreen.querySelector(".game-box");
+  let message=document.getElementById("gameOverMessage");
   if(!message){
-    message = document.createElement("p");
+    message=document.createElement("p");
     message.id="gameOverMessage";
     message.style.margin="1rem 0";
     message.style.fontWeight="bold";
     message.style.fontSize="16px";
     gameBox.insertBefore(message, gameBox.querySelector("button"));
   }
-  if(score>=100){
-    message.innerHTML=`🎉 Congratulations! You unlocked the code: <span id="birthdayCode">HAPPYBIRTHDAY2026</span>`;
-  } else { message.textContent="👍 You did great but didn't unlock the code. Try again!"; }
+  if(score>=100){ message.innerHTML=`🎉 Congrats! Code: <span id="birthdayCode">HAPPYBIRTHDAY2026</span>`; }
+  else{ message.textContent="👍 Great try! Keep going!"; }
   gameOverScreen.classList.remove("hidden");
 }
 
@@ -257,25 +281,15 @@ function showDashboard(){ gameOverScreen.classList.add("hidden"); dashboard.clas
 function goBack(){ window.location.href="2026.html?birthday=1"; }
 
 // =========================
-// Spawn Objects
+// Spawn & Draw
 // =========================
-function spawn(){
-  const lane=Math.floor(Math.random()*3);
-  const type=Math.random()<0.65?"star":"rock";
-  objects.push({ x:canvas.width+20, lane, type, size:60, frame:0 });
-}
+function spawn(){ const lane=Math.floor(Math.random()*3); const type=Math.random()<0.65?"star":"rock"; objects.push({x:canvas.width+20, lane, type, size:60, frame:0}); }
+function drawBg(){ ctx.drawImage(bgFrames[bgIndex],0,0,canvas.width,canvas.height); bgTimer++; if(bgTimer>=7){ bgIndex=(bgIndex+1)%bgFrames.length; bgTimer=0; } }
 
-// =========================
-// Drawing
-// =========================
 let bgIndex=0, bgTimer=0;
-const bgFrameInterval=7;
-function drawBg(){ ctx.drawImage(bgFrames[bgIndex],0,0,canvas.width,canvas.height); bgTimer++; if(bgTimer>=bgFrameInterval){ bgIndex=(bgIndex+1)%bgFrames.length; bgTimer=0; } }
 
 function drawPlayer(){
-  ctx.save();
-  ctx.shadowColor="rgba(255,215,0,0.8)";
-  ctx.shadowBlur=20; ctx.shadowOffsetX=0; ctx.shadowOffsetY=0;
+  ctx.save(); ctx.shadowColor="rgba(255,215,0,0.8)"; ctx.shadowBlur=20; ctx.shadowOffsetX=0; ctx.shadowOffsetY=0;
   const ratio=canvas.height/350;
   ctx.drawImage(playerImg, player.x-ratio*player.width/2, getLaneY(player.lane)-ratio*player.height/2, ratio*player.width, ratio*player.height);
   ctx.restore();
@@ -284,34 +298,20 @@ function drawPlayer(){
 function drawObject(o){
   const ratio=canvas.height/350;
   if(o.type==="star") ctx.drawImage(starImg, o.x-ratio*o.size/2, getLaneY(o.lane)-ratio*o.size/2, o.size*ratio, o.size*ratio);
-  else{
-    const frameImg=rockFrames[o.frame];
-    ctx.drawImage(frameImg, o.x-ratio*o.size/2, getLaneY(o.lane)-ratio*o.size/2, o.size*ratio, o.size*ratio);
-    o.frameTimer=(o.frameTimer||0)+1;
-    if(o.frameTimer>=8){ o.frame=(o.frame+1)%rockFrames.length; o.frameTimer=0; }
-  }
+  else{ const frameImg=rockFrames[o.frame]; ctx.drawImage(frameImg, o.x-ratio*o.size/2, getLaneY(o.lane)-ratio*o.size/2, o.size*ratio, o.size*ratio); o.frameTimer=(o.frameTimer||0)+1; if(o.frameTimer>=8){ o.frame=(o.frame+1)%rockFrames.length; o.frameTimer=0; } }
 }
 
 // =========================
 // Bullets
 // =========================
-function shoot(){ bullets.push({ x:player.x+player.width/2, y:getLaneY(player.lane), radius:8, speed:10 }); }
-
+function shoot(){ bullets.push({x:player.x+player.width/2, y:getLaneY(player.lane), radius:8, speed:10}); }
 function drawBullets(){
   ctx.fillStyle="rgba(255,0,0,0.9)";
   const ratio=canvas.height/350;
   bullets.forEach((b,i)=>{
-    ctx.beginPath();
-    ctx.arc(b.x*ratio, b.y, b.radius*ratio,0,Math.PI*2);
-    ctx.fill();
+    ctx.beginPath(); ctx.arc(b.x*ratio,b.y,b.radius*ratio,0,Math.PI*2); ctx.fill();
     b.x+=b.speed;
-    objects.forEach((o,j)=>{
-      if(o.type==="rock"){
-        const dx=b.x-o.x, dy=b.y-getLaneY(o.lane);
-        const distance=Math.sqrt(dx*dx+dy*dy);
-        if(distance<b.radius+o.size/2){ bullets.splice(i,1); objects.splice(j,1); score+=10; }
-      }
-    });
+    objects.forEach((o,j)=>{ if(o.type==="rock"){ const dx=b.x-o.x,dy=b.y-getLaneY(o.lane); const dist=Math.sqrt(dx*dx+dy*dy); if(dist<b.radius+o.size/2){ bullets.splice(i,1); objects.splice(j,1); score+=10; } } });
     if(b.x>canvas.width+20) bullets.splice(i,1);
   });
 }
@@ -325,11 +325,8 @@ function loop(){
   drawBg(); drawPlayer(); drawBullets();
   if(performance.now()-lastSpawn>800){ spawn(); lastSpawn=performance.now(); }
   objects.forEach((o,i)=>{
-    o.x-=speed;
-    drawObject(o);
-    if(Math.abs(o.x-player.x)<30 && o.lane===player.lane){
-      if(o.type==="star"){ score+=5; objects.splice(i,1); } else { endGame(); }
-    }
+    o.x-=speed; drawObject(o);
+    if(Math.abs(o.x-player.x)<30 && o.lane===player.lane){ if(o.type==="star"){ score+=5; objects.splice(i,1); } else{ endGame(); } }
     if(o.x<-50) objects.splice(i,1);
   });
   hud.textContent="Score: "+score;
