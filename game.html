@@ -1,4 +1,4 @@
-<!-- ================= Functioning game with reward to unlock birthday card and video and reward code in special glow text ================= -->
+<!-- ================= Functioning game mobile friendly ================= -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -65,6 +65,9 @@ button:hover{
   background:#fff;
   border-radius:20px;
   box-shadow:0 12px 32px rgba(0,0,0,.25);
+  width:100%;
+  max-width:900px;
+  height:auto;
 }
 #hud{
   position:absolute;
@@ -72,70 +75,25 @@ button:hover{
   left:50%;
   transform:translateX(-50%);
   font-weight:bold;
-  font-size:18px;
+  font-size: calc(16px + 1vw);
 }
 #gameOver{ z-index:20; }
-
-/*#birthdayCode {
-  color: #ffdd55;
-  font-weight: bold;
-  font-size: 18px;
-  text-shadow: 
-    0 0 5px #fff3b0, 
-    0 0 10px #ffd700, 
-    0 0 15px #ffcc00, 
-    0 0 20px #ffb700, 
-    0 0 30px #ffaa00;
-}*/
-
 #birthdayCode {
   font-weight: bold;
   font-size: 18px;
-  background: linear-gradient(45deg, #ff69b4, #ffd700); /* pink to yellow */
-  background-clip: text; /* standard property (ignored by some browsers) */
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-shadow: 
-    0 0 3px rgba(255,255,255,0.6),  /* small soft white glow */
-    0 0 5px rgba(255,215,0,0.5);    /* subtle golden glow */
-}
-
-#birthdayCode {
-  font-weight: bold;
-  font-size: 18px;
-
-  /* gradient text */
-  background: linear-gradient(
-    90deg,
-    #ff69b4,
-    #ffd700,
-    #ff69b4
-  );
+  background: linear-gradient(90deg, #ff69b4, #ffd700, #ff69b4);
   background-size: 200% auto;
-
-  background-clip: text;            /* standard */
-  -webkit-background-clip: text;    /* chrome/safari */
+  background-clip: text;
+  -webkit-background-clip: text;
   color: transparent;
   -webkit-text-fill-color: transparent;
-
-  /* soft readable glow */
-  text-shadow:
-    0 0 3px rgba(255,255,255,0.7),
-    0 0 6px rgba(255,182,193,0.5);
-
-  /* shimmer animation */
+  text-shadow: 0 0 3px rgba(255,255,255,0.7), 0 0 6px rgba(255,182,193,0.5);
   animation: shimmer 2.5s linear infinite;
 }
-
 @keyframes shimmer {
-  from {
-    background-position: 0% center;
-  }
-  to {
-    background-position: 200% center;
-  }
+  from { background-position: 0% center; }
+  to { background-position: 200% center; }
 }
-
 </style>
 </head>
 <body>
@@ -147,7 +105,8 @@ button:hover{
     <p>
       ⭐ Collect stars (+5)<br>
       ⛔ Avoid obstacles<br>
-      ⬆️⬇️ Arrow keys to change lanes
+      ⬆️⬇️ Arrow keys or swipe up/down to change lanes<br>
+      Tap to shoot
     </p>
     <h3>🏆 Highest Score: <span id="highScore">0</span></h3>
     <button onclick="startGame()">▶ Play Game</button>
@@ -177,7 +136,6 @@ const ctx = canvas.getContext("2d");
 const dashboard = document.getElementById("dashboard");
 const hud = document.getElementById("hud");
 const gameOverScreen = document.getElementById("gameOver");
-const scoreText = document.getElementById("hud");
 const finalScoreText = document.getElementById("finalScore");
 const highScoreText = document.getElementById("highScore");
 
@@ -187,137 +145,113 @@ let speed = 6;
 const lanes = [80, 170, 260];
 let player = { x:120, lane:1, width:80, height:80 };
 let objects = [];
+let bullets = [];
 
 // =========================
 // Load Images
 // =========================
 const playerImg = new Image(); playerImg.src="Images/happy.png";
 const starImg = new Image(); starImg.src="Images/star.png";
-
-// Bat frames (4 separate images)
 const rockFrames = [];
-for (let i = 1; i <= 4; i++) {
-  const img = new Image();
-  img.src = `Images/bat${i}.png`;
-  rockFrames.push(img);
+for (let i = 1; i <= 4; i++){
+  const img = new Image(); img.src=`Images/bat${i}.png`; rockFrames.push(img);
 }
-
-// Background GIF frames (e.g., 7 frames)
 const bgFrames = [];
-const totalBgFrames = 7;
-for (let i=1;i<=totalBgFrames;i++){
-  const img = new Image();
-  img.src = `Images/background${i}.png`;
-  bgFrames.push(img);
-}
-
-// Count loaded images
+for (let i=1;i<=7;i++){ const img = new Image(); img.src=`Images/background${i}.png`; bgFrames.push(img); }
 let imagesLoaded = 0;
-[playerImg, starImg, ...rockFrames, ...bgFrames].forEach(img=>{
-  img.onload = () => { imagesLoaded++; }
-});
+[playerImg, starImg, ...rockFrames, ...bgFrames].forEach(img=>{ img.onload=()=>{ imagesLoaded++; } });
 
 // High Score
 let highScore = localStorage.getItem("birthdayHighScore") || 0;
 highScoreText.textContent = highScore;
 
+// =========================
+// Responsive Canvas
+// =========================
+function resizeCanvas(){
+  const wrapper = document.getElementById("gameWrapper");
+  const width = wrapper.clientWidth;
+  const height = width * (350/900);
+  canvas.width = 900;
+  canvas.height = 350;
+  canvas.style.width = width + "px";
+  canvas.style.height = height + "px";
+}
+window.addEventListener("resize", resizeCanvas);
+resizeCanvas();
+
+function getLaneY(lane){
+  const ratio = canvas.height / 350;
+  return lanes[lane] * ratio;
+}
+
+// =========================
 // Controls
+// =========================
 document.addEventListener("keydown", e=>{
   if(!running) return;
   if(e.key==="ArrowUp" && player.lane>0) player.lane--;
   if(e.key==="ArrowDown" && player.lane<2) player.lane++;
+  if(e.key===" ") shoot();
 });
+
+// Touch Controls
+let touchStartY = null;
+canvas.addEventListener("touchstart", e=>{
+  if(!running) return;
+  if(e.touches.length===1) touchStartY = e.touches[0].clientY;
+});
+canvas.addEventListener("touchmove", e=>{
+  if(!running || touchStartY===null) return;
+  const deltaY = e.touches[0].clientY - touchStartY;
+  if(deltaY<-30 && player.lane>0){ player.lane--; touchStartY=e.touches[0].clientY; }
+  else if(deltaY>30 && player.lane<2){ player.lane++; touchStartY=e.touches[0].clientY; }
+});
+canvas.addEventListener("touchend", e=>{
+  if(!running) return;
+  if(e.changedTouches.length===1) shoot();
+  touchStartY=null;
+});
+canvas.addEventListener("click", shoot);
 
 // =========================
 // Game Flow
 // =========================
 function startGame(){
-  if(imagesLoaded < (2 + rockFrames.length + bgFrames.length)){
-    alert("Loading images, please wait...");
-    return;
-  }
+  if(imagesLoaded < (2 + rockFrames.length + bgFrames.length)){ alert("Loading images, please wait..."); return; }
   dashboard.classList.add("hidden");
   gameOverScreen.classList.add("hidden");
   document.getElementById("gameWrapper").classList.remove("hidden");
   hud.classList.remove("hidden");
   canvas.style.display="block";
-
-  score=0; speed=6; objects=[]; running=true;
+  score=0; speed=6; objects=[]; bullets=[]; running=true;
   loop();
 }
 
-/*function endGame(){
-  running = false;
-  document.getElementById("gameWrapper").classList.add("hidden");
-  hud.classList.add("hidden");
-  canvas.style.display = "none";
-  finalScoreText.textContent = score;
-
-  // High Score update
-  if(score > highScore){ 
-    highScore = score; 
-    localStorage.setItem("birthdayHighScore", highScore); 
-  }
-  highScoreText.textContent = highScore;
-
-  // Dynamic Game Over message
-  const message = document.getElementById("gameOverMessage");
-  if(!message){
-    // Create the message paragraph if it doesn't exist yet
-    const p = document.createElement("p");
-    p.id = "gameOverMessage";
-    p.style.margin = "1rem 0";
-    p.style.fontWeight = "bold";
-    p.style.fontSize = "16px";
-    gameOverScreen.querySelector(".game-box").insertBefore(p, gameOverScreen.querySelector("button"));
-  }
-
-  // Update message based on score
-  document.getElementById("gameOverMessage").textContent = 
-    (score >= 500) 
-      ? "🎉 Congratulations! You have unlocked the code for your birthday surprise: [YOUR CODE HERE]" 
-      : "👍 You did great but you weren't able to unlock your birthday surprise. Please try again!";
-
-  gameOverScreen.classList.remove("hidden");
-}*/
-
 function endGame(){
-  running = false;
+  running=false;
   document.getElementById("gameWrapper").classList.add("hidden");
   hud.classList.add("hidden");
-  canvas.style.display = "none";
+  canvas.style.display="none";
   finalScoreText.textContent = score;
-
-  // High Score update
-  if(score > highScore){ 
-    highScore = score; 
-    localStorage.setItem("birthdayHighScore", highScore); 
-  }
+  if(score>highScore){ highScore=score; localStorage.setItem("birthdayHighScore", highScore); }
   highScoreText.textContent = highScore;
 
   const gameBox = gameOverScreen.querySelector(".game-box");
-
-  // Create or get message element
   let message = document.getElementById("gameOverMessage");
   if(!message){
     message = document.createElement("p");
-    message.id = "gameOverMessage";
-    message.style.margin = "1rem 0";
-    message.style.fontWeight = "bold";
-    message.style.fontSize = "16px";
+    message.id="gameOverMessage";
+    message.style.margin="1rem 0";
+    message.style.fontWeight="bold";
+    message.style.fontSize="16px";
     gameBox.insertBefore(message, gameBox.querySelector("button"));
   }
-
-  if(score >= 100){
-    // Create glowing code span
-    message.innerHTML = `🎉 Congratulations! You have unlocked the code for your birthday surprise: <span id="birthdayCode">HAPPYBIRTHDAY2026</span>`;
-  } else {
-    message.textContent = "👍 You did great but you weren't able to unlock your birthday surprise. Please try again!";
-  }
-
+  if(score>=100){
+    message.innerHTML=`🎉 Congratulations! You unlocked the code: <span id="birthdayCode">HAPPYBIRTHDAY2026</span>`;
+  } else { message.textContent="👍 You did great but didn't unlock the code. Try again!"; }
   gameOverScreen.classList.remove("hidden");
 }
-
 
 function showDashboard(){ gameOverScreen.classList.add("hidden"); dashboard.classList.remove("hidden"); }
 function goBack(){ window.location.href="2026.html?birthday=1"; }
@@ -326,56 +260,60 @@ function goBack(){ window.location.href="2026.html?birthday=1"; }
 // Spawn Objects
 // =========================
 function spawn(){
-  const lane = Math.floor(Math.random()*3);
-  const type = Math.random()<0.65?"star":"rock";
+  const lane=Math.floor(Math.random()*3);
+  const type=Math.random()<0.65?"star":"rock";
   objects.push({ x:canvas.width+20, lane, type, size:60, frame:0 });
 }
 
 // =========================
 // Drawing
 // =========================
-let bgIndex=0;
-let bgTimer=0;
-const bgFrameInterval=7; // slower background GIF
-
-function drawBg(){
-  ctx.drawImage(bgFrames[bgIndex],0,0,canvas.width,canvas.height);
-  bgTimer++;
-  if(bgTimer>=bgFrameInterval){
-    bgIndex = (bgIndex+1) % bgFrames.length;
-    bgTimer = 0;
-  }
-}
-
-/*function drawPlayer(){
-  ctx.drawImage(playerImg, player.x-player.width/2, lanes[player.lane]-player.height/2, player.width, player.height);
-}*/
+let bgIndex=0, bgTimer=0;
+const bgFrameInterval=7;
+function drawBg(){ ctx.drawImage(bgFrames[bgIndex],0,0,canvas.width,canvas.height); bgTimer++; if(bgTimer>=bgFrameInterval){ bgIndex=(bgIndex+1)%bgFrames.length; bgTimer=0; } }
 
 function drawPlayer(){
-  // Glow settings
-  ctx.save(); // Save current state
-  ctx.shadowColor = "rgba(255, 215, 0, 0.8)"; // gold/yellow glow
-  ctx.shadowBlur = 20;                         // how strong the glow is
-  ctx.shadowOffsetX = 0;
-  ctx.shadowOffsetY = 0;
-
-  // Draw the player image
-  ctx.drawImage(playerImg, player.x - player.width/2, lanes[player.lane] - player.height/2, player.width, player.height);
-
-  ctx.restore(); // Restore so glow doesn't affect other drawings
+  ctx.save();
+  ctx.shadowColor="rgba(255,215,0,0.8)";
+  ctx.shadowBlur=20; ctx.shadowOffsetX=0; ctx.shadowOffsetY=0;
+  const ratio=canvas.height/350;
+  ctx.drawImage(playerImg, player.x-ratio*player.width/2, getLaneY(player.lane)-ratio*player.height/2, ratio*player.width, ratio*player.height);
+  ctx.restore();
 }
 
-
 function drawObject(o){
-  if(o.type==="star"){
-    ctx.drawImage(starImg, o.x-o.size/2, lanes[o.lane]-o.size/2, o.size, o.size);
-  } else {
-    const frameImg = rockFrames[o.frame];
-    ctx.drawImage(frameImg, o.x-o.size/2, lanes[o.lane]-o.size/2, o.size, o.size);
-    o.frameTimer = (o.frameTimer||0)+1;
-    const frameInterval = 8; // slower bat animation
-    if(o.frameTimer>=frameInterval){ o.frame=(o.frame+1)%rockFrames.length; o.frameTimer=0; }
+  const ratio=canvas.height/350;
+  if(o.type==="star") ctx.drawImage(starImg, o.x-ratio*o.size/2, getLaneY(o.lane)-ratio*o.size/2, o.size*ratio, o.size*ratio);
+  else{
+    const frameImg=rockFrames[o.frame];
+    ctx.drawImage(frameImg, o.x-ratio*o.size/2, getLaneY(o.lane)-ratio*o.size/2, o.size*ratio, o.size*ratio);
+    o.frameTimer=(o.frameTimer||0)+1;
+    if(o.frameTimer>=8){ o.frame=(o.frame+1)%rockFrames.length; o.frameTimer=0; }
   }
+}
+
+// =========================
+// Bullets
+// =========================
+function shoot(){ bullets.push({ x:player.x+player.width/2, y:getLaneY(player.lane), radius:8, speed:10 }); }
+
+function drawBullets(){
+  ctx.fillStyle="rgba(255,0,0,0.9)";
+  const ratio=canvas.height/350;
+  bullets.forEach((b,i)=>{
+    ctx.beginPath();
+    ctx.arc(b.x*ratio, b.y, b.radius*ratio,0,Math.PI*2);
+    ctx.fill();
+    b.x+=b.speed;
+    objects.forEach((o,j)=>{
+      if(o.type==="rock"){
+        const dx=b.x-o.x, dy=b.y-getLaneY(o.lane);
+        const distance=Math.sqrt(dx*dx+dy*dy);
+        if(distance<b.radius+o.size/2){ bullets.splice(i,1); objects.splice(j,1); score+=10; }
+      }
+    });
+    if(b.x>canvas.width+20) bullets.splice(i,1);
+  });
 }
 
 // =========================
@@ -384,87 +322,20 @@ function drawObject(o){
 let lastSpawn=0;
 function loop(){
   if(!running) return;
-  drawBg();
-  drawPlayer();
-  drawBullets();  // <-- add this
-
+  drawBg(); drawPlayer(); drawBullets();
   if(performance.now()-lastSpawn>800){ spawn(); lastSpawn=performance.now(); }
-
   objects.forEach((o,i)=>{
-    o.x -= speed;
+    o.x-=speed;
     drawObject(o);
-
     if(Math.abs(o.x-player.x)<30 && o.lane===player.lane){
-      if(o.type==="star"){ score+=5; objects.splice(i,1); }
-      else { endGame(); }
+      if(o.type==="star"){ score+=5; objects.splice(i,1); } else { endGame(); }
     }
-
     if(o.x<-50) objects.splice(i,1);
   });
-
-  hud.textContent = "Score: "+score;
+  hud.textContent="Score: "+score;
   speed+=0.002;
   requestAnimationFrame(loop);
 }
-
-// =========================
-// Shooting
-// =========================
-let bullets = []; // Array for bullets
-
-// =========================
-// Shooting Controls
-// =========================
-document.addEventListener("keydown", e => {
-  if(!running) return;
-  if(e.key === " "){ shoot(); } // Spacebar
-});
-
-canvas.addEventListener("click", shoot); // Click to shoot
-
-function shoot() {
-  bullets.push({
-    x: player.x + player.width/2,  // start at player's right
-    y: lanes[player.lane],
-    radius: 8,
-    speed: 10
-  });
-}
-
-// =========================
-// Draw bullets
-// =========================
-function drawBullets() {
-  ctx.fillStyle = "rgba(255,0,0,0.9)"; // bullet color
-  bullets.forEach((b, i) => {
-    ctx.beginPath();
-    ctx.arc(b.x, b.y, b.radius, 0, Math.PI*2);
-    ctx.fill();
-
-    b.x += b.speed; // Move bullet right
-
-    // Check collision with bats
-    objects.forEach((o, j) => {
-      if(o.type === "rock") {
-        const dx = b.x - o.x;
-        const dy = b.y - lanes[o.lane];
-        const distance = Math.sqrt(dx*dx + dy*dy);
-        if(distance < b.radius + o.size/2) {
-          // Collision! Remove both bullet and bat
-          bullets.splice(i, 1);
-          objects.splice(j, 1);
-
-          // Add 10 points for shooting bat
-          score += 10;
-        }
-      }
-    });
-
-    // Remove bullets that go off screen
-    if(b.x > canvas.width + 20) bullets.splice(i, 1);
-  });
-}
-
 </script>
 </body>
 </html>
