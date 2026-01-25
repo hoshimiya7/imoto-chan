@@ -1,4 +1,4 @@
-<!-- ================= Functioning game mobile + desktop friendly ================= -->
+<!-- ================= Functioning desktop canvas enlarged slightly ================= -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -173,7 +173,7 @@ const downBtn=document.getElementById("downBtn");
 const shootBtn=document.getElementById("shootBtn");
 
 let running=false, score=0, speed=6;
-const lanes=[80,170,260];
+let lanes=[80,170,260];
 let player={x:120,lane:1,width:80,height:80};
 let objects=[], bullets=[];
 
@@ -189,31 +189,45 @@ let highScore=localStorage.getItem("birthdayHighScore")||0;
 highScoreText.textContent=highScore;
 
 // =========================
+// Update scaling
+// =========================
+function updateScaling(){
+    const ratio=canvas.clientHeight/350;
+    player.width = 80*ratio;
+    player.height = 80*ratio;
+    player.x = 120*ratio;
+    lanes[0] = 80*ratio;
+    lanes[1] = 170*ratio;
+    lanes[2] = 260*ratio;
+}
+
+// =========================
 // Responsive Canvas
 // =========================
 function resizeCanvas(){
-    const w=window.innerWidth;
-    const h=window.innerHeight;
-    if(w>768){ // desktop
-        canvas.width=900; canvas.height=350;
-        canvas.style.width="900px"; canvas.style.height="350px";
-    } else { // mobile
-        const scale=Math.min(w/900,h/350);
-        canvas.width=900; canvas.height=350;
-        canvas.style.width=(900*scale)+"px";
-        canvas.style.height=(350*scale)+"px";
+    const w=window.innerWidth, h=window.innerHeight;
+    let scale;
+    if(w>768){
+        scale = Math.min(1.3, w/900);
+    } else {
+        scale = Math.min(w/900,h/350);
     }
-    hud.style.fontSize=(16+canvas.clientWidth/60)+"px";
-    if(running) mobileControls.style.display=(w<=768)?"flex":"none";
+    canvas.width=900;
+    canvas.height=350;
+    canvas.style.width=(900*scale)+'px';
+    canvas.style.height=(350*scale)+'px';
+    hud.style.fontSize=(16+canvas.clientWidth/60)+'px';
+    if(running) mobileControls.style.display=(w<=768)?'flex':'none';
+    updateScaling();
 }
-window.addEventListener("resize",resizeCanvas);
-window.addEventListener("orientationchange",()=>{ setTimeout(resizeCanvas,200); });
+window.addEventListener('resize',resizeCanvas);
+window.addEventListener('orientationchange',()=>{ setTimeout(resizeCanvas,200); });
 resizeCanvas();
 
 // =========================
 // Controls
 // =========================
-document.addEventListener("keydown",e=>{
+document.addEventListener("keydown", e=>{
     if(!running) return;
     if(e.key==="ArrowUp" && player.lane>0) player.lane--;
     if(e.key==="ArrowDown" && player.lane<2) player.lane++;
@@ -224,8 +238,8 @@ canvas.addEventListener("touchstart",e=>{ if(!running) return; if(e.touches.leng
 canvas.addEventListener("touchmove",e=>{
     if(!running||touchStartY===null) return;
     const deltaY=e.touches[0].clientY-touchStartY;
-    if(deltaY<-30&&player.lane>0){ player.lane--; touchStartY=e.touches[0].clientY; }
-    else if(deltaY>30&&player.lane<2){ player.lane++; touchStartY=e.touches[0].clientY; }
+    if(deltaY<-30 && player.lane>0){ player.lane--; touchStartY=e.touches[0].clientY; }
+    else if(deltaY>30 && player.lane<2){ player.lane++; touchStartY=e.touches[0].clientY; }
 });
 canvas.addEventListener("touchend",e=>{ if(!running) return; if(e.changedTouches.length===1) shoot(); touchStartY=null; });
 canvas.addEventListener("click",shoot);
@@ -269,6 +283,7 @@ function drawPlayer(){ ctx.save(); ctx.shadowColor="rgba(255,215,0,0.8)"; ctx.sh
 function drawObject(o){ const ratio=canvas.height/350; if(o.type==="star") ctx.drawImage(starImg,o.x-ratio*o.size/2,lanes[o.lane]-ratio*o.size/2,ratio*o.size,ratio*o.size); else{ const frameImg=rockFrames[o.frame]; ctx.drawImage(frameImg,o.x-ratio*o.size/2,lanes[o.lane]-ratio*o.size/2,ratio*o.size,ratio*o.size); o.frameTimer=(o.frameTimer||0)+1; if(o.frameTimer>=8){ o.frame=(o.frame+1)%rockFrames.length;o.frameTimer=0;} } }
 function shoot(){ bullets.push({x:player.x+player.width/2, y:lanes[player.lane], radius:8, speed:10}); }
 function drawBullets(){ ctx.fillStyle="rgba(255,0,0,0.9)"; const ratio=canvas.height/350; bullets.forEach((b,i)=>{ ctx.beginPath(); ctx.arc(b.x*ratio,b.y,b.radius*ratio,0,Math.PI*2); ctx.fill(); b.x+=b.speed; objects.forEach((o,j)=>{ if(o.type==="rock"){ const dx=b.x-o.x,dy=b.y-lanes[o.lane]; const dist=Math.sqrt(dx*dx+dy*dy); if(dist<b.radius+o.size/2){ bullets.splice(i,1); objects.splice(j,1); score+=10; } } }); if(b.x>canvas.width+20) bullets.splice(i,1); }); }
+
 let lastSpawn=0;
 function loop(){
     if(!running) return;
