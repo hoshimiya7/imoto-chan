@@ -1,4 +1,4 @@
-<!-- ================= Functioning game mobile friendly - mobile screen controls added ================= -->
+<!-- ================= Functioning game mobile + desktop friendly ================= -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -195,17 +195,18 @@ let highScore = localStorage.getItem("birthdayHighScore") || 0;
 highScoreText.textContent = highScore;
 
 // =========================
-// Responsive Canvas
+// Responsive Canvas & HUD
 // =========================
 function resizeCanvas(){
   const wrapper = document.getElementById("gameWrapper");
   const width = wrapper.clientWidth;
-  const height = width*(350/900);
-  canvas.width=900; canvas.height=350;
-  canvas.style.width = width+"px";
-  canvas.style.height = height+"px";
+  const height = width*(350/900); // maintain aspect ratio
+  canvas.width = 900; canvas.height = 350;
+  canvas.style.width = width + "px"; 
+  canvas.style.height = height + "px";
+  hud.style.fontSize = (16 + width/60) + "px";
 }
-window.addEventListener("resize", resizeCanvas);
+window.addEventListener("resize", () => { resizeCanvas(); showMobileControls(); });
 resizeCanvas();
 
 function getLaneY(lane){ return lanes[lane]*(canvas.height/350); }
@@ -243,7 +244,7 @@ shootBtn.addEventListener("touchstart", shoot);
 // Show/Hide Mobile Controls
 // =========================
 function showMobileControls(){ 
-  if(window.innerWidth <= 768){ 
+  if(window.innerWidth <= 768 && running){ 
     mobileControls.style.display = "flex"; 
   } else {
     mobileControls.style.display = "none";
