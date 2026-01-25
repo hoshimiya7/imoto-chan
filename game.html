@@ -52,7 +52,6 @@ button:hover{
   transform:translateY(-2px);
   box-shadow:0 6px 16px rgba(0,0,0,.35);
 }
-
 #gameWrapper{
   position:absolute;
   inset:0;
@@ -73,24 +72,24 @@ button:hover{
   left:50%;
   transform:translateX(-50%);
   font-weight:bold;
-  font-size:18px;
 }
 #gameOver{ z-index:20; }
-
 #birthdayCode {
   font-weight: bold;
   font-size: 18px;
   background: linear-gradient(90deg,#ff69b4,#ffd700,#ff69b4);
-  background-size:200% auto;
-  background-clip:text;
-  -webkit-background-clip:text;
-  color:transparent;
-  -webkit-text-fill-color:transparent;
+  background-size: 200% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
   text-shadow:0 0 3px rgba(255,255,255,0.7),0 0 6px rgba(255,182,193,0.5);
-  animation:shimmer 2.5s linear infinite;
+  animation: shimmer 2.5s linear infinite;
 }
-@keyframes shimmer{ from{background-position:0% center;} to{background-position:200% center;} }
-
+@keyframes shimmer {
+  from { background-position: 0% center; }
+  to { background-position: 200% center; }
+}
 /* ================= Mobile Controls ================= */
 #mobileControls{
   position:absolute;
@@ -161,135 +160,125 @@ button:hover{
 </div>
 
 <script>
-const canvas = document.getElementById("gameCanvas");
-const ctx = canvas.getContext("2d");
-const dashboard = document.getElementById("dashboard");
-const hud = document.getElementById("hud");
-const gameOverScreen = document.getElementById("gameOver");
-const finalScoreText = document.getElementById("finalScore");
-const highScoreText = document.getElementById("highScore");
-const mobileControls = document.getElementById("mobileControls");
-const upBtn = document.getElementById("upBtn");
-const downBtn = document.getElementById("downBtn");
-const shootBtn = document.getElementById("shootBtn");
+const canvas=document.getElementById("gameCanvas");
+const ctx=canvas.getContext("2d");
+const dashboard=document.getElementById("dashboard");
+const hud=document.getElementById("hud");
+const gameOverScreen=document.getElementById("gameOver");
+const finalScoreText=document.getElementById("finalScore");
+const highScoreText=document.getElementById("highScore");
+const mobileControls=document.getElementById("mobileControls");
+const upBtn=document.getElementById("upBtn");
+const downBtn=document.getElementById("downBtn");
+const shootBtn=document.getElementById("shootBtn");
 
 let running=false, score=0, speed=6;
 const lanes=[80,170,260];
 let player={x:120,lane:1,width:80,height:80};
 let objects=[], bullets=[];
 
-// ================= Images =================
-const playerImg = new Image(); playerImg.src="Images/happy.png";
-const starImg = new Image(); starImg.src="Images/star.png";
-const rockFrames=[]; for(let i=1;i<=4;i++){ let img=new Image(); img.src=`Images/bat${i}.png`; rockFrames.push(img);}
-const bgFrames=[]; for(let i=1;i<=7;i++){ let img=new Image(); img.src=`Images/background${i}.png`; bgFrames.push(img);}
+// =========================
+// Load Images
+// =========================
+const playerImg=new Image(); playerImg.src="Images/happy.png";
+const starImg=new Image(); starImg.src="Images/star.png";
+const rockFrames=[]; for(let i=1;i<=4;i++){ const img=new Image(); img.src=`Images/bat${i}.png`; rockFrames.push(img);}
+const bgFrames=[]; for(let i=1;i<=7;i++){ const img=new Image(); img.src=`Images/background${i}.png`; bgFrames.push(img);}
 let imagesLoaded=0; [playerImg,starImg,...rockFrames,...bgFrames].forEach(img=>{ img.onload=()=>{ imagesLoaded++; }});
+let highScore=localStorage.getItem("birthdayHighScore")||0;
+highScoreText.textContent=highScore;
 
-let highScore = localStorage.getItem("birthdayHighScore")||0;
-highScoreText.textContent = highScore;
-
-// ================= Responsive Canvas =================
+// =========================
+// Responsive Canvas
+// =========================
 function resizeCanvas(){
-  const wrapperWidth = window.innerWidth;
-  const wrapperHeight = window.innerHeight;
-
-  // Desktop: fixed proportion like old version
-  if(wrapperWidth > 768){
-    canvas.width = 900;
-    canvas.height = 350;
-    canvas.style.width = "900px";
-    canvas.style.height = "350px";
-  } else {
-    // Mobile: scale to fit screen width
-    const scale = Math.min(wrapperWidth/900, wrapperHeight/350);
-    canvas.width = 900;
-    canvas.height = 350;
-    canvas.style.width = 900*scale+"px";
-    canvas.style.height = 350*scale+"px";
-  }
-
-  // Adjust HUD font
-  hud.style.fontSize = (16 + canvas.clientWidth/60) + "px";
-
-  // Show/hide mobile controls
-  if(running && wrapperWidth <=768){ mobileControls.style.display="flex"; }
-  else{ mobileControls.style.display="none"; }
+    const w=window.innerWidth;
+    const h=window.innerHeight;
+    if(w>768){ // desktop
+        canvas.width=900; canvas.height=350;
+        canvas.style.width="900px"; canvas.style.height="350px";
+    } else { // mobile
+        const scale=Math.min(w/900,h/350);
+        canvas.width=900; canvas.height=350;
+        canvas.style.width=(900*scale)+"px";
+        canvas.style.height=(350*scale)+"px";
+    }
+    hud.style.fontSize=(16+canvas.clientWidth/60)+"px";
+    if(running) mobileControls.style.display=(w<=768)?"flex":"none";
 }
-window.addEventListener("resize", resizeCanvas);
+window.addEventListener("resize",resizeCanvas);
+window.addEventListener("orientationchange",()=>{ setTimeout(resizeCanvas,200); });
+resizeCanvas();
 
-// ================= Controls =================
-document.addEventListener("keydown", e=>{
-  if(!running) return;
-  if(e.key==="ArrowUp" && player.lane>0) player.lane--;
-  if(e.key==="ArrowDown" && player.lane<2) player.lane++;
-  if(e.key===" ") shoot();
+// =========================
+// Controls
+// =========================
+document.addEventListener("keydown",e=>{
+    if(!running) return;
+    if(e.key==="ArrowUp" && player.lane>0) player.lane--;
+    if(e.key==="ArrowDown" && player.lane<2) player.lane++;
+    if(e.key===" ") shoot();
 });
-
-// Mobile buttons
-upBtn.addEventListener("touchstart", ()=>{ if(player.lane>0) player.lane--; });
-downBtn.addEventListener("touchstart", ()=>{ if(player.lane<2) player.lane++; });
-shootBtn.addEventListener("touchstart", shoot);
-
-// Touch swipe
 let touchStartY=null;
-canvas.addEventListener("touchstart", e=>{ if(!running) return; if(e.touches.length===1) touchStartY=e.touches[0].clientY; });
-canvas.addEventListener("touchmove", e=>{
-  if(!running || touchStartY===null) return;
-  const deltaY = e.touches[0].clientY - touchStartY;
-  if(deltaY<-30 && player.lane>0){ player.lane--; touchStartY=e.touches[0].clientY; }
-  else if(deltaY>30 && player.lane<2){ player.lane++; touchStartY=e.touches[0].clientY; }
+canvas.addEventListener("touchstart",e=>{ if(!running) return; if(e.touches.length===1) touchStartY=e.touches[0].clientY; });
+canvas.addEventListener("touchmove",e=>{
+    if(!running||touchStartY===null) return;
+    const deltaY=e.touches[0].clientY-touchStartY;
+    if(deltaY<-30&&player.lane>0){ player.lane--; touchStartY=e.touches[0].clientY; }
+    else if(deltaY>30&&player.lane<2){ player.lane++; touchStartY=e.touches[0].clientY; }
 });
-canvas.addEventListener("touchend", e=>{ if(!running) return; if(e.changedTouches.length===1) shoot(); touchStartY=null; });
-canvas.addEventListener("click", shoot);
+canvas.addEventListener("touchend",e=>{ if(!running) return; if(e.changedTouches.length===1) shoot(); touchStartY=null; });
+canvas.addEventListener("click",shoot);
+upBtn.addEventListener("touchstart",()=>{ if(player.lane>0) player.lane--; });
+downBtn.addEventListener("touchstart",()=>{ if(player.lane<2) player.lane++; });
+shootBtn.addEventListener("touchstart",shoot);
 
-function getLaneY(lane){ return lanes[lane]*(canvas.height/350); }
-
-// ================= Game Flow =================
+// =========================
+// Game Flow
+// =========================
 function startGame(){
-  if(imagesLoaded < (2 + rockFrames.length + bgFrames.length)){ alert("Loading images..."); return; }
-  dashboard.style.display="none";
-  gameOverScreen.style.display="none";
-  document.getElementById("gameWrapper").style.display="flex";
-  hud.style.display="block";
-  canvas.style.display="block";
-  score=0; speed=6; objects=[]; bullets=[]; running=true;
-  resizeCanvas();
-  loop();
+    if(imagesLoaded<(2+rockFrames.length+bgFrames.length)){ alert("Loading images..."); return; }
+    dashboard.style.display="none"; gameOverScreen.style.display="none";
+    document.getElementById("gameWrapper").style.display="flex"; hud.style.display="block"; canvas.style.display="block";
+    score=0; speed=6; objects=[]; bullets=[]; running=true;
+    resizeCanvas(); loop();
 }
 
 function endGame(){
-  running=false; 
-  document.getElementById("gameWrapper").style.display="none"; 
-  hud.style.display="none"; 
-  canvas.style.display="none";
-  mobileControls.style.display="none";
-  finalScoreText.textContent = score;
-  if(score>highScore){ highScore=score; localStorage.setItem("birthdayHighScore",highScore);}
-  highScoreText.textContent=highScore;
-
-  const gameBox=gameOverScreen.querySelector(".game-box");
-  let message=document.getElementById("gameOverMessage");
-  if(!message){ message=document.createElement("p"); message.id="gameOverMessage"; message.style.margin="1rem 0"; message.style.fontWeight="bold"; message.style.fontSize="16px"; gameBox.insertBefore(message,gameBox.querySelector("button")); }
-  if(score>=100){ message.innerHTML=`🎉 Congrats! Code: <span id="birthdayCode">HAPPYBIRTHDAY2026</span>`; }
-  else{ message.textContent="👍 Great try! Keep going!"; }
-  gameOverScreen.style.display="flex";
+    running=false; document.getElementById("gameWrapper").style.display="none"; hud.style.display="none"; canvas.style.display="none";
+    mobileControls.style.display="none"; finalScoreText.textContent=score;
+    if(score>highScore){ highScore=score; localStorage.setItem("birthdayHighScore",highScore);}
+    highScoreText.textContent=highScore;
+    const gameBox=gameOverScreen.querySelector(".game-box");
+    let message=document.getElementById("gameOverMessage");
+    if(!message){ message=document.createElement("p"); message.id="gameOverMessage"; message.style.margin="1rem 0"; message.style.fontWeight="bold"; message.style.fontSize="16px"; gameBox.insertBefore(message,gameBox.querySelector("button")); }
+    if(score>=100){ message.innerHTML=`🎉 Congrats! Code: <span id="birthdayCode">HAPPYBIRTHDAY2026</span>`; }
+    else{ message.textContent="👍 Great try! Keep going!"; }
+    gameOverScreen.style.display="flex";
 }
-
-function showDashboard(){ gameOverScreen.style.display="none"; dashboard.style.display="flex"; }
+function showDashboard(){ gameOverScreen.style.display="none"; dashboard.style.display="flex"; mobileControls.style.display="none"; }
 function goBack(){ window.location.href="2026.html?birthday=1"; }
 
-// ================= Spawn & Draw =================
+// =========================
+// Spawn & Draw
+// =========================
 let bgIndex=0, bgTimer=0;
 function spawn(){ const lane=Math.floor(Math.random()*3); const type=Math.random()<0.65?"star":"rock"; objects.push({x:canvas.width+20,lane,type,size:60,frame:0}); }
 function drawBg(){ ctx.drawImage(bgFrames[bgIndex],0,0,canvas.width,canvas.height); bgTimer++; if(bgTimer>=7){ bgIndex=(bgIndex+1)%bgFrames.length; bgTimer=0; } }
-function drawPlayer(){ ctx.save(); ctx.shadowColor="rgba(255,215,0,0.8)"; ctx.shadowBlur=20; ctx.shadowOffsetX=0; ctx.shadowOffsetY=0; const ratio=canvas.height/350; ctx.drawImage(playerImg, player.x-ratio*player.width/2, getLaneY(player.lane)-ratio*player.height/2, player.width*ratio, player.height*ratio); ctx.restore(); }
-function drawObject(o){ const ratio=canvas.height/350; if(o.type==="star") ctx.drawImage(starImg, o.x-ratio*o.size/2,getLaneY(o.lane)-ratio*o.size/2,o.size*ratio,o.size*ratio); else{ const frameImg=rockFrames[o.frame]; ctx.drawImage(frameImg,o.x-ratio*o.size/2,getLaneY(o.lane)-ratio*o.size/2,o.size*ratio,o.size*ratio); o.frameTimer=(o.frameTimer||0)+1; if(o.frameTimer>=8){ o.frame=(o.frame+1)%rockFrames.length;o.frameTimer=0; } } }
-function shoot(){ bullets.push({x:player.x+player.width/2, y:getLaneY(player.lane), radius:8, speed:10}); }
-function drawBullets(){ ctx.fillStyle="rgba(255,0,0,0.9)"; const ratio=canvas.height/350; bullets.forEach((b,i)=>{ ctx.beginPath(); ctx.arc(b.x*ratio,b.y,b.radius*ratio,0,Math.PI*2); ctx.fill(); b.x+=b.speed; objects.forEach((o,j)=>{ if(o.type==="rock"){ const dx=b.x-o.x, dy=b.y-getLaneY(o.lane), dist=Math.sqrt(dx*dx+dy*dy); if(dist<b.radius+o.size/2){ bullets.splice(i,1); objects.splice(j,1); score+=10; } } }); if(b.x>canvas.width+20) bullets.splice(i,1); }); }
-
-// ================= Game Loop =================
+function drawPlayer(){ ctx.save(); ctx.shadowColor="rgba(255,215,0,0.8)"; ctx.shadowBlur=20; ctx.shadowOffsetX=0; ctx.shadowOffsetY=0; const ratio=canvas.height/350; ctx.drawImage(playerImg, player.x-ratio*player.width/2, lanes[player.lane]-ratio*player.height/2, ratio*player.width, ratio*player.height); ctx.restore(); }
+function drawObject(o){ const ratio=canvas.height/350; if(o.type==="star") ctx.drawImage(starImg,o.x-ratio*o.size/2,lanes[o.lane]-ratio*o.size/2,ratio*o.size,ratio*o.size); else{ const frameImg=rockFrames[o.frame]; ctx.drawImage(frameImg,o.x-ratio*o.size/2,lanes[o.lane]-ratio*o.size/2,ratio*o.size,ratio*o.size); o.frameTimer=(o.frameTimer||0)+1; if(o.frameTimer>=8){ o.frame=(o.frame+1)%rockFrames.length;o.frameTimer=0;} } }
+function shoot(){ bullets.push({x:player.x+player.width/2, y:lanes[player.lane], radius:8, speed:10}); }
+function drawBullets(){ ctx.fillStyle="rgba(255,0,0,0.9)"; const ratio=canvas.height/350; bullets.forEach((b,i)=>{ ctx.beginPath(); ctx.arc(b.x*ratio,b.y,b.radius*ratio,0,Math.PI*2); ctx.fill(); b.x+=b.speed; objects.forEach((o,j)=>{ if(o.type==="rock"){ const dx=b.x-o.x,dy=b.y-lanes[o.lane]; const dist=Math.sqrt(dx*dx+dy*dy); if(dist<b.radius+o.size/2){ bullets.splice(i,1); objects.splice(j,1); score+=10; } } }); if(b.x>canvas.width+20) bullets.splice(i,1); }); }
 let lastSpawn=0;
-function loop(){ if(!running) return; drawBg(); drawPlayer(); drawBullets(); if(performance.now()-lastSpawn>800){ spawn(); lastSpawn=performance.now(); } objects.forEach((o,i)=>{ o.x-=speed; drawObject(o); if(Math.abs(o.x-player.x)<30&&o.lane===player.lane){ if(o.type==="star"){ score+=5; objects.splice(i,1); } else{ endGame(); } } if(o.x<-50) objects.splice(i,1); }); hud.textContent="Score: "+score; speed+=0.002; requestAnimationFrame(loop); }
+function loop(){
+    if(!running) return;
+    drawBg(); drawPlayer(); drawBullets();
+    if(performance.now()-lastSpawn>800){ spawn(); lastSpawn=performance.now(); }
+    objects.forEach((o,i)=>{ o.x-=speed; drawObject(o); if(Math.abs(o.x-player.x)<30&&o.lane===player.lane){ if(o.type==="star"){ score+=5; objects.splice(i,1);} else{ endGame();} } if(o.x<-50) objects.splice(i,1); });
+    hud.textContent="Score: "+score;
+    speed+=0.002;
+    requestAnimationFrame(loop);
+}
 </script>
 </body>
 </html>
