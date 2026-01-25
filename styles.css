@@ -1,0 +1,690 @@
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background: linear-gradient(135deg, rgba(168,85,247,.18), rgba(255,255,255,.95)),
+              repeating-linear-gradient(45deg,#f3e8ff,#f3e8ff 20px,#fff 20px,#fff 40px);
+  min-height:100vh;
+}
+
+/* Card */
+.card{
+  background:rgba(206, 176, 255, 0.205);
+  backdrop-filter:blur(12px);
+  padding:2rem;
+  border-radius:1.25rem;
+  box-shadow:0 8px 30px rgba(0,0,0,.25);
+  color:#4a044e;
+  max-width:900px;
+  width:95%;
+  margin:auto;
+  text-align:center;
+}
+
+/* Titles */
+h1{color:#b492ee;}
+
+/* Dashboard tiles */
+.tiles{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:1rem;
+  margin-top:1rem;
+}
+
+.tile{
+  background:linear-gradient(135deg,#f9a8d4,#c7d2fe);
+  padding:2rem;
+  border-radius:1.25rem;
+  text-align:center;
+  font-weight:bold;
+  cursor:pointer;
+  color:#4a044e;
+  box-shadow:0 6px 16px rgba(0,0,0,.25);
+  transition:.25s;
+}
+
+.tile:hover{
+  transform:translateY(-6px) scale(1.03);
+}
+
+/* Buttons */
+.back-btn{
+  margin-top:2rem;
+  background:#10b981;
+  color:white;
+  padding:.6rem 1.2rem;
+  border:none;
+  border-radius:999px;
+  cursor:pointer;
+}
+
+.logout-btn{
+  position:absolute;
+  top:20px;
+  right:20px;
+  background:linear-gradient(135deg,#fb7185,#f43f5e);
+  color:white;
+  padding:.5rem 1.25rem;
+  border-radius:999px;
+  border:none;
+  cursor:pointer;
+}
+
+/* Pages hidden initially */
+.page{
+  display:none;
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+}
+
+/* Christmas theme */
+body.christmas-bg{
+  background:linear-gradient(135deg,#0ea5e9,#1e3a8a);
+  color:white;
+}
+
+/* Effect layers */
+.effect-layer{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  pointer-events:none;
+  overflow:hidden;
+  z-index:9999;
+  display:none;
+}
+
+/* Firework glow */
+.firework-particle {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  box-shadow: 0 0 8px #fff, 0 0 16px #fff;
+}
+
+
+/* Snow */
+@keyframes fallSnow{ to{ transform:translateY(110vh); } }
+
+/* Confetti */
+@keyframes fallConfetti{ to{ transform:translateY(110vh) rotate(720deg); opacity:0; } }
+
+/* Balloons */
+@keyframes riseBalloon{ to{ transform:translateY(-120vh); opacity:0; } }
+
+/* balloonB rise */
+@keyframes riseBalloonB{ to{ transform:translateY(-120vh); opacity:0; } }
+
+/* REAL balloon (no emoji) */
+.balloonB{
+  position:absolute;
+  width:28px;
+  height:34px;
+  border-radius:50% 50% 45% 45%;
+  animation:riseBalloonB linear forwards;
+}
+
+.balloonB::after{ /* wavy string */
+  content:"";
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%);
+  top:32px;
+  width:2px;
+  height:34px;
+  background:repeating-linear-gradient(
+    to bottom,
+    #555 0px,
+    #555 3px,
+    transparent 3px,
+    transparent 6px
+  );
+  transform-origin:top center;
+  animation:stringWave 1.6s ease-in-out infinite alternate;
+}
+
+@keyframes stringWave{
+  0%{ transform:translateX(-50%) rotate(-8deg); }
+  100%{ transform:translateX(-50%) rotate(8deg); }
+}
+
+/* Heart Confetti Style CSS */
+.heart {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  background-color: red;
+  transform: rotate(-45deg);
+}
+
+.heart::before,
+.heart::after {
+  content: "";
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  background-color: red;
+  border-radius: 50%;
+}
+
+.heart::before {
+  top: -9px;
+  left: 0;
+}
+
+.heart::after {
+  left: 9px;
+  top: 0;
+}
+
+.flower-container {
+  position: relative;
+  /*width: 520px;
+  height: 520px;*/
+  width: min(80vw, 520px);
+  height: min(80vw, 520px);
+  margin: 2rem auto;
+}
+
+.flower-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  width: 220px;
+  height: 220px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+
+  padding: 18px;
+  text-align: center;
+
+  /* 🌟 pastel glass effect */
+  background: rgba(246, 179, 252, 0.705);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,.6);
+
+  box-shadow: 0 10px 30px rgba(0,0,0,.18);
+
+  z-index: 5;
+}
+
+
+/* Text styles */
+.flower-center .jp {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #7c3aed;
+}
+
+.flower-center .romaji {
+  font-size: 0.8rem;
+  opacity: 0.7;
+}
+
+.flower-center .en {
+  font-size: 0.85rem;
+}
+
+.flower-petal {
+  position: absolute;
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+
+.flower-petal:hover {
+  transform: scale(1.1);
+  z-index: 10;
+}
+
+/* Petal gentle pulse */
+.flower-petal {
+  animation: petalFloat 3s ease-in-out infinite alternate;
+}
+
+/* ===== Photo viewer modal ===== */
+
+.photo-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.75);
+
+  justify-content: center;
+  align-items: center;
+
+  z-index: 10000;
+  overflow: hidden;
+}
+
+.photo-modal img {
+  max-width: 85%;
+  max-height: 85%;
+  border-radius: 18px;
+  box-shadow: 0 20px 60px rgba(0,0,0,.6);
+  transition: transform .25s ease, opacity .25s ease;
+}
+
+/* arrows */
+.nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 50px;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  padding: 20px;
+  user-select: none;
+}
+
+.prev { left: 30px; }
+.next { right: 30px; }
+
+.photo-close {
+  position: absolute;
+  top: 25px;
+  right: 40px;
+  font-size: 42px;
+  color: white;
+  cursor: pointer;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0 }
+  to { opacity: 1 }
+}
+
+@keyframes zoomIn {
+  from { transform: scale(.7) }
+  to { transform: scale(1) }
+}
+
+/* =================
+   Christmas photo card
+================= */
+
+.xmas-photo-card {
+  margin: 2rem auto;
+  padding: 18px;
+
+  max-width: 420px;
+
+  background: rgba(255,255,255,.35);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  border-radius: 22px;
+
+  box-shadow: 0 10px 30px rgba(0,0,0,.25);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.xmas-photo-card img {
+  width: 100%;
+  border-radius: 18px;
+  object-fit: cover;
+}
+
+.xmas-caption {
+  margin-top: 14px;
+  font-size: 1rem;
+  color: #1e3a8a;
+  font-weight: 500;
+}
+
+/* image */
+.xmas-clickable{
+  width: 100%;
+  display:block;
+  border-radius: 18px;
+  transition: transform .3s ease;
+}
+
+.xmas-clickable:hover{
+  transform: scale(1.03);
+}
+
+/* Birthday card ----------------------------------------------------------------------- */
+.birthday-card-container {
+  position: relative;
+  width: 320px;
+  height: 440px;
+  margin: 2rem auto;
+  perspective: 1500px;
+}
+
+/* Bottom layer: inner2 (static) */
+.card-inner2 {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 0;
+}
+
+.card-inner2 img {
+  width: 100%; height: 100%;
+  border-radius: 18px;
+  object-fit: cover;
+}
+
+/* Flip wrapper: top layer */
+.card-flip {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 2;
+  transform-style: preserve-3d;
+  transform-origin: left;
+  cursor: pointer;
+  transition: transform 1s ease-in-out;
+  border-radius: 18px;
+}
+
+/* Front face */
+.card-front, .card-inner1 {
+  position: absolute;
+  width: 100%; height: 100%;
+  backface-visibility: hidden;
+  border-radius: 18px;
+}
+
+.card-front img, .card-inner1 img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+
+/* Back face (inner1) */
+.card-inner1 {
+  transform: rotateY(180deg);
+}
+
+/* Horizontal lined-up after flip */
+.card-horizontal {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+
+  transition: transform 0.6s cubic-bezier(.34,1.3,.64,1); /* small bounce */
+}
+
+/*.card-flip,
+.card-front,
+.card-inner1,
+.card-inner2 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  backface-visibility: hidden;
+}
+
+.card-horizontal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}*/
+
+.card-horizontal img {
+  width: 100%;   /* fill the horizontal card width */
+  height: auto;  /* maintain aspect ratio */
+  border-radius: 18px;
+  object-fit: cover; /* optional: cover nicely inside card */
+}
+
+.card-container-horizontal {
+  width: 100%;
+  max-width: 900px;
+  height: auto;      /* let height expand based on images */
+  min-height: 320px; /* minimum height to match original card size */
+  overflow: visible;
+  position: relative;
+  margin: 2rem auto;
+  display: flex;
+  align-items: center;   /* vertically center cards */
+}
+
+/* clickable gallery images */
+.card-photo{
+  cursor: pointer;
+  transition: transform .25s ease;
+}
+
+.card-photo:hover{
+  transform: scale(1.03);
+}
+
+/* X-mas 2022 videos */
+.memory-wall{
+  display:flex;
+  justify-content:center;
+  gap:30px;
+  flex-wrap:wrap;
+  margin-top:30px;
+}
+
+.polaroid{
+  background:white;
+  padding:12px 12px 30px;
+  border-radius:10px;
+  width:180px;
+  cursor:pointer;
+  box-shadow:0 10px 25px rgba(0,0,0,.25);
+  text-align:center;
+  transition:.25s;
+}
+
+.polaroid img{
+  width:100%;
+  border-radius:6px;
+}
+
+.polaroid span{
+  display:block;
+  margin-top:10px;
+  font-size:.85rem;
+  color:#444;
+}
+
+/* scattered scrapbook effect */
+.polaroid:nth-child(1){ transform:rotate(-6deg); }
+.polaroid:nth-child(2){ transform:rotate(5deg); }
+.polaroid:nth-child(3){ transform:rotate(-3deg); }
+
+.polaroid:hover{
+  transform:scale(1.08) rotate(0deg);
+}
+
+/* 2023 christmas blue buttons */
+.tile-christmas-blue {
+  background: linear-gradient(135deg,#93c5fd,#bfdbfe); /* light blue gradient */
+  color: #1e3a8a;
+}
+.tile-christmas-blue:hover {
+  transform: translateY(-6px) scale(1.03);
+}
+
+/* ================= BIRTHDAY CARD ================= */
+#cardPage .birthday-card-container {
+  width: 360px;   /* scaled down from 1080px */
+  height: 640px;  /* scaled down from 1920px */
+  margin: 2rem auto;
+  perspective: 1500px;
+  position: relative;
+}
+
+/* Bottom layer (static) */
+#cardPage .card-inner2 {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 0;
+  border-radius: 18px;
+}
+
+#cardPage .card-inner2 img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 18px;
+}
+
+/* Flip wrapper */
+#cardPage .card-flip {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  transform-style: preserve-3d;
+  transform-origin: left;
+  cursor: pointer;
+  z-index: 2;
+  border-radius: 18px;
+}
+
+/* Front and inner1 faces */
+#cardPage .card-front,
+#cardPage .card-inner1 {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 18px;
+}
+
+#cardPage .card-inner1 {
+  transform: rotateY(180deg);
+}
+
+#cardPage .card-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 18px;
+}
+
+/* Horizontal layout after flip */
+#cardPage .card-horizontal {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s cubic-bezier(.34,1.3,.64,1);
+}
+
+/* ================= CHRISTMAS CARD ================= */
+#christmasCardPage .birthday-card-container {
+  width: 220px;   /* scaled down from 437px */
+  height: 390px;  /* scaled down from 777px */
+  margin: 2rem auto;
+  perspective: 1500px;
+  position: relative;
+}
+
+/* Bottom layer (static) */
+#christmasCardPage .card-inner2 {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 0;
+  border-radius: 18px;
+}
+
+#christmasCardPage .card-inner2 img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 18px;
+}
+
+/* Flip wrapper */
+#christmasCardPage .card-flip {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  transform-style: preserve-3d;
+  transform-origin: left;
+  cursor: pointer;
+  z-index: 2;
+  border-radius: 18px;
+}
+
+/* Front and inner1 faces */
+#christmasCardPage .card-front,
+#christmasCardPage .card-inner1 {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 18px;
+}
+
+#christmasCardPage .card-inner1 {
+  transform: rotateY(180deg);
+}
+
+#christmasCardPage .card-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 18px;
+}
+
+/* Horizontal layout after flip */
+#christmasCardPage .card-horizontal {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s cubic-bezier(.34,1.3,.64,1);
+}
+
+/* ================= VIDEO CONTAINERS ================= */
+
+.video-wrap{
+  width: min(95vw, 900px);
+  margin: 0 auto;
+  position: relative;
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+/* iframe fills container */
+.video-wrap iframe{
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* 16:9 landscape (Birthday) */
+.video-16x9{
+  aspect-ratio: 16 / 9;
+}
+
+/* 9:16 portrait (Christmas phone videos) */
+.video-9x16{
+  aspect-ratio: 9 / 16;
+  width: min(70vw, 420px); /* slimmer so it looks like phone */
+}
