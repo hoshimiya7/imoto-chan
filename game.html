@@ -1,4 +1,4 @@
-<!-- ================= Functioning game mobile friendly ================= -->
+<!-- ================= Functioning game mobile friendly - mobile screen controls added ================= -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -101,7 +101,7 @@ button:hover{
   bottom:20px;
   left:50%;
   transform:translateX(-50%);
-  display:flex;
+  display:none; /* hidden by default */
   gap:15px;
   z-index:30;
 }
@@ -109,7 +109,17 @@ button:hover{
   width:60px;
   height:60px;
   font-size:24px;
-  padding:0;
+  border-radius:50%;
+  border:none;
+  background:rgba(255,105,180,0.6);
+  color:white;
+  box-shadow:0 0 12px rgba(255,182,193,0.8),0 0 20px rgba(255,105,180,0.6);
+  backdrop-filter: blur(4px);
+  transition:0.2s;
+}
+#mobileControls button:hover{
+  transform:translateY(-2px);
+  box-shadow:0 0 16px rgba(255,182,193,1),0 0 24px rgba(255,105,180,0.8);
 }
 </style>
 </head>
@@ -138,7 +148,7 @@ button:hover{
 </div>
 
 <!-- Mobile Controls -->
-<div id="mobileControls" class="hidden">
+<div id="mobileControls">
   <button id="upBtn">⬆</button>
   <button id="downBtn">⬇</button>
   <button id="shootBtn">🔥</button>
@@ -175,29 +185,25 @@ let objects=[], bullets=[];
 // =========================
 // Load Images
 // =========================
-const playerImg=new Image(); playerImg.src="Images/happy.png";
-const starImg=new Image(); starImg.src="Images/star.png";
-const rockFrames=[];
-for(let i=1;i<=4;i++){ const img=new Image(); img.src=`Images/bat${i}.png`; rockFrames.push(img); }
-const bgFrames=[];
-for(let i=1;i<=7;i++){ const img=new Image(); img.src=`Images/background${i}.png`; bgFrames.push(img); }
-let imagesLoaded=0;
-[playerImg, starImg, ...rockFrames, ...bgFrames].forEach(img=>{ img.onload=()=>{ imagesLoaded++; } });
+const playerImg = new Image(); playerImg.src="Images/happy.png";
+const starImg = new Image(); starImg.src="Images/star.png";
+const rockFrames = []; for(let i=1;i<=4;i++){ const img=new Image(); img.src=`Images/bat${i}.png`; rockFrames.push(img);}
+const bgFrames = []; for(let i=1;i<=7;i++){ const img=new Image(); img.src=`Images/background${i}.png`; bgFrames.push(img);}
+let imagesLoaded=0; [playerImg,starImg,...rockFrames,...bgFrames].forEach(img=>{ img.onload=()=>{ imagesLoaded++; }});
 
-// High Score
-let highScore=localStorage.getItem("birthdayHighScore")||0;
-highScoreText.textContent=highScore;
+let highScore = localStorage.getItem("birthdayHighScore") || 0;
+highScoreText.textContent = highScore;
 
 // =========================
 // Responsive Canvas
 // =========================
 function resizeCanvas(){
-  const wrapper=document.getElementById("gameWrapper");
-  const width=wrapper.clientWidth;
-  const height=width*(350/900);
+  const wrapper = document.getElementById("gameWrapper");
+  const width = wrapper.clientWidth;
+  const height = width*(350/900);
   canvas.width=900; canvas.height=350;
-  canvas.style.width=width+"px";
-  canvas.style.height=height+"px";
+  canvas.style.width = width+"px";
+  canvas.style.height = height+"px";
 }
 window.addEventListener("resize", resizeCanvas);
 resizeCanvas();
@@ -219,9 +225,9 @@ let touchStartY=null;
 canvas.addEventListener("touchstart", e=>{ if(!running) return; if(e.touches.length===1) touchStartY=e.touches[0].clientY; });
 canvas.addEventListener("touchmove", e=>{
   if(!running || touchStartY===null) return;
-  const deltaY=e.touches[0].clientY-touchStartY;
-  if(deltaY<-30 && player.lane>0){ player.lane--; touchStartY=e.touches[0].clientY; }
-  else if(deltaY>30 && player.lane<2){ player.lane++; touchStartY=e.touches[0].clientY; }
+  const deltaY = e.touches[0].clientY - touchStartY;
+  if(deltaY<-30 && player.lane>0){ player.lane--; touchStartY = e.touches[0].clientY; }
+  else if(deltaY>30 && player.lane<2){ player.lane++; touchStartY = e.touches[0].clientY; }
 });
 canvas.addEventListener("touchend", e=>{ if(!running) return; if(e.changedTouches.length===1) shoot(); touchStartY=null; });
 canvas.addEventListener("click", shoot);
@@ -233,19 +239,27 @@ upBtn.addEventListener("touchstart", ()=>{ if(player.lane>0) player.lane--; });
 downBtn.addEventListener("touchstart", ()=>{ if(player.lane<2) player.lane++; });
 shootBtn.addEventListener("touchstart", shoot);
 
-// Show/hide mobile controls based on screen width
-function showMobileControls(){ if(window.innerWidth<=768) mobileControls.classList.remove("hidden"); }
-function hideMobileControls(){ mobileControls.classList.add("hidden"); }
+// =========================
+// Show/Hide Mobile Controls
+// =========================
+function showMobileControls(){ 
+  if(window.innerWidth <= 768){ 
+    mobileControls.style.display = "flex"; 
+  } else {
+    mobileControls.style.display = "none";
+  }
+}
+function hideMobileControls(){ mobileControls.style.display = "none"; }
 
 // =========================
 // Game Flow
 // =========================
 function startGame(){
-  if(imagesLoaded<(2+rockFrames.length+bgFrames.length)){ alert("Loading images..."); return; }
-  dashboard.classList.add("hidden");
-  gameOverScreen.classList.add("hidden");
-  document.getElementById("gameWrapper").classList.remove("hidden");
-  hud.classList.remove("hidden");
+  if(imagesLoaded < (2 + rockFrames.length + bgFrames.length)){ alert("Loading images..."); return; }
+  dashboard.style.display="none";
+  gameOverScreen.style.display="none";
+  document.getElementById("gameWrapper").style.display="flex";
+  hud.style.display="block";
   canvas.style.display="block";
   score=0; speed=6; objects=[]; bullets=[]; running=true;
   showMobileControls();
@@ -253,19 +267,19 @@ function startGame(){
 }
 
 function endGame(){
-  running=false;
-  document.getElementById("gameWrapper").classList.add("hidden");
-  hud.classList.add("hidden");
+  running=false; 
+  document.getElementById("gameWrapper").style.display="none"; 
+  hud.style.display="none"; 
   canvas.style.display="none";
   hideMobileControls();
-  finalScoreText.textContent=score;
-  if(score>highScore){ highScore=score; localStorage.setItem("birthdayHighScore", highScore); }
-  highScoreText.textContent=highScore;
+  finalScoreText.textContent = score;
+  if(score>highScore){ highScore=score; localStorage.setItem("birthdayHighScore", highScore);}
+  highScoreText.textContent = highScore;
 
-  const gameBox=gameOverScreen.querySelector(".game-box");
-  let message=document.getElementById("gameOverMessage");
+  const gameBox = gameOverScreen.querySelector(".game-box");
+  let message = document.getElementById("gameOverMessage");
   if(!message){
-    message=document.createElement("p");
+    message = document.createElement("p");
     message.id="gameOverMessage";
     message.style.margin="1rem 0";
     message.style.fontWeight="bold";
@@ -274,45 +288,62 @@ function endGame(){
   }
   if(score>=100){ message.innerHTML=`🎉 Congrats! Code: <span id="birthdayCode">HAPPYBIRTHDAY2026</span>`; }
   else{ message.textContent="👍 Great try! Keep going!"; }
-  gameOverScreen.classList.remove("hidden");
+  gameOverScreen.style.display="flex";
 }
 
-function showDashboard(){ gameOverScreen.classList.add("hidden"); dashboard.classList.remove("hidden"); }
+function showDashboard(){
+  gameOverScreen.style.display="none";
+  dashboard.style.display="flex";
+  hideMobileControls();
+}
+
 function goBack(){ window.location.href="2026.html?birthday=1"; }
 
 // =========================
 // Spawn & Draw
 // =========================
-function spawn(){ const lane=Math.floor(Math.random()*3); const type=Math.random()<0.65?"star":"rock"; objects.push({x:canvas.width+20, lane, type, size:60, frame:0}); }
-function drawBg(){ ctx.drawImage(bgFrames[bgIndex],0,0,canvas.width,canvas.height); bgTimer++; if(bgTimer>=7){ bgIndex=(bgIndex+1)%bgFrames.length; bgTimer=0; } }
-
 let bgIndex=0, bgTimer=0;
-
+function spawn(){ 
+  const lane=Math.floor(Math.random()*3); 
+  const type = Math.random()<0.65 ? "star" : "rock"; 
+  objects.push({x:canvas.width+20, lane, type, size:60, frame:0}); 
+}
+function drawBg(){ 
+  ctx.drawImage(bgFrames[bgIndex],0,0,canvas.width,canvas.height); 
+  bgTimer++; 
+  if(bgTimer>=7){ bgIndex=(bgIndex+1)%bgFrames.length; bgTimer=0; } 
+}
 function drawPlayer(){
   ctx.save(); ctx.shadowColor="rgba(255,215,0,0.8)"; ctx.shadowBlur=20; ctx.shadowOffsetX=0; ctx.shadowOffsetY=0;
-  const ratio=canvas.height/350;
+  const ratio = canvas.height/350;
   ctx.drawImage(playerImg, player.x-ratio*player.width/2, getLaneY(player.lane)-ratio*player.height/2, ratio*player.width, ratio*player.height);
   ctx.restore();
 }
-
 function drawObject(o){
-  const ratio=canvas.height/350;
+  const ratio = canvas.height/350;
   if(o.type==="star") ctx.drawImage(starImg, o.x-ratio*o.size/2, getLaneY(o.lane)-ratio*o.size/2, o.size*ratio, o.size*ratio);
-  else{ const frameImg=rockFrames[o.frame]; ctx.drawImage(frameImg, o.x-ratio*o.size/2, getLaneY(o.lane)-ratio*o.size/2, o.size*ratio, o.size*ratio); o.frameTimer=(o.frameTimer||0)+1; if(o.frameTimer>=8){ o.frame=(o.frame+1)%rockFrames.length; o.frameTimer=0; } }
+  else{
+    const frameImg = rockFrames[o.frame]; 
+    ctx.drawImage(frameImg, o.x-ratio*o.size/2, getLaneY(o.lane)-ratio*o.size/2, o.size*ratio, o.size*ratio);
+    o.frameTimer = (o.frameTimer||0)+1;
+    if(o.frameTimer>=8){ o.frame=(o.frame+1)%rockFrames.length; o.frameTimer=0; }
+  }
 }
-
-// =========================
-// Bullets
-// =========================
 function shoot(){ bullets.push({x:player.x+player.width/2, y:getLaneY(player.lane), radius:8, speed:10}); }
 function drawBullets(){
   ctx.fillStyle="rgba(255,0,0,0.9)";
-  const ratio=canvas.height/350;
+  const ratio = canvas.height/350;
   bullets.forEach((b,i)=>{
     ctx.beginPath(); ctx.arc(b.x*ratio,b.y,b.radius*ratio,0,Math.PI*2); ctx.fill();
-    b.x+=b.speed;
-    objects.forEach((o,j)=>{ if(o.type==="rock"){ const dx=b.x-o.x,dy=b.y-getLaneY(o.lane); const dist=Math.sqrt(dx*dx+dy*dy); if(dist<b.radius+o.size/2){ bullets.splice(i,1); objects.splice(j,1); score+=10; } } });
-    if(b.x>canvas.width+20) bullets.splice(i,1);
+    b.x += b.speed;
+    objects.forEach((o,j)=>{ 
+      if(o.type==="rock"){ 
+        const dx=b.x-o.x, dy=b.y-getLaneY(o.lane); 
+        const dist = Math.sqrt(dx*dx + dy*dy); 
+        if(dist < b.radius + o.size/2){ bullets.splice(i,1); objects.splice(j,1); score+=10; } 
+      }
+    });
+    if(b.x > canvas.width+20) bullets.splice(i,1);
   });
 }
 
@@ -326,11 +357,14 @@ function loop(){
   if(performance.now()-lastSpawn>800){ spawn(); lastSpawn=performance.now(); }
   objects.forEach((o,i)=>{
     o.x-=speed; drawObject(o);
-    if(Math.abs(o.x-player.x)<30 && o.lane===player.lane){ if(o.type==="star"){ score+=5; objects.splice(i,1); } else{ endGame(); } }
+    if(Math.abs(o.x-player.x)<30 && o.lane===player.lane){ 
+      if(o.type==="star"){ score+=5; objects.splice(i,1); } 
+      else{ endGame(); } 
+    }
     if(o.x<-50) objects.splice(i,1);
   });
-  hud.textContent="Score: "+score;
-  speed+=0.002;
+  hud.textContent = "Score: "+score;
+  speed += 0.002;
   requestAnimationFrame(loop);
 }
 </script>
