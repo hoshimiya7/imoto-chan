@@ -1,10 +1,11 @@
-<!-- ================= Functioning desktop canvas enlarged slightly ================= -->
+<!-- ================= Functioning desktop canvas enlarged slightly & mobile controls removed ================= -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>🎮 2026 Birthday Game</title>
+
 <style>
 body{
   margin:0;
@@ -27,6 +28,7 @@ body{
   z-index:10;
 }
 .hidden{ display:none; }
+
 .game-box{
   background:rgba(255,255,255,.95);
   backdrop-filter:blur(10px);
@@ -37,6 +39,7 @@ body{
   max-width:420px;
   width:100%;
 }
+
 button{
   margin:.5rem;
   padding:.7rem 1.4rem;
@@ -52,6 +55,7 @@ button:hover{
   transform:translateY(-2px);
   box-shadow:0 6px 16px rgba(0,0,0,.35);
 }
+
 #gameWrapper{
   position:absolute;
   inset:0;
@@ -60,12 +64,14 @@ button:hover{
   align-items:center;
   z-index:1;
 }
+
 #gameCanvas{
   display:none;
   background:#fff;
   border-radius:20px;
   box-shadow:0 12px 32px rgba(0,0,0,.25);
 }
+
 #hud{
   position:absolute;
   top:10px;
@@ -73,16 +79,18 @@ button:hover{
   transform:translateX(-50%);
   font-weight:bold;
 }
+
 #gameOver{ z-index:20; }
+
 #birthdayCode {
-  font-weight: bold;
-  font-size: 18px;
-  background: linear-gradient(90deg,#ff69b4,#ffd700,#ff69b4);
-  background-size: 200% auto;
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
-  -webkit-text-fill-color: transparent;
+  font-weight:bold;
+  font-size:18px;
+  background:linear-gradient(90deg,#ff69b4,#ffd700,#ff69b4);
+  background-size:200% auto;
+  background-clip:text;
+  -webkit-background-clip:text;
+  color:transparent;
+  -webkit-text-fill-color:transparent;
   text-shadow:0 0 3px rgba(255,255,255,0.7),0 0 6px rgba(255,182,193,0.5);
   animation: shimmer 2.5s linear infinite;
 }
@@ -90,34 +98,9 @@ button:hover{
   from { background-position: 0% center; }
   to { background-position: 200% center; }
 }
-/* ================= Mobile Controls ================= */
-#mobileControls{
-  position:absolute;
-  bottom:20px;
-  left:50%;
-  transform:translateX(-50%);
-  display:none;
-  gap:15px;
-  z-index:30;
-}
-#mobileControls button{
-  width:60px;
-  height:60px;
-  font-size:24px;
-  border-radius:50%;
-  border:none;
-  background:rgba(255,105,180,0.6);
-  color:white;
-  box-shadow:0 0 12px rgba(255,182,193,0.8),0 0 20px rgba(255,105,180,0.6);
-  backdrop-filter: blur(4px);
-  transition:0.2s;
-}
-#mobileControls button:hover{
-  transform:translateY(-2px);
-  box-shadow:0 0 16px rgba(255,182,193,1),0 0 24px rgba(255,105,180,0.8);
-}
 </style>
 </head>
+
 <body>
 
 <!-- Dashboard -->
@@ -127,7 +110,7 @@ button:hover{
     <p>
       ⭐ Collect stars (+5)<br>
       ⛔ Avoid obstacles<br>
-      ⬆️⬇️ Arrow keys, swipe, or mobile buttons<br>
+      ⬆️⬇️ Arrow keys or swipe<br>
       Tap/click to shoot
     </p>
     <h3>🏆 Highest Score: <span id="highScore">0</span></h3>
@@ -140,13 +123,6 @@ button:hover{
 <div id="gameWrapper" class="hidden">
   <canvas id="gameCanvas" width="900" height="350"></canvas>
   <div id="hud" class="hidden">Score: 0</div>
-</div>
-
-<!-- Mobile Controls -->
-<div id="mobileControls">
-  <button id="upBtn">⬆</button>
-  <button id="downBtn">⬇</button>
-  <button id="shootBtn">🔥</button>
 </div>
 
 <!-- Game Over -->
@@ -167,132 +143,185 @@ const hud=document.getElementById("hud");
 const gameOverScreen=document.getElementById("gameOver");
 const finalScoreText=document.getElementById("finalScore");
 const highScoreText=document.getElementById("highScore");
-const mobileControls=document.getElementById("mobileControls");
-const upBtn=document.getElementById("upBtn");
-const downBtn=document.getElementById("downBtn");
-const shootBtn=document.getElementById("shootBtn");
 
 let running=false, score=0, speed=6;
+
 const lanes=[80,170,260];
 let player={x:120,lane:1,width:80,height:80};
 let objects=[], bullets=[];
 
-// =========================
-// Load Images
-// =========================
+/* =========================
+   Load Images
+========================= */
 const playerImg=new Image(); playerImg.src="Images/happy.png";
 const starImg=new Image(); starImg.src="Images/star.png";
-const rockFrames=[]; for(let i=1;i<=4;i++){ const img=new Image(); img.src=`Images/bat${i}.png`; rockFrames.push(img);}
-const bgFrames=[]; for(let i=1;i<=7;i++){ const img=new Image(); img.src=`Images/background${i}.png`; bgFrames.push(img);}
-let imagesLoaded=0; [playerImg,starImg,...rockFrames,...bgFrames].forEach(img=>{ img.onload=()=>{ imagesLoaded++; }});
+
+const rockFrames=[];
+for(let i=1;i<=4;i++){
+  const img=new Image();
+  img.src=`Images/bat${i}.png`;
+  rockFrames.push(img);
+}
+
+const bgFrames=[];
+for(let i=1;i<=7;i++){
+  const img=new Image();
+  img.src=`Images/background${i}.png`;
+  bgFrames.push(img);
+}
+
+let imagesLoaded=0;
+[playerImg,starImg,...rockFrames,...bgFrames].forEach(img=>{
+  img.onload=()=>imagesLoaded++;
+});
+
 let highScore=localStorage.getItem("birthdayHighScore")||0;
 highScoreText.textContent=highScore;
 
-// =========================
-// Responsive Canvas
-// =========================
-// =========================
-// Responsive Canvas
-// =========================
+
+/* =========================
+   Responsive Canvas
+========================= */
 function resizeCanvas(){
-    const w = window.innerWidth;
-    const h = window.innerHeight;
-    if(w > 768){ 
-        // Desktop: scale up 1.3x or until max width fits viewport
-        const scale = Math.min(1.3, w / 900);
-        canvas.width = 900;
-        canvas.height = 350;
-        canvas.style.width = (900 * scale) + "px";
-        canvas.style.height = (350 * scale) + "px";
-    } else { 
-        // Mobile: scale to fit screen, same as before
-        const scale = Math.min(w / 900, h / 350);
-        canvas.width = 900;
-        canvas.height = 350;
-        canvas.style.width = (900 * scale) + "px";
-        canvas.style.height = (350 * scale) + "px";
-    }
+  const w=window.innerWidth;
+  const h=window.innerHeight;
 
-    // Adjust HUD font size proportionally
-    hud.style.fontSize = (16 + canvas.clientWidth / 60) + "px";
+  const scale=Math.min(w/900,h/350);
 
-    // Show mobile controls only on small devices
-    if(running) mobileControls.style.display = (w <= 768) ? "flex" : "none";
+  canvas.width=900;
+  canvas.height=350;
+  canvas.style.width=(900*scale)+"px";
+  canvas.style.height=(350*scale)+"px";
+
+  hud.style.fontSize=(16+canvas.clientWidth/60)+"px";
 }
-window.addEventListener("resize", resizeCanvas);
-window.addEventListener("orientationchange", () => { setTimeout(resizeCanvas, 200); });
+window.addEventListener("resize",resizeCanvas);
 resizeCanvas();
 
 
-// =========================
-// Controls
-// =========================
+/* =========================
+   Controls
+========================= */
 document.addEventListener("keydown",e=>{
-    if(!running) return;
-    if(e.key==="ArrowUp" && player.lane>0) player.lane--;
-    if(e.key==="ArrowDown" && player.lane<2) player.lane++;
-    if(e.key===" ") shoot();
-});
-let touchStartY=null;
-canvas.addEventListener("touchstart",e=>{ if(!running) return; if(e.touches.length===1) touchStartY=e.touches[0].clientY; });
-canvas.addEventListener("touchmove",e=>{
-    if(!running||touchStartY===null) return;
-    const deltaY=e.touches[0].clientY-touchStartY;
-    if(deltaY<-30&&player.lane>0){ player.lane--; touchStartY=e.touches[0].clientY; }
-    else if(deltaY>30&&player.lane<2){ player.lane++; touchStartY=e.touches[0].clientY; }
-});
-canvas.addEventListener("touchend",e=>{ if(!running) return; if(e.changedTouches.length===1) shoot(); touchStartY=null; });
-canvas.addEventListener("click",shoot);
-upBtn.addEventListener("touchstart",()=>{ if(player.lane>0) player.lane--; });
-downBtn.addEventListener("touchstart",()=>{ if(player.lane<2) player.lane++; });
-shootBtn.addEventListener("touchstart",shoot);
+  if(!running) return;
 
-// =========================
-// Game Flow
-// =========================
+  if(e.key==="ArrowUp" && player.lane>0) player.lane--;
+  if(e.key==="ArrowDown" && player.lane<2) player.lane++;
+  if(e.key===" ") shoot();
+});
+
+let touchStartY=null;
+
+canvas.addEventListener("touchstart",e=>{
+  if(!running) return;
+  touchStartY=e.touches[0].clientY;
+});
+
+canvas.addEventListener("touchmove",e=>{
+  if(!running || touchStartY===null) return;
+
+  const delta=e.touches[0].clientY-touchStartY;
+
+  if(delta<-30 && player.lane>0){
+    player.lane--;
+    touchStartY=e.touches[0].clientY;
+  }
+  else if(delta>30 && player.lane<2){
+    player.lane++;
+    touchStartY=e.touches[0].clientY;
+  }
+});
+
+canvas.addEventListener("touchend",()=>shoot());
+canvas.addEventListener("click",shoot);
+
+
+/* =========================
+   Game Flow
+========================= */
 function startGame(){
-    if(imagesLoaded<(2+rockFrames.length+bgFrames.length)){ alert("Loading images..."); return; }
-    dashboard.style.display="none"; gameOverScreen.style.display="none";
-    document.getElementById("gameWrapper").style.display="flex"; hud.style.display="block"; canvas.style.display="block";
-    score=0; speed=6; objects=[]; bullets=[]; running=true;
-    resizeCanvas(); loop();
+  if(imagesLoaded<(2+rockFrames.length+bgFrames.length)){
+    alert("Loading images...");
+    return;
+  }
+
+  dashboard.style.display="none";
+  gameOverScreen.style.display="none";
+
+  document.getElementById("gameWrapper").style.display="flex";
+  hud.style.display="block";
+  canvas.style.display="block";
+
+  score=0;
+  speed=6;
+  objects=[];
+  bullets=[];
+  running=true;
+
+  resizeCanvas();
+  loop();
 }
 
 function endGame(){
-    running=false; document.getElementById("gameWrapper").style.display="none"; hud.style.display="none"; canvas.style.display="none";
-    mobileControls.style.display="none"; finalScoreText.textContent=score;
-    if(score>highScore){ highScore=score; localStorage.setItem("birthdayHighScore",highScore);}
-    highScoreText.textContent=highScore;
-    const gameBox=gameOverScreen.querySelector(".game-box");
-    let message=document.getElementById("gameOverMessage");
-    if(!message){ message=document.createElement("p"); message.id="gameOverMessage"; message.style.margin="1rem 0"; message.style.fontWeight="bold"; message.style.fontSize="16px"; gameBox.insertBefore(message,gameBox.querySelector("button")); }
-    if(score>=100){ message.innerHTML=`🎉 Congrats! Code: <span id="birthdayCode">HAPPYBIRTHDAY2026</span>`; }
-    else{ message.textContent="👍 Great try! Keep going!"; }
-    gameOverScreen.style.display="flex";
-}
-function showDashboard(){ gameOverScreen.style.display="none"; dashboard.style.display="flex"; mobileControls.style.display="none"; }
-function goBack(){ window.location.href="2026.html?birthday=1"; }
+  running=false;
 
-// =========================
-// Spawn & Draw
-// =========================
-let bgIndex=0, bgTimer=0;
-function spawn(){ const lane=Math.floor(Math.random()*3); const type=Math.random()<0.65?"star":"rock"; objects.push({x:canvas.width+20,lane,type,size:60,frame:0}); }
-function drawBg(){ ctx.drawImage(bgFrames[bgIndex],0,0,canvas.width,canvas.height); bgTimer++; if(bgTimer>=7){ bgIndex=(bgIndex+1)%bgFrames.length; bgTimer=0; } }
-function drawPlayer(){ ctx.save(); ctx.shadowColor="rgba(255,215,0,0.8)"; ctx.shadowBlur=20; ctx.shadowOffsetX=0; ctx.shadowOffsetY=0; const ratio=canvas.height/350; ctx.drawImage(playerImg, player.x-ratio*player.width/2, lanes[player.lane]-ratio*player.height/2, ratio*player.width, ratio*player.height); ctx.restore(); }
-function drawObject(o){ const ratio=canvas.height/350; if(o.type==="star") ctx.drawImage(starImg,o.x-ratio*o.size/2,lanes[o.lane]-ratio*o.size/2,ratio*o.size,ratio*o.size); else{ const frameImg=rockFrames[o.frame]; ctx.drawImage(frameImg,o.x-ratio*o.size/2,lanes[o.lane]-ratio*o.size/2,ratio*o.size,ratio*o.size); o.frameTimer=(o.frameTimer||0)+1; if(o.frameTimer>=8){ o.frame=(o.frame+1)%rockFrames.length;o.frameTimer=0;} } }
-function shoot(){ bullets.push({x:player.x+player.width/2, y:lanes[player.lane], radius:8, speed:10}); }
-function drawBullets(){ ctx.fillStyle="rgba(255,0,0,0.9)"; const ratio=canvas.height/350; bullets.forEach((b,i)=>{ ctx.beginPath(); ctx.arc(b.x*ratio,b.y,b.radius*ratio,0,Math.PI*2); ctx.fill(); b.x+=b.speed; objects.forEach((o,j)=>{ if(o.type==="rock"){ const dx=b.x-o.x,dy=b.y-lanes[o.lane]; const dist=Math.sqrt(dx*dx+dy*dy); if(dist<b.radius+o.size/2){ bullets.splice(i,1); objects.splice(j,1); score+=10; } } }); if(b.x>canvas.width+20) bullets.splice(i,1); }); }
+  document.getElementById("gameWrapper").style.display="none";
+  hud.style.display="none";
+  canvas.style.display="none";
+
+  finalScoreText.textContent=score;
+
+  if(score>highScore){
+    highScore=score;
+    localStorage.setItem("birthdayHighScore",highScore);
+  }
+
+  highScoreText.textContent=highScore;
+  gameOverScreen.style.display="flex";
+}
+
+function showDashboard(){
+  gameOverScreen.style.display="none";
+  dashboard.style.display="flex";
+}
+
+function goBack(){
+  window.location.href="2026.html?birthday=1";
+}
+
+
+/* =========================
+   Game Logic
+========================= */
+function spawn(){
+  const lane=Math.floor(Math.random()*3);
+  const type=Math.random()<0.65?"star":"rock";
+  objects.push({x:canvas.width+20,lane,type,size:60,frame:0});
+}
+
+function shoot(){
+  bullets.push({x:player.x+player.width/2,y:lanes[player.lane],radius:8,speed:10});
+}
+
 let lastSpawn=0;
+
 function loop(){
-    if(!running) return;
-    drawBg(); drawPlayer(); drawBullets();
-    if(performance.now()-lastSpawn>800){ spawn(); lastSpawn=performance.now(); }
-    objects.forEach((o,i)=>{ o.x-=speed; drawObject(o); if(Math.abs(o.x-player.x)<30&&o.lane===player.lane){ if(o.type==="star"){ score+=5; objects.splice(i,1);} else{ endGame();} } if(o.x<-50) objects.splice(i,1); });
-    hud.textContent="Score: "+score;
-    speed+=0.002;
-    requestAnimationFrame(loop);
+  if(!running) return;
+
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+
+  bullets.forEach(b=>b.x+=b.speed);
+
+  if(performance.now()-lastSpawn>800){
+    spawn();
+    lastSpawn=performance.now();
+  }
+
+  hud.textContent="Score: "+score;
+
+  requestAnimationFrame(loop);
 }
 </script>
+
 </body>
 </html>
