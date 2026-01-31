@@ -1,4 +1,5 @@
 <!-- ================= Isolated 2022 from index - Working ================= -->
+<!-- ================= Isolated 2022 from index - Responsive ================= -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -34,6 +35,7 @@
   aspect-ratio: 1414 / 2000;
   margin: 2rem auto;
   position: relative;
+  perspective: 1200px;
 }
 
 /* Horizontal card spread after flip stays within container */
@@ -227,26 +229,19 @@
 <script src="auth.js"></script>
 
 <script>
-
 /* =====================================================
-   GLOBAL
+   GLOBAL VARIABLES
 ===================================================== */
-
 const snow = document.getElementById("snow");
-const balloons=document.getElementById("balloons");
-
+const balloons = document.getElementById("balloons");
 const bdayAudio = document.getElementById("birthdayAudio");
 const xmasAudio = document.getElementById("christmasAudio");
-
 let balloonInterval = null;
 let snowInterval = null;
-
-
 
 /* =====================================================
    PAGE CONTROL
 ===================================================== */
-
 function hideAll(){
   document.querySelectorAll(".page").forEach(p=>p.style.display="none");
   stopEffects();
@@ -263,46 +258,33 @@ function goDashboard(){
   window.location.href = "index.html";
 }
 
-
-
 /* =====================================================
    OPEN SECTIONS
 ===================================================== */
-
 function openBirthday(){
   hideAll();
-
   document.getElementById("birthday").style.display="block";
-
   bdayAudio.play();
   startBalloons();
 }
 
 function openChristmas(){
   hideAll();
-
   document.body.classList.add("christmas-bg");
   document.getElementById("christmas").style.display="block";
-
   xmasAudio.play();
   startSnow();
 }
 
 function openCard(){
   hideAll();
-
   document.getElementById("cardPage").style.display="block";
-
-  //startBalloons();
   flipCard2023();
 }
 
 function openVideo(){
   hideAll();
-
   document.getElementById("videoPage").style.display="block";
-
-  //startBalloons();
 }
 
 function logout(){
@@ -312,102 +294,54 @@ function logout(){
 }
 
 /* =====================================================
-   STOP EVERYTHING WHEN LEAVING PAGE  ⭐
+   STOP EFFECTS
 ===================================================== */
-
 function stopEffects(){
+  if(balloonInterval){ clearInterval(balloonInterval); balloonInterval=null; }
+  balloons.innerHTML=""; balloons.style.display="none";
 
-  /* balloons */
-  if(balloonInterval){
-    clearInterval(balloonInterval);
-    balloonInterval = null;
-  }
-  balloons.innerHTML="";
-  balloons.style.display="none";
+  if(snowInterval){ clearInterval(snowInterval); snowInterval=null; }
+  snow.innerHTML=""; snow.style.display="none";
 
-  /* snow */
-  if(snowInterval){
-    clearInterval(snowInterval);
-    snowInterval = null;
-  }
-  snow.innerHTML="";
-  snow.style.display="none";
+  bdayAudio.pause(); xmasAudio.pause(); bdayAudio.currentTime=0; xmasAudio.currentTime=0;
 
-  /* audio */
-  bdayAudio.pause();
-  xmasAudio.pause();
-  bdayAudio.currentTime=0;
-  xmasAudio.currentTime=0;
-
-  /* stop video */
   const iframe = document.getElementById("driveVideo");
   if(iframe) iframe.src = iframe.src;
 }
 
-/* =====================================================
-   BALLOONS (same as your 2023 main)
-===================================================== */
-
 function startBalloons(){
-
   balloons.style.display="block";
-
-  const colors=[
-    "#ff6b6b","#fbbf24","#34d399","#60a5fa","#a78bfa","#f472b6"
-  ];
-
+  const colors=["#ff6b6b","#fbbf24","#34d399","#60a5fa","#a78bfa","#f472b6"];
   balloonInterval=setInterval(()=>{
-
     const b=document.createElement("div");
     b.innerHTML="🎈";
     b.style.position="absolute";
     b.style.left=Math.random()*100+"vw";
     b.style.bottom="-40px";
     b.style.fontSize="30px";
-    b.style.animation="riseBalloon 6s linear forwards";
-
     const duration=5+Math.random()*3;
-    b.style.animationDuration=duration+"s";
-
+    b.style.animation=`riseBalloon ${duration}s linear forwards`;
     balloons.appendChild(b);
-
     setTimeout(()=>b.remove(),duration*1000);
-
   },300);
 }
 
-
-
-/* =====================================================
-   SNOW (same as your Christmas)
-===================================================== */
-
 function startSnow(){
-
   snow.style.display="block";
-
   snowInterval=setInterval(()=>{
-
     const s=document.createElement("div");
     s.innerHTML="❄";
     s.style.position="absolute";
     s.style.left=Math.random()*100+"vw";
     s.style.animation="fallSnow 5s linear forwards";
-
     snow.appendChild(s);
-
     setTimeout(()=>s.remove(),5000);
-
   },150);
 }
-
-
 
 /* =====================================================
    RESPONSIVE CARD FLIP FUNCTIONS
 ===================================================== */
-
-/* Birthday Card Flip */
 function flipCard2023() {
   const container = document.getElementById("cardPage");
   const cardFlip = container.querySelector(".card-flip");
@@ -416,37 +350,35 @@ function flipCard2023() {
   const cardInner2 = container.querySelector(".card-inner2");
 
   // Reset
-  cardFlip.style.transition = "none";
-  cardFlip.style.transform = "rotateY(0deg)";
-  [cardFront, cardInner1, cardInner2].forEach(c => {
+  cardFlip.style.transition="none";
+  cardFlip.style.transform="rotateY(0deg)";
+  [cardFront, cardInner1, cardInner2].forEach(c=>{
     c.classList.remove("card-horizontal");
-    c.style.transform = "";
+    c.style.transform="";
   });
 
   // Flip animation
-  setTimeout(() => {
-    cardFlip.style.transition = "transform 0.8s ease-out";
-    cardFlip.style.transform = "rotateY(-90deg)";
+  setTimeout(()=>{
+    cardFlip.style.transition="transform 0.8s ease-out";
+    cardFlip.style.transform="rotateY(-90deg)";
   }, 300);
 
-  setTimeout(() => {
-    cardFlip.style.transition = "transform 0.8s ease-in";
-    cardFlip.style.transform = "rotateY(-180deg)";
+  setTimeout(()=>{
+    cardFlip.style.transition="transform 0.8s ease-in";
+    cardFlip.style.transform="rotateY(-180deg)";
   }, 1200);
 
-  // Horizontal spread after flip
-  setTimeout(() => {
-    cardFlip.style.transition = "none";
-    cardFlip.style.transform = "none";
-    [cardFront, cardInner1, cardInner2].forEach(c => c.classList.add("card-horizontal"));
-
-    const spread = container.clientWidth * 0.45; // 40% of container width
+  // Horizontal spread after flip (responsive)
+  setTimeout(()=>{
+    cardFlip.style.transition="none";
+    cardFlip.style.transform="none";
+    [cardFront, cardInner1, cardInner2].forEach(c=>c.classList.add("card-horizontal"));
+    const spread = container.querySelector(".birthday-card-container").clientWidth * 0.45;
     cardFront.style.transform = `translateX(-${spread}px)`;
     cardInner1.style.transform = `translateX(0px)`;
     cardInner2.style.transform = `translateX(${spread}px)`;
   }, 2000);
 }
-
 
 function stopDriveVideos(){
   document.querySelectorAll("iframe").forEach(iframe=>{
