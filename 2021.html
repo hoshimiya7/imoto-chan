@@ -147,6 +147,38 @@
   }
 }
 
+/* ================= MOBILE LANDSCAPE SCROLL FIX ================= */
+@media (max-height:500px) and (orientation:landscape){
+
+  /* allow pages to scroll naturally */
+  .page {
+    height: auto !important;
+    min-height: 100vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch; /* smooth scroll on iOS */
+  }
+
+  /* avoid huge vertical margins pushing title off-screen */
+  #cardPage,
+  #christmasCardPage {
+    padding-top: 1rem; /* small top padding */
+    padding-bottom: 1rem;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  /* shrink flower slightly if needed to fit screen */
+  #flower2021{
+    max-height: 80vh; /* prevent overflowing viewport */
+  }
+
+  /* keep back button and spacing reasonable */
+  #cardPage .back-btn {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+}
+
 </style>
 </head>
 
