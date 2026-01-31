@@ -37,12 +37,6 @@
   width:100%;
 }
 
-/* buttons stack better on mobile */
-/*.logout-btn,
-.back-btn{
-  width:min(100%,260px);
-}*/
-
 /* flower scales with screen */
 #flower2021{
   width:min(90vw,500px);
@@ -53,7 +47,21 @@
 /* petals scale */
 #flower2021 .flower-petal{
   width:clamp(45px,10vw,85px);
+  height:clamp(45px,10vw,85px);
   position:absolute;
+  border-radius:50%;
+  object-fit:cover;
+}
+
+/* centre scales nicely */
+#flower2021 .flower-center{
+  width: clamp(130px, 32vw, 230px);
+  height: clamp(130px, 32vw, 230px);
+
+  font-size: clamp(12px, 2.7vw, 18px);
+  padding: clamp(8px, 2vw, 18px);
+
+  z-index: 5;
 }
 
 /* christmas image responsive */
@@ -86,43 +94,33 @@
 #flower2021 .flower-petal{
   width: clamp(85px, 16vw, 165px);
   height: clamp(85px, 16vw, 165px);
-  border-radius: 50%;
-  object-fit: cover;
 }
 
-/* centre scales nicely */
+/* ⭐ center */
 #flower2021 .flower-center{
   width: clamp(130px, 32vw, 230px);
   height: clamp(130px, 32vw, 230px);
-
-  font-size: clamp(12px, 2.7vw, 18px);
-  padding: clamp(8px, 2vw, 18px);
-
-  z-index: 5;
 }
 
-/* ⭐ LANDSCAPE SPECIAL FIX */
+/* ⭐ MOBILE LANDSCAPE: bigger flower + petals */
 @media (max-height:500px) and (orientation:landscape){
 
   #flower2021{
-    width: 60vh; /* smaller circle */
+    width: 70vh; /* bigger than previous 60vh */
+    margin: 0.5rem auto; /* tighter spacing */
   }
 
-  /* shrink centre so petals don't hide behind it */
   #flower2021 .flower-center{
-    width: 28vh;
-    height: 28vh;
+    width: 32vh;
+    height: 32vh;
   }
 
-  /* petals slightly smaller too */
   #flower2021 .flower-petal{
-    width: 13vh;
-    height: 13vh;
+    width: 15vh;
+    height: 15vh;
   }
-}
 
-/* Landscape mobile: flow naturally, no forced absolute centering */
-@media (max-height:500px) and (orientation:landscape){
+  /* container positioning */
   #home,
   #cardPage,
   #christmasCardPage {
@@ -133,19 +131,15 @@
     margin: 0 auto;
     padding-bottom: 1.5rem;
   }
-}
-
-/* ================= MOBILE LANDSCAPE BIRTHDAY LAYOUT TIGHTER ================= */
-@media (max-height:500px) and (orientation:landscape) {
 
   /* make birthday page a flex column with tighter spacing */
   #cardPage {
     display: flex;
     flex-direction: column;
-    justify-content: space-between; /* spread sections evenly */
+    justify-content: space-between;
     align-items: center;
-    padding: 0.5rem 1rem; /* reduce top/bottom padding */
-    height: auto; /* let content define height */
+    padding: 0.5rem 1rem;
+    height: auto;
     margin: 0 auto;
   }
 
@@ -156,17 +150,15 @@
     text-align: center;
   }
 
-  /* flower container tighter spacing */
-  #flower2021 {
-    margin: 0.5rem auto; /* reduce vertical margins */
-  }
-
   /* back button closer to flower */
   #cardPage .back-btn {
-    margin-top: 0.5rem; 
+    margin-top: 0.5rem;
     margin-bottom: 0.5rem;
   }
+
 }
+
+/* ================= MOBILE LANDSCAPE BIRTHDAY LAYOUT TIGHTER ================= */
 
 </style>
 </head>
@@ -177,12 +169,9 @@
 <audio id="birthdayAudio" src="Images/birthday.mp3" loop></audio>
 <audio id="christmasAudio" src="Images/christmas.mp3" loop></audio>
 
-
 <!-- ================= EFFECT LAYERS ================= -->
 <div id="snow" class="effect-layer"></div>
 <div id="confetti" class="effect-layer"></div>
-
-
 
 <!-- ================= HOME ================= -->
 <div class="card page" id="home" style="display:block;">
@@ -198,10 +187,7 @@
   <button class="back-btn" onclick="goDashboard()">Back</button>
 </div>
 
-
-
 <!-- ================= BIRTHDAY ================= -->
-
 <div class="card page" id="cardPage">
   <h1>2021 Birthday 🎂</h1>
   <p>Celebration and memories of 2021.</p>
@@ -221,15 +207,11 @@
   <button class="back-btn" onclick="goHome()">Back</button>
 </div>
 
-
-
 <!-- ================= CHRISTMAS ================= -->
-
 <div class="card page" id="christmasCardPage">
   <h1>2021 Christmas 🎄</h1>
 
   <div class="xmas-photo-card">
-
     <div class="xmas-image-wrap">
       <img
         src="Images/christmas2021.jpg"
@@ -243,30 +225,23 @@
       Our first Christmas together in 2021 ❄️<br>
       Warm lights, happy hearts, and beautiful memories ❤️
     </p>
-
   </div>
 
   <button class="back-btn" onclick="goHome()">Back</button>
 </div>
 
-<!-- ================= PHOTO MODAL (same as 2022) ================= -->
-<!-- Photo Modal -->
+<!-- ================= PHOTO MODAL ================= -->
 <div id="photoModal" class="photo-modal">
   <span class="photo-close">&times;</span>
-
   <button class="nav prev">&#10094;</button>
   <img id="photoPreview">
   <button class="nav next">&#10095;</button>
 </div>
 
-<!--<script src="auth.js"></script>-->
-
 <script>
-
 /* =====================================================
    GLOBAL
 ===================================================== */
-
 const snow = document.getElementById("snow");
 const confetti=document.getElementById("confetti");
 
@@ -275,12 +250,9 @@ const xmasAudio = document.getElementById("christmasAudio");
 
 let snowInterval = null;
 
-
-
 /* =====================================================
    PAGE CONTROL
 ===================================================== */
-
 function hideAll(){
   document.querySelectorAll(".page").forEach(p=>p.style.display="none");
   stopEffects();
@@ -303,7 +275,6 @@ function positionPetals(containerId) {
   const centerX = container.clientWidth / 2;
   const centerY = container.clientHeight / 2;
 
-  //const radius = 190;
   const radius = Math.min(container.clientWidth, container.clientHeight) * 0.46;
   const centerSize = container.querySelector(".flower-center").clientWidth;
   const safeGap = centerSize/2 + petals[0].clientWidth/2 + 10;
@@ -323,7 +294,6 @@ function positionPetals(containerId) {
       const x = centerX + finalRadius * Math.cos(angle) - petal.clientWidth / 2;
       const y = centerY + radius * Math.sin(angle) - petal.clientHeight / 2;
 
-      // ONLY move — no rotation
       petal.style.left = `${x}px`;
       petal.style.top = `${y}px`;
     });
@@ -337,7 +307,6 @@ function positionPetals(containerId) {
 /* =====================================================
    OPEN SECTIONS
 ===================================================== */
-
 function openBirthday(){
   hideAll();
 
@@ -345,7 +314,7 @@ function openBirthday(){
 
   bdayAudio.play();
   startConfetti();
-  positionPetals("flower2021"); // ⭐ position petals precisely
+  positionPetals("flower2021");
 }
 
 function openChristmas(){
@@ -365,15 +334,12 @@ function logout(){
 }
 
 /* =====================================================
-   STOP EVERYTHING WHEN LEAVING PAGE  ⭐
+   STOP EVERYTHING WHEN LEAVING PAGE
 ===================================================== */
-
 function stopEffects(){
-
   confetti.innerHTML="";
   confetti.style.display="none";
 
-  /* snow */
   if(snowInterval){
     clearInterval(snowInterval);
     snowInterval = null;
@@ -381,18 +347,15 @@ function stopEffects(){
   snow.innerHTML="";
   snow.style.display="none";
 
-  /* audio */
   bdayAudio.pause();
   xmasAudio.pause();
   bdayAudio.currentTime=0;
   xmasAudio.currentTime=0;
-
 }
 
 /* =====================================================
-   BALLOONS (same as your 2023 main)
+   BALLOONS
 ===================================================== */
-
 function startConfetti(){
   confetti.style.display="block";
   setInterval(()=>{
@@ -407,17 +370,13 @@ function startConfetti(){
   },60);
 }
 
-
 /* =====================================================
-   SNOW (same as your Christmas)
+   SNOW
 ===================================================== */
-
 function startSnow(){
-
   snow.style.display="block";
 
   snowInterval=setInterval(()=>{
-
     const s=document.createElement("div");
     s.innerHTML="❄";
     s.style.position="absolute";
@@ -431,12 +390,9 @@ function startSnow(){
   },150);
 }
 
-
 /* ===============================
    Universal Swipeable Photo Viewer
-   (petals + 2022 cards + christmas)
 ================================= */
-
 const modal = document.getElementById("photoModal");
 const preview = document.getElementById("photoPreview");
 const closeBtn = document.querySelector(".photo-close");
@@ -466,13 +422,8 @@ function showImage(index){
   },120);
 }
 
-
-
 /* ========= CLICK HANDLER ========= */
-
 document.addEventListener("click", function(e){
-
-  /* ===== Flower gallery (multiple images) ===== */
   if(e.target.classList.contains("flower-petal")){
     setupGallery("#flower2021 .flower-petal");
 
@@ -485,7 +436,6 @@ document.addEventListener("click", function(e){
     return;
   }
 
-  /* ===== Single christmas image ===== */
   if(e.target.classList.contains("xmas-clickable")){
     setNavVisible(false);
 
@@ -494,9 +444,7 @@ document.addEventListener("click", function(e){
     modal.style.display = "flex";
     return;
   }
-
 });
-
 
 /* arrows */
 nextBtn.onclick = () => showImage(currentIndex + 1);
@@ -512,7 +460,7 @@ document.addEventListener("keydown", (e)=>{
 
   if(e.key === "ArrowRight") showImage(currentIndex + 1);
   if(e.key === "ArrowLeft") showImage(currentIndex - 1);
-  if(e.key === "Escape") modal.style.display = "none";
+  if(e.key === "Escape") modal.style.display="none";
 });
 
 /* swipe */
