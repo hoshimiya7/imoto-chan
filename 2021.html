@@ -38,10 +38,10 @@
 }
 
 /* buttons stack better on mobile */
-.logout-btn,
+/*.logout-btn,
 .back-btn{
   width:min(100%,260px);
-}
+}*/
 
 /* flower scales with screen */
 #flower2021{
@@ -75,6 +75,44 @@
   #flower2021{
     width:70vh;
     height:70vh;
+  }
+}
+
+/* =========================================
+   2021 ONLY – perfectly circular flower
+   safe overrides (scoped to #flower2021)
+========================================= */
+
+/* container stays perfectly square */
+#flower2021{
+  width: min(88vw, 560px);
+  aspect-ratio: 1;
+  height: auto;
+  position: relative;
+  margin: 2rem auto;
+}
+
+/* petals scale + stay perfect circles */
+#flower2021 .flower-petal{
+  width: clamp(70px, 14vw, 140px);
+  height: clamp(70px, 14vw, 140px);
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* message card scales WITH flower */
+#flower2021 .flower-center{
+  width: clamp(130px, 32vw, 220px);
+  height: clamp(130px, 32vw, 220px);
+
+  font-size: clamp(12px, 2.7vw, 18px);
+  padding: clamp(8px, 2vw, 18px);
+}
+
+/* better spacing on short landscape screens */
+@media (max-height:500px) and (orientation:landscape){
+  #flower2021{
+    width: 65vh;
   }
 }
 
@@ -214,7 +252,7 @@ function positionPetals(containerId) {
   const centerY = container.clientHeight / 2;
 
   //const radius = 190;
-  const radius = Math.min(container.clientWidth, container.clientHeight) * 0.38;
+  const radius = Math.min(container.clientWidth, container.clientHeight) * 0.45;
 
   const petalCount = petals.length;
 
