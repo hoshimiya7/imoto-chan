@@ -1,0 +1,377 @@
+<!-- ================= 2021 isolated from index - working optimised ================= -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>2024 Memories</title>
+
+<link rel="stylesheet" href="styles.css">
+
+</head>
+
+<body>
+
+<!-- ================= AUDIO ================= -->
+<audio id="birthdayAudio" src="Images/birthday.mp3" loop></audio>
+<audio id="christmasAudio" src="Images/christmas.mp3" loop></audio>
+
+
+<!-- ================= EFFECT LAYERS ================= -->
+<div id="snow" class="effect-layer"></div>
+<div id="confetti" class="effect-layer"></div>
+
+
+
+<!-- ================= HOME ================= -->
+<div class="card page" id="home" style="display:block;">
+  <h1>2021</h1>
+  <p>Select an event:</p>
+  <button class="logout-btn" onclick="logout()">Logout</button>
+
+  <div class="tiles">
+    <div class="tile" onclick="openBirthday()">🎂 Birthday</div>
+    <div class="tile" onclick="openChristmas()">🎄 Christmas</div>
+  </div>
+
+  <button class="back-btn" onclick="goDashboard()">Back</button>
+</div>
+
+
+
+<!-- ================= BIRTHDAY ================= -->
+
+<div class="card page" id="cardPage">
+  <h1>2021 Birthday 🎂</h1>
+  <p>Celebration and memories of 2021.</p>
+  <div class="flower-container" id="flower2021">
+    <div class="flower-center">
+        <div class="jp">お誕生日おめでとう妹</div>
+        <div class="romaji">Otanjōbi omedetō imōto-chan</div>
+        <div class="en">Hope you have the greatest B-day ever! ✨</div>
+    </div>
+    <img src="Images/petal1.png" class="flower-petal" />
+    <img src="Images/petal2.png" class="flower-petal" />
+    <img src="Images/petal3.png" class="flower-petal" />
+    <img src="Images/petal4.png" class="flower-petal" />
+    <img src="Images/petal5.png" class="flower-petal" />
+    <img src="Images/petal6.png" class="flower-petal" />
+  </div>
+  <button class="back-btn" onclick="goHome()">Back</button>
+</div>
+
+
+
+<!-- ================= CHRISTMAS ================= -->
+
+<div class="card page" id="christmasCardPage">
+  <h1>2021 Christmas 🎄</h1>
+
+  <div class="xmas-photo-card">
+
+    <div class="xmas-image-wrap">
+      <img
+        src="Images/christmas2021.jpg"
+        alt="Christmas 2021 memory"
+        class="xmas-clickable"
+      >
+      <div class="snow-local" id="snowLocal2021"></div>
+    </div>
+
+    <p class="xmas-caption">
+      Our first Christmas together in 2021 ❄️<br>
+      Warm lights, happy hearts, and beautiful memories ❤️
+    </p>
+
+  </div>
+
+  <button class="back-btn" onclick="goHome()">Back</button>
+</div>
+
+<!-- ================= PHOTO MODAL (same as 2022) ================= -->
+<!-- Photo Modal -->
+<div id="photoModal" class="photo-modal">
+  <span class="photo-close">&times;</span>
+
+  <button class="nav prev">&#10094;</button>
+  <img id="photoPreview">
+  <button class="nav next">&#10095;</button>
+</div>
+
+<script src="auth.js"></script>
+
+<script>
+
+/* =====================================================
+   GLOBAL
+===================================================== */
+
+const snow = document.getElementById("snow");
+const confetti=document.getElementById("confetti");
+
+const bdayAudio = document.getElementById("birthdayAudio");
+const xmasAudio = document.getElementById("christmasAudio");
+
+let snowInterval = null;
+
+
+
+/* =====================================================
+   PAGE CONTROL
+===================================================== */
+
+function hideAll(){
+  document.querySelectorAll(".page").forEach(p=>p.style.display="none");
+  stopEffects();
+}
+
+function goHome(){
+  hideAll();
+  document.body.classList.remove("christmas-bg");
+  document.getElementById("home").style.display="block";
+}
+
+function goDashboard(){
+  window.location.href = "index.html";
+}
+
+function positionPetals(containerId) {
+  const container = document.getElementById(containerId);
+  const petals = container.querySelectorAll(".flower-petal");
+
+  const centerX = container.clientWidth / 2;
+  const centerY = container.clientHeight / 2;
+
+  const radius = 190;
+  const petalCount = petals.length;
+
+  let angleOffset = 0;
+
+  function animate() {
+    angleOffset += 0.003; // speed
+
+    petals.forEach((petal, i) => {
+      const angle = (2 * Math.PI / petalCount) * i + angleOffset;
+
+      const x = centerX + radius * Math.cos(angle) - petal.clientWidth / 2;
+      const y = centerY + radius * Math.sin(angle) - petal.clientHeight / 2;
+
+      // ONLY move — no rotation
+      petal.style.left = `${x}px`;
+      petal.style.top = `${y}px`;
+    });
+
+    requestAnimationFrame(animate);
+  }
+
+  animate();
+}
+
+/* =====================================================
+   OPEN SECTIONS
+===================================================== */
+
+function openBirthday(){
+  hideAll();
+
+  document.getElementById("cardPage").style.display="block";
+
+  bdayAudio.play();
+  startConfetti();
+  positionPetals("flower2021"); // ⭐ position petals precisely
+}
+
+function openChristmas(){
+  hideAll();
+
+  document.body.classList.add("christmas-bg");
+  document.getElementById("christmasCardPage").style.display="block";
+
+  xmasAudio.play();
+  startSnow();
+}
+
+function logout(){
+  sessionStorage.clear();
+  localStorage.clear();
+  window.location.replace("login.html");
+}
+
+/* =====================================================
+   STOP EVERYTHING WHEN LEAVING PAGE  ⭐
+===================================================== */
+
+function stopEffects(){
+
+  confetti.innerHTML="";
+  confetti.style.display="none";
+
+  /* snow */
+  if(snowInterval){
+    clearInterval(snowInterval);
+    snowInterval = null;
+  }
+  snow.innerHTML="";
+  snow.style.display="none";
+
+  /* audio */
+  bdayAudio.pause();
+  xmasAudio.pause();
+  bdayAudio.currentTime=0;
+  xmasAudio.currentTime=0;
+
+}
+
+/* =====================================================
+   BALLOONS (same as your 2023 main)
+===================================================== */
+
+function startConfetti(){
+  confetti.style.display="block";
+  setInterval(()=>{
+    const c=document.createElement("div");
+    c.style.position="absolute";
+    c.style.width="8px"; c.style.height="8px";
+    c.style.background=`hsl(${Math.random()*360},80%,60%)`;
+    c.style.left=Math.random()*100+"vw";
+    c.style.animation="fallConfetti 3s linear forwards";
+    confetti.appendChild(c);
+    setTimeout(()=>c.remove(),3000);
+  },60);
+}
+
+
+/* =====================================================
+   SNOW (same as your Christmas)
+===================================================== */
+
+function startSnow(){
+
+  snow.style.display="block";
+
+  snowInterval=setInterval(()=>{
+
+    const s=document.createElement("div");
+    s.innerHTML="❄";
+    s.style.position="absolute";
+    s.style.left=Math.random()*100+"vw";
+    s.style.animation="fallSnow 5s linear forwards";
+
+    snow.appendChild(s);
+
+    setTimeout(()=>s.remove(),5000);
+
+  },150);
+}
+
+
+/* ===============================
+   Universal Swipeable Photo Viewer
+   (petals + 2022 cards + christmas)
+================================= */
+
+const modal = document.getElementById("photoModal");
+const preview = document.getElementById("photoPreview");
+const closeBtn = document.querySelector(".photo-close");
+const nextBtn = document.querySelector(".next");
+const prevBtn = document.querySelector(".prev");
+
+let currentIndex = 0;
+let galleryImages = [];
+
+/* setup gallery from selector */
+function setupGallery(selector){
+  galleryImages = Array.from(document.querySelectorAll(selector));
+}
+
+/* show image */
+function showImage(index){
+  if(index < 0) index = galleryImages.length - 1;
+  if(index >= galleryImages.length) index = 0;
+
+  currentIndex = index;
+
+  preview.style.opacity = 0;
+
+  setTimeout(()=>{
+    preview.src = galleryImages[currentIndex].src;
+    preview.style.opacity = 1;
+  },120);
+}
+
+
+
+/* ========= CLICK HANDLER ========= */
+
+document.addEventListener("click", function(e){
+
+  /* ===== Flower gallery (multiple images) ===== */
+  if(e.target.classList.contains("flower-petal")){
+    setupGallery("#flower2021 .flower-petal");
+
+    currentIndex = galleryImages.indexOf(e.target);
+
+    setNavVisible(true);
+    showImage(currentIndex);
+
+    modal.style.display = "flex";
+    return;
+  }
+
+  /* ===== Single christmas image ===== */
+  if(e.target.classList.contains("xmas-clickable")){
+    setNavVisible(false);
+
+    preview.src = e.target.src;
+
+    modal.style.display = "flex";
+    return;
+  }
+
+});
+
+
+/* arrows */
+nextBtn.onclick = () => showImage(currentIndex + 1);
+prevBtn.onclick = () => showImage(currentIndex - 1);
+
+/* close */
+closeBtn.onclick = () => modal.style.display = "none";
+modal.onclick = (e)=>{ if(e.target === modal) modal.style.display="none"; };
+
+/* keyboard */
+document.addEventListener("keydown", (e)=>{
+  if(modal.style.display !== "flex") return;
+
+  if(e.key === "ArrowRight") showImage(currentIndex + 1);
+  if(e.key === "ArrowLeft") showImage(currentIndex - 1);
+  if(e.key === "Escape") modal.style.display = "none";
+});
+
+/* swipe */
+let startX = 0;
+
+preview.addEventListener("touchstart", e=>{
+  startX = e.touches[0].clientX;
+});
+
+preview.addEventListener("touchend", e=>{
+  let endX = e.changedTouches[0].clientX;
+  let diff = startX - endX;
+
+  if(Math.abs(diff) > 50){
+    if(diff > 0) showImage(currentIndex + 1);
+    else showImage(currentIndex - 1);
+  }
+});
+
+/* show/hide arrows */
+function setNavVisible(show){
+  nextBtn.style.display = show ? "block" : "none";
+  prevBtn.style.display = show ? "block" : "none";
+}
+
+</script>
+</body>
+</html>

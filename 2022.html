@@ -1,0 +1,585 @@
+<!-- ================= Isolated 2022 from index - Working ================= -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>2022 Memories</title>
+
+<link rel="stylesheet" href="styles.css">
+
+<style>
+/* ================= 2024 ONLY overrides ================= */
+
+/* Birthday */
+#cardPage .birthday-card-container{
+  width: min(90vw, 420px);
+  height: auto;                /* cancel fixed height */
+  aspect-ratio: 1414 / 2000;   /* correct image ratio */
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- ================= AUDIO ================= -->
+<audio id="birthdayAudio" src="Images/birthday.mp3" loop></audio>
+<audio id="christmasAudio" src="Images/christmas.mp3" loop></audio>
+
+
+<!-- ================= EFFECT LAYERS ================= -->
+<div id="snow" class="effect-layer"></div>
+<div id="balloons" class="effect-layer"></div>
+
+
+<!-- ================= HOME ================= -->
+<div class="card page" id="home" style="display:block;">
+  <h1>2022</h1>
+  <p>Select an event:</p>
+  <button class="logout-btn" onclick="logout()">Logout</button>
+
+  <div class="tiles">
+    <div class="tile" onclick="openBirthday()">🎂 Birthday</div>
+    <div class="tile" onclick="openChristmas()">🎄 Christmas</div>
+  </div>
+
+  <button class="back-btn" onclick="goDashboard()">Back</button>
+</div>
+
+
+
+<!-- ================= BIRTHDAY ================= -->
+<div class="card page" id="birthday">
+  <h1>2022 Birthday 🎂</h1>
+
+  <div class="tiles">
+    <div class="tile" onclick="openCard()">💌 Card</div>
+    <div class="tile" onclick="openVideo()">🎥 Video</div>
+  </div>
+
+  <button class="back-btn" onclick="goHome()">Back</button>
+</div>
+
+<!-- ================= CARD (FULL 2022 ANIMATION COPY) ================= -->
+
+<div class="card page" id="cardPage">
+  <h1>Birthday Card 💌</h1>
+
+  <div class="birthday-card-container">
+    <!-- Bottom layer: inner2 -->
+    <div class="card-inner2">
+      <img src="Images/card-inner2.png" class="card-photo">
+    </div>
+
+    <!-- Top layer: double-sided cover -->
+    <div class="card-flip" id="cardFlip">
+      <!-- Front face -->
+      <div class="card-front">
+        <img src="Images/card-front.png" class="card-photo">
+        <!-- Edge shadow for realism -->
+        <div class="page-shadow"></div>
+      </div>
+
+      <!-- Back face = inner1 -->
+      <div class="card-inner1">
+        <img src="Images/card-inner1.png" class="card-photo">
+      </div>
+    </div>
+  </div>
+
+  <button class="back-btn" onclick="openBirthday()">Back</button>
+</div>
+
+<!-- ================= VIDEO ================= -->
+
+<div class="card page" id="videoPage">
+  <h1>Birthday Video 🎥</h1>
+
+  <div class="video-wrap video-16x9">
+      <iframe 
+            id="driveVideo"
+            src="https://drive.google.com/file/d/1qY40I4qMtDJPwqCwBsutMvZDnp-0VXSY/preview"
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+            allowfullscreen
+            style="border-radius:1rem;">
+      </iframe>
+  </div>
+
+  <button class="back-btn" onclick="openBirthday()">Back</button>
+</div>
+
+
+<!-- ================= CHRISTMAS ================= -->
+
+<div class="card page" id="christmas">
+  <h1>2022 Christmas 🎄</h1>
+  <p>Christmas memories of 2022</p>
+
+  <div class="memory-wall">
+    <div class="polaroid" data-src="https://drive.google.com/file/d/1Wm0sghpvERLhImt9g0kSjWP1e-5a6ZoV/preview">
+        <img src="Images/thumb1.png">
+        <span>...</span>
+    </div>
+    <div class="polaroid" data-src="https://drive.google.com/file/d/1TfBE2sYzWPnNALq8Rtv_CudvqlYTHftR/preview">
+        <img src="Images/thumb2.png">
+        <span>...</span>
+    </div>
+    <div class="polaroid" data-src="https://drive.google.com/file/d/1j-UdakTpN7FRji3cvBMaHTQ3jhnCQa37/preview">
+        <img src="Images/thumb3.png">
+        <span>...</span>
+    </div>
+  </div>
+
+  <button class="back-btn" onclick="goHome()">Back</button>
+</div>
+
+
+<!-- ================= PHOTO MODAL (same as 2022) ================= -->
+<div id="photoModal" class="photo-modal">
+  <span class="photo-close">&times;</span>
+
+  <button class="nav prev">&#10094;</button>
+  <img id="photoPreview">
+  <button class="nav next">&#10095;</button>
+</div>
+
+<!-- Video Modal -->
+<div id="videoModal" class="photo-modal">
+  <span class="photo-close">&times;</span>
+
+  <button class="nav prev">&#10094;</button>
+  <div class="video-wrap video-9x16">
+    <iframe id="drivePlayer" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+  </div>
+  
+  <button class="nav next">&#10095;</button>
+</div>
+
+<script src="auth.js"></script>
+
+<script>
+
+/* =====================================================
+   GLOBAL
+===================================================== */
+
+const snow = document.getElementById("snow");
+const balloons=document.getElementById("balloons");
+
+const bdayAudio = document.getElementById("birthdayAudio");
+const xmasAudio = document.getElementById("christmasAudio");
+
+let balloonInterval = null;
+let snowInterval = null;
+
+
+
+/* =====================================================
+   PAGE CONTROL
+===================================================== */
+
+function hideAll(){
+  document.querySelectorAll(".page").forEach(p=>p.style.display="none");
+  stopEffects();
+  stopDriveVideos();
+}
+
+function goHome(){
+  hideAll();
+  document.body.classList.remove("christmas-bg");
+  document.getElementById("home").style.display="block";
+}
+
+function goDashboard(){
+  window.location.href = "index.html";
+}
+
+
+
+/* =====================================================
+   OPEN SECTIONS
+===================================================== */
+
+function openBirthday(){
+  hideAll();
+
+  document.getElementById("birthday").style.display="block";
+
+  bdayAudio.play();
+  startBalloons();
+}
+
+function openChristmas(){
+  hideAll();
+
+  document.body.classList.add("christmas-bg");
+  document.getElementById("christmas").style.display="block";
+
+  xmasAudio.play();
+  startSnow();
+}
+
+function openCard(){
+  hideAll();
+
+  document.getElementById("cardPage").style.display="block";
+
+  //startBalloons();
+  flipCard2023();
+}
+
+function openVideo(){
+  hideAll();
+
+  document.getElementById("videoPage").style.display="block";
+
+  //startBalloons();
+}
+
+function logout(){
+  sessionStorage.clear();
+  localStorage.clear();
+  window.location.replace("login.html");
+}
+
+/* =====================================================
+   STOP EVERYTHING WHEN LEAVING PAGE  ⭐
+===================================================== */
+
+function stopEffects(){
+
+  /* balloons */
+  if(balloonInterval){
+    clearInterval(balloonInterval);
+    balloonInterval = null;
+  }
+  balloons.innerHTML="";
+  balloons.style.display="none";
+
+  /* snow */
+  if(snowInterval){
+    clearInterval(snowInterval);
+    snowInterval = null;
+  }
+  snow.innerHTML="";
+  snow.style.display="none";
+
+  /* audio */
+  bdayAudio.pause();
+  xmasAudio.pause();
+  bdayAudio.currentTime=0;
+  xmasAudio.currentTime=0;
+
+  /* stop video */
+  const iframe = document.getElementById("driveVideo");
+  if(iframe) iframe.src = iframe.src;
+}
+
+/* =====================================================
+   BALLOONS (same as your 2023 main)
+===================================================== */
+
+function startBalloons(){
+
+  balloons.style.display="block";
+
+  const colors=[
+    "#ff6b6b","#fbbf24","#34d399","#60a5fa","#a78bfa","#f472b6"
+  ];
+
+  balloonInterval=setInterval(()=>{
+
+    const b=document.createElement("div");
+    b.innerHTML="🎈";
+    b.style.position="absolute";
+    b.style.left=Math.random()*100+"vw";
+    b.style.bottom="-40px";
+    b.style.fontSize="30px";
+    b.style.animation="riseBalloon 6s linear forwards";
+
+    const duration=5+Math.random()*3;
+    b.style.animationDuration=duration+"s";
+
+    balloons.appendChild(b);
+
+    setTimeout(()=>b.remove(),duration*1000);
+
+  },300);
+}
+
+
+
+/* =====================================================
+   SNOW (same as your Christmas)
+===================================================== */
+
+function startSnow(){
+
+  snow.style.display="block";
+
+  snowInterval=setInterval(()=>{
+
+    const s=document.createElement("div");
+    s.innerHTML="❄";
+    s.style.position="absolute";
+    s.style.left=Math.random()*100+"vw";
+    s.style.animation="fallSnow 5s linear forwards";
+
+    snow.appendChild(s);
+
+    setTimeout(()=>s.remove(),5000);
+
+  },150);
+}
+
+
+
+/* =====================================================
+   RESPONSIVE CARD FLIP FUNCTIONS
+===================================================== */
+
+/* Birthday Card Flip */
+function flipCard2023() {
+  const container = document.getElementById("cardPage");
+  const cardFlip = container.querySelector(".card-flip");
+  const cardFront = container.querySelector(".card-front");
+  const cardInner1 = container.querySelector(".card-inner1");
+  const cardInner2 = container.querySelector(".card-inner2");
+
+  // Reset
+  cardFlip.style.transition = "none";
+  cardFlip.style.transform = "rotateY(0deg)";
+  [cardFront, cardInner1, cardInner2].forEach(c => {
+    c.classList.remove("card-horizontal");
+    c.style.transform = "";
+  });
+
+  // Flip animation
+  setTimeout(() => {
+    cardFlip.style.transition = "transform 0.8s ease-out";
+    cardFlip.style.transform = "rotateY(-90deg)";
+  }, 300);
+
+  setTimeout(() => {
+    cardFlip.style.transition = "transform 0.8s ease-in";
+    cardFlip.style.transform = "rotateY(-180deg)";
+  }, 1200);
+
+  // Horizontal spread after flip
+  setTimeout(() => {
+    cardFlip.style.transition = "none";
+    cardFlip.style.transform = "none";
+    [cardFront, cardInner1, cardInner2].forEach(c => c.classList.add("card-horizontal"));
+
+    const spread = container.clientWidth * 0.45; // 40% of container width
+    cardFront.style.transform = `translateX(-${spread}px)`;
+    cardInner1.style.transform = `translateX(0px)`;
+    cardInner2.style.transform = `translateX(${spread}px)`;
+  }, 2000);
+}
+
+
+function stopDriveVideos(){
+  document.querySelectorAll("iframe").forEach(iframe=>{
+    const src = iframe.src;
+    iframe.src = "";
+    iframe.src = src;
+  });
+}
+
+
+/* =====================================================
+   PHOTO VIEWER (shared like 2022)
+===================================================== */
+
+/* ===============================
+   Universal Swipeable Photo Viewer
+   (petals + 2022 cards + christmas)
+================================= */
+
+const modal = document.getElementById("photoModal");
+const preview = document.getElementById("photoPreview");
+const closeBtn = document.querySelector(".photo-close");
+const nextBtn = document.querySelector(".next");
+const prevBtn = document.querySelector(".prev");
+
+let currentIndex = 0;
+let galleryImages = [];
+
+/* setup gallery from selector */
+function setupGallery(selector){
+  galleryImages = Array.from(document.querySelectorAll(selector));
+}
+
+/* show image */
+function showImage(index){
+  if(index < 0) index = galleryImages.length - 1;
+  if(index >= galleryImages.length) index = 0;
+
+  currentIndex = index;
+
+  preview.style.opacity = 0;
+
+  setTimeout(()=>{
+    preview.src = galleryImages[currentIndex].src;
+    preview.style.opacity = 1;
+  },120);
+}
+
+/* ========= CLICK HANDLER ========= */
+
+document.addEventListener("click", function(e){
+
+  /* 2022 card photos */
+  if(e.target.classList.contains("card-photo")){
+    setupGallery("#cardPage .card-photo");
+    setNavVisible(true);
+  }
+
+  /* open modal for galleries */
+  if(
+    e.target.classList.contains("flower-petal") ||
+    e.target.classList.contains("card-photo")
+  ){
+    currentIndex = galleryImages.indexOf(e.target);
+    showImage(currentIndex);
+    modal.style.display = "flex";
+  }
+});
+
+/* arrows */
+nextBtn.onclick = () => showImage(currentIndex + 1);
+prevBtn.onclick = () => showImage(currentIndex - 1);
+
+/* close */
+closeBtn.onclick = () => modal.style.display = "none";
+modal.onclick = (e)=>{ if(e.target === modal) modal.style.display="none"; };
+
+/* keyboard */
+document.addEventListener("keydown", (e)=>{
+  if(modal.style.display !== "flex") return;
+
+  if(e.key === "ArrowRight") showImage(currentIndex + 1);
+  if(e.key === "ArrowLeft") showImage(currentIndex - 1);
+  if(e.key === "Escape") modal.style.display = "none";
+});
+
+/* swipe */
+let startX = 0;
+
+preview.addEventListener("touchstart", e=>{
+  startX = e.touches[0].clientX;
+});
+
+preview.addEventListener("touchend", e=>{
+  let endX = e.changedTouches[0].clientX;
+  let diff = startX - endX;
+
+  if(Math.abs(diff) > 50){
+    if(diff > 0) showImage(currentIndex + 1);
+    else showImage(currentIndex - 1);
+  }
+});
+
+/* show/hide arrows */
+function setNavVisible(show){
+  nextBtn.style.display = show ? "block" : "none";
+  prevBtn.style.display = show ? "block" : "none";
+}
+
+
+/* ========= Video Modal ========= */
+/* ===============================
+   Swipeable Video Viewer (2022 Christmas)
+================================= */
+
+const videoModal = document.getElementById("videoModal");
+const drivePlayer = document.getElementById("drivePlayer");
+
+const videoNext = videoModal.querySelector(".next");
+const videoPrev = videoModal.querySelector(".prev");
+const videoClose = videoModal.querySelector(".photo-close");
+
+let videoIndex = 0;
+let videoList = [];
+
+/* collect all videos */
+function setupVideoGallery(){
+  videoList = Array.from(document.querySelectorAll("#christmas .polaroid"));
+  videoNext.style.display = videoList.length > 1 ? "block" : "none"; // hide arrows whn only 1 vid
+  videoPrev.style.display = videoList.length > 1 ? "block" : "none"; // hide arrows when only 1 vid
+}
+
+/* show video */
+function showVideo(index){
+  if(index < 0) index = videoList.length - 1;
+  if(index >= videoList.length) index = 0;
+
+  videoIndex = index;
+
+  drivePlayer.src = videoList[videoIndex].dataset.src;
+}
+
+/* open video */
+document.addEventListener("click", function(e){
+  const card = e.target.closest(".polaroid");
+  if(!card) return;
+
+  setupVideoGallery();
+
+  xmasAudio.pause();
+
+  videoIndex = videoList.indexOf(card);
+  showVideo(videoIndex);
+
+  videoModal.style.display = "flex";
+});
+
+/* arrows */
+videoNext.onclick = () => showVideo(videoIndex + 1);
+videoPrev.onclick = () => showVideo(videoIndex - 1);
+
+/* keyboard */
+document.addEventListener("keydown", e=>{
+  if(videoModal.style.display !== "flex") return;
+
+  if(e.key === "ArrowRight") showVideo(videoIndex + 1);
+  if(e.key === "ArrowLeft") showVideo(videoIndex - 1);
+});
+
+/* swipe */
+let videoStartX = 0;
+
+drivePlayer.addEventListener("touchstart", e=>{
+  videoStartX = e.touches[0].clientX;
+});
+
+drivePlayer.addEventListener("touchend", e=>{
+  const diff = videoStartX - e.changedTouches[0].clientX;
+
+  if(Math.abs(diff) > 50){
+    if(diff > 0) showVideo(videoIndex + 1);
+    else showVideo(videoIndex - 1);
+  }
+});
+
+/* close */
+function closeVideoModal(){
+  drivePlayer.src = "";
+  videoModal.style.display = "none";
+  xmasAudio.play();
+}
+
+videoClose.onclick = closeVideoModal;
+
+videoModal.onclick = (e)=>{
+  if(e.target === videoModal) closeVideoModal();
+};
+
+</script>
+</body>
+</html>

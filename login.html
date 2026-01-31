@@ -1,9 +1,11 @@
+<!--Added auth.js file and added logged in = true flag so you can't go back on browser, when you do it goes to login once logged out, added script line to all & edited logout function-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>🔐 Login 💖</title>
+
   <style>
     body {
       margin: 0;
@@ -66,6 +68,7 @@
     }
   </style>
 </head>
+
 <body>
 
   <div class="card">
@@ -82,16 +85,30 @@
       { username: "Yume7", password: "miraculous" }
     ];
 
+    /* ===============================
+       If already logged in, skip login
+    =============================== */
+    if (sessionStorage.getItem("loggedIn") === "true") {
+      window.location.replace("dashboard.html");
+    }
+
     function login() {
       const username = document.getElementById("username").value;
       const password = document.getElementById("password").value;
-      const found = users.find(u => u.username === username && u.password === password);
+
+      const found = users.find(
+        u => u.username === username && u.password === password
+      );
 
       if (found) {
-        // Redirect to main index/dashboard
-        window.location.href = "dashboard.html";
+        /* ✅ SET LOGIN FLAG */
+        sessionStorage.setItem("loggedIn", "true");
+
+        /* ✅ Replace so login page not in history */
+        window.location.replace("dashboard.html");
       } else {
-        document.getElementById("error").textContent = "Invalid username or password";
+        document.getElementById("error").textContent =
+          "Invalid username or password";
       }
     }
   </script>

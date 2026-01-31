@@ -52,6 +52,8 @@
 <!-- ================= HOME ================= -->
 <div class="card page" id="home" style="display:block;">
   <h1>2023</h1>
+  <p>Select an event:</p>
+  <button class="logout-btn" onclick="logout()">Logout</button>
 
   <div class="tiles">
     <div class="tile" onclick="openBirthday()">🎂 Birthday</div>
@@ -189,6 +191,7 @@
   <button class="nav next" onclick="nextPhoto()">❯</button>
 </div>
 
+<script src="auth.js"></script>
 
 <script>
 
@@ -224,10 +227,14 @@ function goHome(){
 }
 
 function goDashboard(){
-  window.location.href = "dashboard.html";
+  window.location.href = "index.html";
 }
 
-
+function logout(){
+  sessionStorage.clear();
+  localStorage.clear();
+  window.location.replace("login.html");
+}
 
 /* =====================================================
    OPEN SECTIONS
