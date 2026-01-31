@@ -102,68 +102,47 @@
 }
 
 /* ⭐ LANDSCAPE SPECIAL FIX */
+/* =========================================
+   MOBILE LANDSCAPE – Birthday flower slightly bigger
+========================================= */
 @media (max-height:500px) and (orientation:landscape){
 
+  /* increase flower size */
   #flower2021{
-    width: 60vh; /* smaller circle */
+    width: 70vh; /* was 60vh */
+    height: 70vh; /* match width for square container */
   }
 
-  /* shrink centre so petals don't hide behind it */
-  #flower2021 .flower-center{
-    width: 28vh;
-    height: 28vh;
-  }
-
-  /* petals slightly smaller too */
+  /* petals bigger and closer to center */
   #flower2021 .flower-petal{
-    width: 13vh;
-    height: 13vh;
+    width: 14.5vh; /* was 13vh */
+    height: 14.5vh;
   }
-}
 
-/* Landscape mobile: flow naturally, no forced absolute centering */
-@media (max-height:500px) and (orientation:landscape){
-  #home,
-  #cardPage,
-  #christmasCardPage {
-    position: relative !important;
-    top: 10vh;
-    left: auto;
-    transform: none;
-    margin: 0 auto;
-    padding-bottom: 1.5rem;
+  /* center card slightly bigger to fill flower nicely */
+  #flower2021 .flower-center{
+    width: 30vh; /* was 28vh */
+    height: 30vh;
   }
-}
 
-/* ================= MOBILE LANDSCAPE BIRTHDAY LAYOUT TIGHTER ================= */
-@media (max-height:500px) and (orientation:landscape) {
-
-  /* make birthday page a flex column with tighter spacing */
+  /* maintain spacing for birthday page layout */
   #cardPage {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between; /* spread sections evenly */
-    align-items: center;
-    padding: 0.5rem 1rem; /* reduce top/bottom padding */
-    height: auto; /* let content define height */
+    padding: 0.5rem 1rem;
     margin: 0 auto;
   }
 
-  /* title + subtitle */
   #cardPage h1,
   #cardPage p {
     margin: 0.25rem 0;
     text-align: center;
   }
 
-  /* flower container tighter spacing */
   #flower2021 {
-    margin: 0.5rem auto; /* reduce vertical margins */
+    margin: 0.5rem auto;
   }
 
-  /* back button closer to flower */
   #cardPage .back-btn {
-    margin-top: 0.5rem; 
+    margin-top: 0.5rem;
     margin-bottom: 0.5rem;
   }
 }
