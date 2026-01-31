@@ -102,7 +102,6 @@
 ========================================= */
 @media (max-height:500px) and (orientation:landscape){
 
-  /* stop absolute + transform centering */
   #home,
   #cardPage,
   #christmasCardPage{
@@ -111,22 +110,26 @@
     top: auto !important;
     left: auto !important;
 
-    /* ⭐ CRITICAL — kill flex centering */
-    display: block !important;
-
-    width: 100%;
-    max-width: 900px;
+    width: min(900px, 100%);
     margin: 0 auto;
 
     padding: 0.5rem 0.75rem;
+
+    /* ⭐ THE REAL GAP FIX */
+    height: auto !important;
+    min-height: auto !important;
   }
 
-  /* remove default heading/paragraph space */
-  h1, p{
-    margin: 0.25rem 0;
+  #cardPage h1,
+  #christmasCardPage h1{
+    margin: 0.2rem 0;
   }
 
-  /* tighten flower */
+  #cardPage p,
+  #christmasCardPage p{
+    margin: 0.15rem 0;
+  }
+
   #flower2021{
     margin: 0.25rem auto;
     width: 60vh;
@@ -142,12 +145,11 @@
     height: 28vh;
   }
 
-  /* button close */
-  .back-btn{
-    margin: 0.25rem auto;
+  #cardPage .back-btn,
+  #christmasCardPage .back-btn{
+    margin: 0.25rem auto 0.4rem;
   }
 }
-
 
 </style>
 
