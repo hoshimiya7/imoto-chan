@@ -1,4 +1,4 @@
-<!-- ================= 2021 isolated from index - working optimised + responsive working for desktop and mobile portrait not landscape ================= -->
+<!-- ================= 2021 isolated from index - working optimised + responsive working for desktop and mobile portrait, landscape partially as huge gaps ================= -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,147 +14,161 @@
 ========================================================= -->
 <style>
 
-/* ==============================
-   2021 Page – Responsive Styling
-============================== */
-
 /* limit page width nicely on desktop */
 #home,
 #cardPage,
-#christmasCardPage {
-  width: min(95vw, 900px);
-  margin: auto;
+#christmasCardPage{
+  width:min(95vw,900px);
+  margin:auto;
 }
 
 /* responsive headings */
 #home h1,
 #cardPage h1,
-#christmasCardPage h1 {
-  font-size: clamp(22px, 4vw, 40px);
-  text-align: center;
-  margin-bottom: 1rem;
+#christmasCardPage h1{
+  font-size:clamp(22px,4vw,40px);
 }
 
 /* responsive tiles */
-#home .tiles {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: 14px;
-  width: 100%;
+#home .tiles{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+  gap:14px;
+  width:100%;
 }
 
-/* =============================
-   Flower Container – 2021
-============================= */
-#flower2021 {
-  width: min(88vw, 500px);
+/* buttons stack better on mobile */
+/*.logout-btn,
+.back-btn{
+  width:min(100%,260px);
+}*/
+
+/* flower scales with screen */
+#flower2021{
+  width:min(90vw,500px);
+  height:min(90vw,500px);
+  margin:auto;
+}
+
+/* petals scale */
+#flower2021 .flower-petal{
+  width:clamp(45px,10vw,85px);
+  position:absolute;
+}
+
+/* christmas image responsive */
+.xmas-image-wrap img{
+  width:100%;
+  height:auto;
+  max-height:65vh;
+  object-fit:contain;
+}
+
+/* modal safe */
+.photo-modal img{
+  max-width:95vw;
+  max-height:85vh;
+}
+
+/* =========================================
+   2021 flower – improved sizing + landscape fix
+========================================= */
+
+/* container */
+#flower2021{
+  width: min(88vw, 560px);
   aspect-ratio: 1;
   position: relative;
   margin: 2rem auto;
 }
 
-/* ⭐ Petals */
-#flower2021 .flower-petal {
-  width: clamp(70px, 14vw, 130px);
-  height: clamp(70px, 14vw, 130px);
+/* ⭐ BIGGER petals */
+#flower2021 .flower-petal{
+  width: clamp(85px, 16vw, 165px);
+  height: clamp(85px, 16vw, 165px);
   border-radius: 50%;
   object-fit: cover;
-  position: absolute;
 }
 
-/* Center card */
-#flower2021 .flower-center {
-  width: clamp(120px, 28vw, 200px);
-  height: clamp(120px, 28vw, 200px);
-  padding: clamp(6px, 1.5vw, 12px);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
+/* centre scales nicely */
+#flower2021 .flower-center{
+  width: clamp(130px, 32vw, 230px);
+  height: clamp(130px, 32vw, 230px);
+
+  font-size: clamp(12px, 2.7vw, 18px);
+  padding: clamp(8px, 2vw, 18px);
+
   z-index: 5;
-  font-size: 0.9rem;
-  line-height: 1.2;
 }
 
-/* Text inside center scales with container */
-#flower2021 .flower-center .jp,
-#flower2021 .flower-center .romaji,
-#flower2021 .flower-center .en {
-  font-size: 0.85rem;
-  line-height: 1.1;
-  word-wrap: break-word;
+/* ⭐ LANDSCAPE SPECIAL FIX */
+@media (max-height:500px) and (orientation:landscape){
+
+  #flower2021{
+    width: 60vh; /* smaller circle */
+  }
+
+  /* shrink centre so petals don't hide behind it */
+  #flower2021 .flower-center{
+    width: 28vh;
+    height: 28vh;
+  }
+
+  /* petals slightly smaller too */
+  #flower2021 .flower-petal{
+    width: 13vh;
+    height: 13vh;
+  }
 }
 
-/* =============================
-   Christmas Image & Modal
-============================= */
-.xmas-image-wrap img {
-  width: 100%;
-  height: auto;
-  max-height: 65vh;
-  object-fit: contain;
+/* Landscape mobile: flow naturally, no forced absolute centering */
+@media (max-height:500px) and (orientation:landscape){
+  #home,
+  #cardPage,
+  #christmasCardPage {
+    position: relative !important;
+    top: 10vh;
+    left: auto;
+    transform: none;
+    margin: 0 auto;
+    padding-bottom: 1.5rem;
+  }
 }
 
-.photo-modal img {
-  max-width: 95vw;
-  max-height: 85vh;
-}
+/* ================= MOBILE LANDSCAPE BIRTHDAY LAYOUT TIGHTER ================= */
+@media (max-height:500px) and (orientation:landscape) {
 
-/* =============================
-   LANDSCAPE – Flower Fills Screen
-============================= */
-@media (orientation: landscape) {
-
-  /* keep page content from refreshing / overflowing */
-  body, html {
-    overflow: hidden;
-    height: 100%;
-    width: 100%;
+  /* make birthday page a flex column with tighter spacing */
+  #cardPage {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* spread sections evenly */
+    align-items: center;
+    padding: 0.5rem 1rem; /* reduce top/bottom padding */
+    height: auto; /* let content define height */
+    margin: 0 auto;
   }
 
-  /* flower container fills most of screen height */
-  #flower2021 {
-    margin: 1rem auto;
-    width: 95vh;    /* landscape height */
-    height: 95vh;
-    aspect-ratio: 1;
-  }
-
-  /* petals bigger and closer to center */
-  #flower2021 .flower-petal {
-    width: 18vh;
-    height: 18vh;
-  }
-
-  /* center card smaller to fit petals */
-  #flower2021 .flower-center {
-    width: 22vh;
-    height: 22vh;
-    font-size: 1rem;
-    padding: 0.6rem;
-  }
-
-  /* center text slightly smaller */
-  #flower2021 .flower-center .jp,
-  #flower2021 .flower-center .romaji,
-  #flower2021 .flower-center .en {
-    font-size: 0.85rem;
-  }
-
-  /* keep titles and back button visible */
+  /* title + subtitle */
   #cardPage h1,
-  #christmasCardPage h1,
-  #home h1,
-  .back-btn {
-    position: relative;
-    z-index: 10;
+  #cardPage p {
+    margin: 0.25rem 0;
+    text-align: center;
+  }
+
+  /* flower container tighter spacing */
+  #flower2021 {
+    margin: 0.5rem auto; /* reduce vertical margins */
+  }
+
+  /* back button closer to flower */
+  #cardPage .back-btn {
+    margin-top: 0.5rem; 
+    margin-bottom: 0.5rem;
   }
 }
-
 
 </style>
-
 </head>
 
 <body>
@@ -245,7 +259,7 @@
   <button class="nav next">&#10095;</button>
 </div>
 
-<script src="auth.js"></script>
+<!--<script src="auth.js"></script>-->
 
 <script>
 
