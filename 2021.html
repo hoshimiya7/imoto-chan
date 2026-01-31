@@ -102,7 +102,7 @@
 ========================================= */
 @media (max-height:500px) and (orientation:landscape){
 
-  /* ⭐ STOP vertical centering from shared styles.css */
+  /* normal document flow (keep your previous fix) */
   #home,
   #cardPage,
   #christmasCardPage{
@@ -112,28 +112,30 @@
     left: auto !important;
 
     width: min(900px, 100%);
-    margin: 0.5rem auto;
-    padding: 0.5rem 1rem;
+    margin: 0 auto;
+
+    /* ⭐ BIGGEST GAP FIX */
+    padding: 0.5rem 0.75rem;   /* was 2rem from .card */
   }
 
-  /* allow real scrolling */
-  body{
-    height: auto;
-    overflow-y: auto;
-  }
-
-  /* tighten vertical spacing only */
+  /* remove default spacing */
   #cardPage h1,
   #christmasCardPage h1{
-    margin-top: 0.25rem;
-    margin-bottom: 0.25rem;
+    margin: 0.2rem 0;
   }
 
+  #cardPage p,
+  #christmasCardPage p{
+    margin: 0.15rem 0;
+  }
+
+  /* flower tighter */
   #flower2021{
     margin: 0.25rem auto;
     width: 60vh;
   }
 
+  /* petals + centre scale */
   #flower2021 .flower-petal{
     width: 13vh;
     height: 13vh;
@@ -144,8 +146,10 @@
     height: 28vh;
   }
 
-  #cardPage .back-btn{
-    margin: 0.25rem 0;
+  /* button closer */
+  #cardPage .back-btn,
+  #christmasCardPage .back-btn{
+    margin: 0.25rem auto 0.4rem;
   }
 }
 
