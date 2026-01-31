@@ -1,4 +1,4 @@
-<!-- ================= 2021 isolated from index - working optimised + responsive ================= -->
+<!-- ================= 2021 isolated from index - working optimised + responsive working for desktop and mobile portrait not landscape ================= -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -70,49 +70,54 @@
   max-height:85vh;
 }
 
-/* small landscape phones */
-@media (max-height:500px) and (orientation:landscape){
-  #flower2021{
-    width:70vh;
-    height:70vh;
-  }
-}
-
 /* =========================================
-   2021 ONLY – perfectly circular flower
-   safe overrides (scoped to #flower2021)
+   2021 flower – improved sizing + landscape fix
 ========================================= */
 
-/* container stays perfectly square */
+/* container */
 #flower2021{
   width: min(88vw, 560px);
   aspect-ratio: 1;
-  height: auto;
   position: relative;
   margin: 2rem auto;
 }
 
-/* petals scale + stay perfect circles */
+/* ⭐ BIGGER petals */
 #flower2021 .flower-petal{
-  width: clamp(70px, 14vw, 140px);
-  height: clamp(70px, 14vw, 140px);
+  width: clamp(85px, 16vw, 165px);
+  height: clamp(85px, 16vw, 165px);
   border-radius: 50%;
   object-fit: cover;
 }
 
-/* message card scales WITH flower */
+/* centre scales nicely */
 #flower2021 .flower-center{
-  width: clamp(130px, 32vw, 220px);
-  height: clamp(130px, 32vw, 220px);
+  width: clamp(130px, 32vw, 230px);
+  height: clamp(130px, 32vw, 230px);
 
   font-size: clamp(12px, 2.7vw, 18px);
   padding: clamp(8px, 2vw, 18px);
+
+  z-index: 5;
 }
 
-/* better spacing on short landscape screens */
+/* ⭐ LANDSCAPE SPECIAL FIX */
 @media (max-height:500px) and (orientation:landscape){
+
   #flower2021{
-    width: 65vh;
+    width: 60vh; /* smaller circle */
+  }
+
+  /* shrink centre so petals don't hide behind it */
+  #flower2021 .flower-center{
+    width: 28vh;
+    height: 28vh;
+  }
+
+  /* petals slightly smaller too */
+  #flower2021 .flower-petal{
+    width: 13vh;
+    height: 13vh;
   }
 }
 
@@ -252,7 +257,11 @@ function positionPetals(containerId) {
   const centerY = container.clientHeight / 2;
 
   //const radius = 190;
-  const radius = Math.min(container.clientWidth, container.clientHeight) * 0.45;
+  const radius = Math.min(container.clientWidth, container.clientHeight) * 0.46;
+  const centerSize = container.querySelector(".flower-center").clientWidth;
+  const safeGap = centerSize/2 + petals[0].clientWidth/2 + 10;
+
+  const finalRadius = Math.max(radius, safeGap);
 
   const petalCount = petals.length;
 
@@ -264,7 +273,7 @@ function positionPetals(containerId) {
     petals.forEach((petal, i) => {
       const angle = (2 * Math.PI / petalCount) * i + angleOffset;
 
-      const x = centerX + radius * Math.cos(angle) - petal.clientWidth / 2;
+      const x = centerX + finalRadius * Math.cos(angle) - petal.clientWidth / 2;
       const y = centerY + radius * Math.sin(angle) - petal.clientHeight / 2;
 
       // ONLY move — no rotation
