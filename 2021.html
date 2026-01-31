@@ -9,10 +9,8 @@
 
 <link rel="stylesheet" href="styles.css">
 
-<!-- =========================================================
-     ✅ 2021 ONLY RESPONSIVE CSS (SAFE — won't affect others)
-========================================================= -->
 <style>
+/* ================= 2021 ONLY RESPONSIVE CSS ================= */
 
 /* limit page width nicely on desktop */
 #home,
@@ -37,33 +35,6 @@
   width:100%;
 }
 
-/* flower scales with screen */
-#flower2021{
-  width:min(90vw,500px);
-  height:min(90vw,500px);
-  margin:auto;
-}
-
-/* petals scale */
-#flower2021 .flower-petal{
-  width:clamp(45px,10vw,85px);
-  height:clamp(45px,10vw,85px);
-  position:absolute;
-  border-radius:50%;
-  object-fit:cover;
-}
-
-/* centre scales nicely */
-#flower2021 .flower-center{
-  width: clamp(130px, 32vw, 230px);
-  height: clamp(130px, 32vw, 230px);
-
-  font-size: clamp(12px, 2.7vw, 18px);
-  padding: clamp(8px, 2vw, 18px);
-
-  z-index: 5;
-}
-
 /* christmas image responsive */
 .xmas-image-wrap img{
   width:100%;
@@ -78,9 +49,7 @@
   max-height:85vh;
 }
 
-/* =========================================
-   2021 flower – improved sizing + landscape fix
-========================================= */
+/* ================= FLOWER ================= */
 
 /* container */
 #flower2021{
@@ -88,35 +57,44 @@
   aspect-ratio: 1;
   position: relative;
   margin: 2rem auto;
+  display: none; /* hide initially */
 }
 
-/* ⭐ BIGGER petals */
+/* petals */
 #flower2021 .flower-petal{
   width: clamp(85px, 16vw, 165px);
   height: clamp(85px, 16vw, 165px);
+  position:absolute;
+  border-radius:50%;
+  object-fit:cover;
 }
 
-/* ⭐ center */
+/* centre */
 #flower2021 .flower-center{
   width: clamp(130px, 32vw, 230px);
   height: clamp(130px, 32vw, 230px);
+
+  font-size: clamp(12px, 2.7vw, 18px);
+  padding: clamp(8px, 2vw, 18px);
+
+  z-index: 5;
 }
 
-/* ⭐ MOBILE LANDSCAPE: bigger flower + petals */
+/* ================= MOBILE LANDSCAPE FLOWER ================= */
 @media (max-height:500px) and (orientation:landscape){
 
   #flower2021{
-    width: 90vh; /* bigger than previous 60vh */
-    margin: 0.5rem auto; /* tighter spacing */
+    width: 90vh; 
+    margin: 0.5rem auto; 
   }
 
   #flower2021 .flower-center{
-    width: 42vh; /* bigger than previous 28vh */
+    width: 42vh; 
     height: 42vh;
   }
 
   #flower2021 .flower-petal{
-    width: 25vh; /* bigger than previous 13vh */
+    width: 25vh; 
     height: 25vh;
   }
 
@@ -158,8 +136,6 @@
 
 }
 
-/* ================= MOBILE LANDSCAPE BIRTHDAY LAYOUT TIGHTER ================= */
-
 </style>
 </head>
 
@@ -188,7 +164,7 @@
 </div>
 
 <!-- ================= BIRTHDAY ================= -->
-<div class="card page" id="cardPage">
+<div class="card page" id="cardPage" style="display:none;">
   <h1>2021 Birthday 🎂</h1>
   <p>Celebration and memories of 2021.</p>
   <div class="flower-container" id="flower2021">
@@ -208,7 +184,7 @@
 </div>
 
 <!-- ================= CHRISTMAS ================= -->
-<div class="card page" id="christmasCardPage">
+<div class="card page" id="christmasCardPage" style="display:none;">
   <h1>2021 Christmas 🎄</h1>
 
   <div class="xmas-photo-card">
@@ -255,6 +231,7 @@ let snowInterval = null;
 ===================================================== */
 function hideAll(){
   document.querySelectorAll(".page").forEach(p=>p.style.display="none");
+  document.getElementById("flower2021").style.display = "none"; // hide flower always
   stopEffects();
 }
 
@@ -286,7 +263,7 @@ function positionPetals(containerId) {
   let angleOffset = 0;
 
   function animate() {
-    angleOffset += 0.003; // speed
+    angleOffset += 0.003;
 
     petals.forEach((petal, i) => {
       const angle = (2 * Math.PI / petalCount) * i + angleOffset;
@@ -310,7 +287,11 @@ function positionPetals(containerId) {
 function openBirthday(){
   hideAll();
 
-  document.getElementById("cardPage").style.display="block";
+  const cardPage = document.getElementById("cardPage");
+  cardPage.style.display="block";
+
+  const flower = document.getElementById("flower2021");
+  flower.style.display = "block";
 
   bdayAudio.play();
   startConfetti();
@@ -402,12 +383,10 @@ const prevBtn = document.querySelector(".prev");
 let currentIndex = 0;
 let galleryImages = [];
 
-/* setup gallery from selector */
 function setupGallery(selector){
   galleryImages = Array.from(document.querySelectorAll(selector));
 }
 
-/* show image */
 function showImage(index){
   if(index < 0) index = galleryImages.length - 1;
   if(index >= galleryImages.length) index = 0;
@@ -422,7 +401,7 @@ function showImage(index){
   },120);
 }
 
-/* ========= CLICK HANDLER ========= */
+/* click handler */
 document.addEventListener("click", function(e){
   if(e.target.classList.contains("flower-petal")){
     setupGallery("#flower2021 .flower-petal");
@@ -453,11 +432,8 @@ prevBtn.onclick = () => showImage(currentIndex - 1);
 /* close */
 closeBtn.onclick = () => modal.style.display = "none";
 modal.onclick = (e)=>{ if(e.target === modal) modal.style.display="none"; };
-
-/* keyboard */
 document.addEventListener("keydown", (e)=>{
   if(modal.style.display !== "flex") return;
-
   if(e.key === "ArrowRight") showImage(currentIndex + 1);
   if(e.key === "ArrowLeft") showImage(currentIndex - 1);
   if(e.key === "Escape") modal.style.display="none";
@@ -465,22 +441,18 @@ document.addEventListener("keydown", (e)=>{
 
 /* swipe */
 let startX = 0;
-
 preview.addEventListener("touchstart", e=>{
   startX = e.touches[0].clientX;
 });
-
 preview.addEventListener("touchend", e=>{
   let endX = e.changedTouches[0].clientX;
   let diff = startX - endX;
-
   if(Math.abs(diff) > 50){
     if(diff > 0) showImage(currentIndex + 1);
     else showImage(currentIndex - 1);
   }
 });
 
-/* show/hide arrows */
 function setNavVisible(show){
   nextBtn.style.display = show ? "block" : "none";
   prevBtn.style.display = show ? "block" : "none";
