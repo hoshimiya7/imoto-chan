@@ -100,58 +100,37 @@
 }
 
 /* =============================
-   Landscape Special Fix
+   Landscape – Make Flower Fill Screen
 ============================= */
 @media (max-height:500px) and (orientation:landscape) {
 
-  .page {
-    position: static !important;
-    transform: none !important;
-    top: auto !important;
-    left: auto !important;
-  }
-
-  #home,
-  #cardPage,
-  #christmasCardPage {
-    width: min(900px, 100%);
-    margin: 0 auto;
-    padding: 0.5rem 0.75rem;
-  }
-
-  /* 🌸 Flower container */
+  /* flower container fills most of height */
   #flower2021 {
-    margin: 0.5rem auto;
-    width: 45vh;  /* keep within viewport height */
-    height: 45vh;        
+    margin: 1rem auto;
+    width: 90vh;     /* fills landscape height */
+    height: 90vh;
     aspect-ratio: 1;
   }
 
-  /* ⭐ Petals slightly smaller to fit center */
+  /* petals scale proportionally */
   #flower2021 .flower-petal {
-    width: 8vh;
-    height: 8vh;
+    width: 15vh;
+    height: 15vh;
   }
 
-  /* 🌼 Center card smaller */
+  /* center card scales down to fit flower */
   #flower2021 .flower-center {
-    width: 16vh;
-    height: 16vh;
-    padding: 0.4rem;
-    font-size: 0.9rem;
+    width: 22vh;
+    height: 22vh;
+    font-size: 1rem;
+    padding: 0.5rem;
   }
 
-  /* Scale text inside center card */
+  /* center text scales */
   #flower2021 .flower-center .jp,
   #flower2021 .flower-center .romaji,
   #flower2021 .flower-center .en {
-    font-size: calc(0.7 * 0.9rem);
-  }
-
-  /* Back button spacing */
-  #cardPage .back-btn,
-  #christmasCardPage .back-btn {
-    margin: 0.25rem auto 0.4rem;
+    font-size: calc(0.7 * 1rem);
   }
 }
 
