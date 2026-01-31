@@ -148,98 +148,63 @@
 }
 
 /* ================= MOBILE LANDSCAPE SCROLL FIX ================= */
-@media (max-height:500px) and (orientation:landscape){
-
-  /* allow pages to scroll naturally */
-  .page {
-    height: auto !important;
-    min-height: 100vh;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch; /* smooth scroll on iOS */
-  }
-
-  /* avoid huge vertical margins pushing title off-screen */
-  #cardPage,
-  #christmasCardPage {
-    padding-top: 1rem; /* small top padding */
-    padding-bottom: 1rem;
-    margin-top: 0;
-    margin-bottom: 0;
-  }
-
-  /* shrink flower slightly if needed to fit screen */
-  #flower2021{
-    max-height: 80vh; /* prevent overflowing viewport */
-  }
-
-  /* keep back button and spacing reasonable */
-  #cardPage .back-btn {
-    margin-top: 0.5rem;
-    margin-bottom: 0.5rem;
-  }
-}
-
-/* ================= MOBILE LANDSCAPE – smart flower sizing ================= */
 @media (max-height:500px) and (orientation:landscape) {
 
-  /* allow page to scroll if content overflows */
-  .page {
-    height: auto !important;
-    min-height: 100vh;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch; /* smooth scroll on iOS */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  /* card page spacing */
+  /* make page a column flex container */
   #cardPage,
   #christmasCardPage {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* start at top */
+    align-items: center;
+    height: 100vh;              /* full viewport height */
     padding: 0.5rem 1rem;
-    margin: 0;
-    justify-content: flex-start; /* start from top */
+    overflow-y: auto;           /* scroll if needed */
+    -webkit-overflow-scrolling: touch; /* smooth iOS scroll */
   }
 
-  /* flower container – scale to fit remaining viewport */
-  #flower2021 {
-    width: auto;
-    height: calc(100vh - 4rem); /* subtract space for title & back button */
-    max-width: 80vw;           /* don't overflow horizontally */
-    max-height: calc(100vh - 4rem);
-    margin: 1rem auto;         /* keep top/bottom spacing */
-  }
-
-  /* petals scale relative to flower */
-  #flower2021 .flower-petal{
-    width: calc(18%);   /* scale with container width */
-    height: calc(18%);
-  }
-
-  /* center card scales nicely */
-  #flower2021 .flower-center{
-    width: 25%;
-    height: 25%;
-    font-size: 1rem;
-    padding: 0.5rem;
-  }
-
-  /* title and text always visible */
+  /* title and subtitle always visible */
   #cardPage h1,
   #cardPage p,
   #christmasCardPage h1,
   #christmasCardPage p {
     margin: 0.25rem 0;
     text-align: center;
+    flex-shrink: 0; /* prevent shrinking */
   }
 
-  /* back button reasonable spacing */
+  /* flower fills remaining space but stays inside viewport */
+  #flower2021 {
+    flex-grow: 1;        /* fill remaining space */
+    max-height: calc(100vh - 6rem); /* leave room for title + back */
+    width: auto;
+    max-width: 80vw;     /* prevent horizontal overflow */
+    margin: 0.5rem auto;
+  }
+
+  /* petals scale with container */
+  #flower2021 .flower-petal {
+    width: 18%;
+    height: 18%;
+  }
+
+  /* center card relative to flower */
+  #flower2021 .flower-center {
+    width: 25%;
+    height: 25%;
+    font-size: 1rem;
+    padding: 0.5rem;
+  }
+
+  /* back button spacing */
   #cardPage .back-btn,
   #christmasCardPage .back-btn {
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
+    flex-shrink: 0; /* keep visible */
   }
 }
+
 
 </style>
 </head>
