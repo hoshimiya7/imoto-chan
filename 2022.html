@@ -30,13 +30,31 @@
 }
 
 /* Birthday card container scales with viewport */
-#cardPage .birthday-card-container {
+/*#cardPage .birthday-card-container {
   width: min(90vw, 420px);
-  aspect-ratio: 1414 / 2000;
+  aspect-ratio: 707 / 1000;
   margin: 2rem auto;
   position: relative;
   perspective: 1200px;
+}*/
+
+/* ================= BIRTHDAY CARD (desktop default) ================= */
+#cardPage .birthday-card-container {
+  width: 420px;     /* desktop normal size */
+  height: 740px;    /* keep same proportions as your original */
+  margin: 2rem auto;
+  perspective: 1500px;
+  position: relative;
 }
+
+/* ================= MOBILE ONLY (match Christmas ratio) ================= */
+@media (max-width: 600px) {
+  #cardPage .birthday-card-container {
+    width: 220px;   /* same as christmas */
+    height: 390px;  /* same as christmas */
+  }
+}
+
 
 /* Horizontal card spread after flip stays within container */
 #cardPage .card-horizontal {
