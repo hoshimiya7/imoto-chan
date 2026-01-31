@@ -14,95 +14,97 @@
 ========================================================= -->
 <style>
 
+/* ==============================
+   2021 Page – Responsive Styling
+============================== */
+
 /* limit page width nicely on desktop */
 #home,
 #cardPage,
-#christmasCardPage{
-  width:min(95vw,900px);
-  margin:auto;
+#christmasCardPage {
+  width: min(95vw, 900px);
+  margin: auto;
 }
 
 /* responsive headings */
 #home h1,
 #cardPage h1,
-#christmasCardPage h1{
-  font-size:clamp(22px,4vw,40px);
+#christmasCardPage h1 {
+  font-size: clamp(22px, 4vw, 40px);
 }
 
 /* responsive tiles */
-#home .tiles{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
-  gap:14px;
-  width:100%;
+#home .tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 14px;
+  width: 100%;
 }
 
-/* flower scales with screen */
-#flower2021{
-  width:min(90vw,500px);
-  height:min(90vw,500px);
-  margin:auto;
-}
-
-/* petals scale */
-#flower2021 .flower-petal{
-  width:clamp(45px,10vw,85px);
-  position:absolute;
-}
-
-/* christmas image responsive */
-.xmas-image-wrap img{
-  width:100%;
-  height:auto;
-  max-height:65vh;
-  object-fit:contain;
-}
-
-/* modal safe */
-.photo-modal img{
-  max-width:95vw;
-  max-height:85vh;
-}
-
-
-/* =========================================
-   2021 flower – improved sizing
-========================================= */
-
-/* container */
-#flower2021{
-  width: min(88vw, 560px);
+/* =============================
+   Flower Container – 2021
+============================= */
+#flower2021 {
+  width: min(88vw, 500px);
   aspect-ratio: 1;
   position: relative;
   margin: 2rem auto;
 }
 
-/* ⭐ BIGGER petals */
-#flower2021 .flower-petal{
-  width: clamp(85px, 16vw, 165px);
-  height: clamp(85px, 16vw, 165px);
+/* ⭐ Petals */
+#flower2021 .flower-petal {
+  width: clamp(60px, 12vw, 120px);
+  height: clamp(60px, 12vw, 120px);
   border-radius: 50%;
   object-fit: cover;
+  position: absolute;
 }
 
-/* centre scales nicely */
-#flower2021 .flower-center{
-  width: clamp(130px, 32vw, 230px);
-  height: clamp(130px, 32vw, 230px);
-
-  font-size: clamp(12px, 2.7vw, 18px);
-  padding: clamp(8px, 2vw, 18px);
-
+/* Center card */
+#flower2021 .flower-center {
+  width: clamp(120px, 28vw, 200px);
+  height: clamp(120px, 28vw, 200px);
+  padding: clamp(6px, 1.5vw, 12px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
   z-index: 5;
+  font-size: 1rem;
+  line-height: 1.2;
 }
 
+/* Text inside center scales with container */
+#flower2021 .flower-center .jp,
+#flower2021 .flower-center .romaji,
+#flower2021 .flower-center .en {
+  font-size: calc(0.8 * 1rem);
+  line-height: 1.1;
+  word-wrap: break-word;
+}
 
-/* =========================================
-   ⭐ LANDSCAPE SPECIAL FIX
-========================================= */
-@media (max-height:500px) and (orientation:landscape){
+/* =============================
+   Christmas Image & Modal
+============================= */
+.xmas-image-wrap img {
+  width: 100%;
+  height: auto;
+  max-height: 65vh;
+  object-fit: contain;
+}
 
-  .page{
+.photo-modal img {
+  max-width: 95vw;
+  max-height: 85vh;
+}
+
+/* =============================
+   Landscape Special Fix
+============================= */
+@media (max-height:500px) and (orientation:landscape) {
+
+  .page {
     position: static !important;
     transform: none !important;
     top: auto !important;
@@ -111,37 +113,44 @@
 
   #home,
   #cardPage,
-  #christmasCardPage{
+  #christmasCardPage {
     width: min(900px, 100%);
     margin: 0 auto;
     padding: 0.5rem 0.75rem;
   }
 
   /* 🌸 Flower container */
-  #flower2021{
-    margin: 0.25rem auto;
+  #flower2021 {
+    margin: 0.5rem auto;
+    width: 45vh;  /* keep within viewport height */
+    height: 45vh;        
+    aspect-ratio: 1;
+  }
 
-    width: 50vh;  /* keeps everything fitting */
-    height: 50vh;        
-    aspect-ratio: 1;     
+  /* ⭐ Petals slightly smaller to fit center */
+  #flower2021 .flower-petal {
+    width: 8vh;
+    height: 8vh;
   }
 
   /* 🌼 Center card smaller */
-  #flower2021 .flower-center{
-    width: 18vh;
-    height: 18vh;
-    padding: 0.6rem;
+  #flower2021 .flower-center {
+    width: 16vh;
+    height: 16vh;
+    padding: 0.4rem;
+    font-size: 0.9rem;
   }
 
-  /* 📝 Scale down text inside center for landscape */
+  /* Scale text inside center card */
   #flower2021 .flower-center .jp,
   #flower2021 .flower-center .romaji,
-  #flower2021 .flower-center .en{
-    font-size: clamp(0.6rem, 1.5vw, 1rem);
+  #flower2021 .flower-center .en {
+    font-size: calc(0.7 * 0.9rem);
   }
 
+  /* Back button spacing */
   #cardPage .back-btn,
-  #christmasCardPage .back-btn{
+  #christmasCardPage .back-btn {
     margin: 0.25rem auto 0.4rem;
   }
 }
