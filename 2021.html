@@ -102,7 +102,6 @@
 ========================================= */
 @media (max-height:500px) and (orientation:landscape){
 
-  /* ⭐ disable page centering in landscape */
   .page{
     position: static !important;
     transform: none !important;
@@ -113,44 +112,16 @@
   #home,
   #cardPage,
   #christmasCardPage{
-    position: static !important;
-    transform: none !important;
-    top: auto !important;
-    left: auto !important;
-
     width: min(900px, 100%);
     margin: 0 auto;
-
     padding: 0.5rem 0.75rem;
-
-    /* ⭐ THE REAL GAP FIX */
-    height: auto !important;
-    min-height: auto !important;
-  }
-
-  #cardPage h1,
-  #christmasCardPage h1{
-    margin: 0.2rem 0;
-  }
-
-  #cardPage p,
-  #christmasCardPage p{
-    margin: 0.15rem 0;
   }
 
   #flower2021{
     margin: 0.25rem auto;
     width: 60vh;
-  }
-
-  #flower2021 .flower-petal{
-    width: 13vh;
-    height: 13vh;
-  }
-
-  #flower2021 .flower-center{
-    width: 28vh;
-    height: 28vh;
+    height: 60vh;        /* force square */
+    aspect-ratio: 1;     /* optional but ensures ratio stays */
   }
 
   #cardPage .back-btn,
@@ -158,6 +129,7 @@
     margin: 0.25rem auto 0.4rem;
   }
 }
+
 
 </style>
 
