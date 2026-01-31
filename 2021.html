@@ -102,17 +102,20 @@
 }
 
 /* ⭐ LANDSCAPE SPECIAL FIX */
-/* Landscape mobile: tighter layout */
 @media (max-height:500px) and (orientation:landscape){
 
   #home,
   #cardPage,
   #christmasCardPage {
-    position: relative !important;
-    top: 0;              /* ⭐ FIXED (was 10vh) */
-    transform: none;
+    box-sizing: border-box;   /* ⭐ KEY FIX */
+    width: 95vw;             /* keep consistent */
     margin: 0 auto;
-    padding: 0.5rem 1rem; /* smaller vertical padding */
+
+    position: relative !important;
+    top: 0;
+    transform: none;
+
+    padding: 0.5rem 1rem;
   }
 
   #flower2021{
