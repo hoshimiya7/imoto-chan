@@ -31,6 +31,8 @@
 #cardPage h1,
 #christmasCardPage h1 {
   font-size: clamp(22px, 4vw, 40px);
+  text-align: center;
+  margin-bottom: 1rem;
 }
 
 /* responsive tiles */
@@ -53,8 +55,8 @@
 
 /* ⭐ Petals */
 #flower2021 .flower-petal {
-  width: clamp(60px, 12vw, 120px);
-  height: clamp(60px, 12vw, 120px);
+  width: clamp(70px, 14vw, 130px);
+  height: clamp(70px, 14vw, 130px);
   border-radius: 50%;
   object-fit: cover;
   position: absolute;
@@ -71,7 +73,7 @@
   align-items: center;
   text-align: center;
   z-index: 5;
-  font-size: 1rem;
+  font-size: 0.9rem;
   line-height: 1.2;
 }
 
@@ -79,7 +81,7 @@
 #flower2021 .flower-center .jp,
 #flower2021 .flower-center .romaji,
 #flower2021 .flower-center .en {
-  font-size: calc(0.8 * 1rem);
+  font-size: 0.85rem;
   line-height: 1.1;
   word-wrap: break-word;
 }
@@ -104,33 +106,49 @@
 ============================= */
 @media (orientation: landscape) {
 
-  /* flower container fills almost full height */
+  /* keep page content from refreshing / overflowing */
+  body, html {
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+  }
+
+  /* flower container fills most of screen height */
   #flower2021 {
-    margin: 0 auto;
-    width: 95vh;    /* height of screen in landscape */
+    margin: 1rem auto;
+    width: 95vh;    /* landscape height */
     height: 95vh;
     aspect-ratio: 1;
   }
 
-  /* petals scale proportionally */
+  /* petals bigger and closer to center */
   #flower2021 .flower-petal {
-    width: 16vh;
-    height: 16vh;
+    width: 18vh;
+    height: 18vh;
   }
 
-  /* center card scales down to fit flower */
+  /* center card smaller to fit petals */
   #flower2021 .flower-center {
-    width: 25vh;
-    height: 25vh;
+    width: 22vh;
+    height: 22vh;
     font-size: 1rem;
     padding: 0.6rem;
   }
 
-  /* center text scales smaller */
+  /* center text slightly smaller */
   #flower2021 .flower-center .jp,
   #flower2021 .flower-center .romaji,
   #flower2021 .flower-center .en {
-    font-size: calc(0.7 * 1rem);
+    font-size: 0.85rem;
+  }
+
+  /* keep titles and back button visible */
+  #cardPage h1,
+  #christmasCardPage h1,
+  #home h1,
+  .back-btn {
+    position: relative;
+    z-index: 10;
   }
 }
 
