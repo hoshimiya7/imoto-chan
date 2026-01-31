@@ -135,6 +135,38 @@
   }
 }
 
+/* ================= MOBILE LANDSCAPE BIRTHDAY LAYOUT TIGHTER ================= */
+@media (max-height:500px) and (orientation:landscape) {
+
+  /* make birthday page a flex column with tighter spacing */
+  #cardPage {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* spread sections evenly */
+    align-items: center;
+    padding: 0.5rem 1rem; /* reduce top/bottom padding */
+    height: auto; /* let content define height */
+    margin: 0 auto;
+  }
+
+  /* title + subtitle */
+  #cardPage h1,
+  #cardPage p {
+    margin: 0.25rem 0;
+    text-align: center;
+  }
+
+  /* flower container tighter spacing */
+  #flower2021 {
+    margin: 0.5rem auto; /* reduce vertical margins */
+  }
+
+  /* back button closer to flower */
+  #cardPage .back-btn {
+    margin-top: 0.5rem; 
+    margin-bottom: 0.5rem;
+  }
+}
 
 </style>
 </head>
