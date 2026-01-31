@@ -12,6 +12,10 @@
 <style>
 /* ================= 2022 RESPONSIVE OVERRIDES ================= */
 
+.page {
+  padding-top: max(1rem, env(safe-area-inset-top));
+}
+
 /* ================= TILE LAYOUT ================= */
 
 #home .tiles,
@@ -35,7 +39,7 @@
    🎂 BIRTHDAY CARD – TRUE IMAGE RATIO (1414 x 2000)
    ========================================================= */
 
-/* Desktop default */
+/* Desktop */
 #cardPage .birthday-card-container {
   aspect-ratio: 1414 / 2000;
   width: 420px;
@@ -44,24 +48,31 @@
   position: relative;
 }
 
-/* Mobile portrait */
-@media (max-width: 600px) and (orientation: portrait) {
+
+/* ================= MOBILE PORTRAIT ================= */
+/* size by HEIGHT so full card always fits */
+@media (max-width: 768px) and (orientation: portrait) {
   #cardPage .birthday-card-container {
-    width: 70vw;
+    height: 70vh;      /* key fix */
+    width: auto;
   }
 }
 
-/* Mobile landscape */
-@media (max-width: 900px) and (orientation: landscape) {
+
+/* ================= MOBILE LANDSCAPE ================= */
+/* height is even smaller here */
+@media (max-width: 1024px) and (orientation: landscape) {
   #cardPage .birthday-card-container {
-    width: 40vw;
+    height: 75vh;
+    width: auto;
   }
 }
 
-/* very small phones */
-@media (max-width: 380px) {
+
+/* very small devices safety */
+@media (max-height: 600px) {
   #cardPage .birthday-card-container {
-    width: 80vw;
+    height: 65vh;
   }
 }
 
