@@ -102,71 +102,28 @@
 }
 
 /* ⭐ LANDSCAPE SPECIAL FIX */
+/* Landscape mobile: tighter layout */
 @media (max-height:500px) and (orientation:landscape){
 
-  #flower2021{
-    width: 60vh; /* smaller circle */
-  }
-
-  /* shrink centre so petals don't hide behind it */
-  #flower2021 .flower-center{
-    width: 28vh;
-    height: 28vh;
-  }
-
-  /* petals slightly smaller too */
-  #flower2021 .flower-petal{
-    width: 13vh;
-    height: 13vh;
-  }
-}
-
-/* Landscape mobile: flow naturally, no forced absolute centering */
-@media (max-height:500px) and (orientation:landscape){
   #home,
   #cardPage,
   #christmasCardPage {
     position: relative !important;
     top: 0;              /* ⭐ FIXED (was 10vh) */
-    left: auto;
     transform: none;
     margin: 0 auto;
     padding: 0.5rem 1rem; /* smaller vertical padding */
   }
-}
 
-/* ================= MOBILE LANDSCAPE BIRTHDAY LAYOUT TIGHTER ================= */
-@media (max-height:500px) and (orientation:landscape) {
-
-  /* make birthday page a flex column with tighter spacing */
-  #cardPage {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between; /* spread sections evenly */
-    align-items: center;
-    padding: 0.5rem 1rem; /* reduce top/bottom padding */
-    height: auto; /* let content define height */
-    margin: 0 auto;
+  #flower2021{
+    margin: 0.25rem auto;
   }
 
-  /* title + subtitle */
-  #cardPage h1,
-  #cardPage p {
+  #cardPage .back-btn{
     margin: 0.25rem 0;
-    text-align: center;
-  }
-
-  /* flower container tighter spacing */
-  #flower2021 {
-    margin: 0.05rem auto; /* reduce vertical margins */
-  }
-
-  /* back button closer to flower */
-  #cardPage .back-btn {
-    margin-top: 0.05rem; 
-    margin-bottom: 0.5rem;
   }
 }
+
 
 </style>
 </head>
