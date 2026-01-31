@@ -418,7 +418,7 @@ function flipCard2023() {
     cardFlip.style.transition="none";
     cardFlip.style.transform="none";
     [cardFront, cardInner1, cardInner2].forEach(c=>c.classList.add("card-horizontal"));
-    const spread = container.querySelector(".birthday-card-container").clientWidth * 0.45;
+    const spread = container.querySelector(".birthday-card-container").clientWidth * 1;
     cardFront.style.transform = `translateX(-${spread}px)`;
     cardInner1.style.transform = `translateX(0px)`;
     cardInner2.style.transform = `translateX(${spread}px)`;
