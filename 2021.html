@@ -14,15 +14,6 @@
 ========================================================= -->
 <style>
 
-/* =====================================================
-   ⭐ GLOBAL FIX — PREVENT HORIZONTAL OVERFLOW (petals)
-   MUST BE FIRST
-===================================================== */
-html, body{
-  overflow-x: hidden;
-}
-
-
 /* limit page width nicely on desktop */
 #home,
 #cardPage,
@@ -111,28 +102,44 @@ html, body{
 ========================================= */
 @media (max-height:500px) and (orientation:landscape){
 
+  /* DO NOT force widths */
   #home,
   #cardPage,
-  #christmasCardPage {
-    box-sizing: border-box;
-    width:95vw;
-    margin:0 auto;
+  #christmasCardPage{
+    width: min(900px, 100%);
+    margin: 0 auto;
+    padding: 0.5rem 0.75rem;
+  }
 
-    position:relative !important;
-    top:0;
-    transform:none;
-
-    padding:0.5rem 1rem;
+  /* tighten vertical spacing only */
+  #cardPage h1{
+    margin-bottom: 0.25rem;
   }
 
   #flower2021{
-    margin:0.25rem auto;
+    margin: 0.25rem auto;
   }
 
   #cardPage .back-btn{
-    margin:0.25rem 0;
+    margin-top: 0.25rem;
+  }
+
+  /* slightly smaller flower for short height */
+  #flower2021{
+    width: 60vh;
+  }
+
+  #flower2021 .flower-petal{
+    width: 13vh;
+    height: 13vh;
+  }
+
+  #flower2021 .flower-center{
+    width: 28vh;
+    height: 28vh;
   }
 }
+
 
 </style>
 
