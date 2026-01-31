@@ -121,6 +121,20 @@
   }
 }
 
+/* Landscape mobile: flow naturally, no forced absolute centering */
+@media (max-height:500px) and (orientation:landscape){
+  #home,
+  #cardPage,
+  #christmasCardPage {
+    position: relative !important; /* override absolute */
+    top: auto;
+    left: auto;
+    transform: none;
+    margin: 1rem auto; /* small vertical margins */
+    padding-bottom: 2rem; /* extra space for back button if needed */
+  }
+}
+
 </style>
 </head>
 
