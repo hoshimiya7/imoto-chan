@@ -168,63 +168,6 @@
   }
 }
 
-/* ⭐ MOBILE LANDSCAPE – slightly bigger flower, content still visible */
-@media (max-height:500px) and (orientation:landscape){
-
-  /* Page as flex column to manage spacing */
-  #cardPage,
-  #christmasCardPage {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start; /* start at top */
-    align-items: center;
-    height: 100vh;              /* full viewport height */
-    padding: 0.5rem 1rem;
-    overflow-y: auto;           /* scroll if needed */
-    -webkit-overflow-scrolling: touch; /* smooth scrolling on iOS */
-  }
-
-  /* title + text */
-  #cardPage h1,
-  #cardPage p,
-  #christmasCardPage h1 {
-    margin: 0.25rem 0;
-    text-align: center;
-    flex-shrink: 0; /* prevent shrinking */
-  }
-
-  /* flower grows to remaining space */
-  #flower2021 {
-    flex-grow: 1;
-    max-height: calc(100vh - 6rem); /* leave room for title + back button */
-    width: auto;
-    max-width: 75vw; /* prevent horizontal overflow */
-    margin: 0.5rem auto;
-  }
-
-  /* petals scale with flower size */
-  #flower2021 .flower-petal {
-    width: 18%;
-    height: 18%;
-  }
-
-  /* center card relative to flower */
-  #flower2021 .flower-center {
-    width: 25%;
-    height: 25%;
-    font-size: 1rem;
-    padding: 0.5rem;
-  }
-
-  /* back button spacing */
-  #cardPage .back-btn,
-  #christmasCardPage .back-btn {
-    margin-top: 0.5rem;
-    margin-bottom: 0.5rem;
-    flex-shrink: 0; /* keep visible */
-  }
-}
-
 </style>
 </head>
 
