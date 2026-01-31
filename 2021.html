@@ -179,6 +179,68 @@
   }
 }
 
+/* ================= MOBILE LANDSCAPE – smart flower sizing ================= */
+@media (max-height:500px) and (orientation:landscape) {
+
+  /* allow page to scroll if content overflows */
+  .page {
+    height: auto !important;
+    min-height: 100vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch; /* smooth scroll on iOS */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* card page spacing */
+  #cardPage,
+  #christmasCardPage {
+    padding: 0.5rem 1rem;
+    margin: 0;
+    justify-content: flex-start; /* start from top */
+  }
+
+  /* flower container – scale to fit remaining viewport */
+  #flower2021 {
+    width: auto;
+    height: calc(100vh - 4rem); /* subtract space for title & back button */
+    max-width: 80vw;           /* don't overflow horizontally */
+    max-height: calc(100vh - 4rem);
+    margin: 1rem auto;         /* keep top/bottom spacing */
+  }
+
+  /* petals scale relative to flower */
+  #flower2021 .flower-petal{
+    width: calc(18%);   /* scale with container width */
+    height: calc(18%);
+  }
+
+  /* center card scales nicely */
+  #flower2021 .flower-center{
+    width: 25%;
+    height: 25%;
+    font-size: 1rem;
+    padding: 0.5rem;
+  }
+
+  /* title and text always visible */
+  #cardPage h1,
+  #cardPage p,
+  #christmasCardPage h1,
+  #christmasCardPage p {
+    margin: 0.25rem 0;
+    text-align: center;
+  }
+
+  /* back button reasonable spacing */
+  #cardPage .back-btn,
+  #christmasCardPage .back-btn {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+}
+
 </style>
 </head>
 
@@ -551,21 +613,6 @@ function setNavVisible(show){
 
 window.addEventListener("resize", ()=>positionPetals("flower2021"));
 window.addEventListener("orientationchange", ()=>positionPetals("flower2021"));
-
-// Prevent pull-to-refresh / page refresh on mobile landscape
-let lastTouchY = 0;
-window.addEventListener('touchstart', function(e) {
-  lastTouchY = e.touches[0].clientY;
-}, {passive: false});
-
-window.addEventListener('touchmove', function(e) {
-  let touchY = e.touches[0].clientY;
-  let scrollable = document.scrollingElement.scrollTop > 0 || document.scrollingElement.scrollTop < document.scrollingElement.scrollHeight - window.innerHeight;
-
-  if(!scrollable && (touchY > lastTouchY)) {
-    e.preventDefault(); // stop pull-to-refresh
-  }
-}, {passive: false});
 
 </script>
 </body>
