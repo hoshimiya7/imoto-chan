@@ -552,6 +552,21 @@ function setNavVisible(show){
 window.addEventListener("resize", ()=>positionPetals("flower2021"));
 window.addEventListener("orientationchange", ()=>positionPetals("flower2021"));
 
+// Prevent pull-to-refresh / page refresh on mobile landscape
+let lastTouchY = 0;
+window.addEventListener('touchstart', function(e) {
+  lastTouchY = e.touches[0].clientY;
+}, {passive: false});
+
+window.addEventListener('touchmove', function(e) {
+  let touchY = e.touches[0].clientY;
+  let scrollable = document.scrollingElement.scrollTop > 0 || document.scrollingElement.scrollTop < document.scrollingElement.scrollHeight - window.innerHeight;
+
+  if(!scrollable && (touchY > lastTouchY)) {
+    e.preventDefault(); // stop pull-to-refresh
+  }
+}, {passive: false});
+
 </script>
 </body>
 </html>
