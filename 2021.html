@@ -126,18 +126,18 @@
     aspect-ratio: 1;     
   }
 
-  /* ⭐ Petals slightly bigger */
-  #flower2021 .flower-petal{
-    width: 12vh;   /* slightly bigger than 10vh */
-    height: 12vh;
+  /* 🌼 Center card smaller */
+  #flower2021 .flower-center{
+    width: 18vh;
+    height: 18vh;
+    padding: 0.6rem;
   }
 
-  /* 🌼 Center card smaller, text scaled down */
-  #flower2021 .flower-center{
-    width: 18vh;    /* smaller than 20vh */
-    height: 18vh;
-    font-size: 1.2rem;   /* scale down font */
-    padding: 0.6rem;     /* reduce padding */
+  /* 📝 Scale down text inside center for landscape */
+  #flower2021 .flower-center .jp,
+  #flower2021 .flower-center .romaji,
+  #flower2021 .flower-center .en{
+    font-size: clamp(0.6rem, 1.5vw, 1rem);
   }
 
   #cardPage .back-btn,
