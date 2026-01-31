@@ -6,21 +6,125 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 <title>2022 Memories</title>
-
 <link rel="stylesheet" href="styles.css">
 
 <style>
-/* ================= 2024 ONLY overrides ================= */
+/* ================= 2022 RESPONSIVE OVERRIDES ================= */
 
-/* Birthday */
-#cardPage .birthday-card-container{
+/* Make tiles scale nicely on smaller screens */
+#home .tiles,
+#birthday .tiles {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
+
+#home .tile,
+#birthday .tile {
+  flex: 1 1 140px;
+  max-width: 200px;
+  font-size: 1.1rem;
+  padding: 1rem;
+}
+
+/* Birthday card container scales with viewport */
+#cardPage .birthday-card-container {
   width: min(90vw, 420px);
-  height: auto;                /* cancel fixed height */
-  aspect-ratio: 1414 / 2000;   /* correct image ratio */
+  aspect-ratio: 1414 / 2000;
+  margin: 2rem auto;
+  position: relative;
+}
+
+/* Horizontal card spread after flip stays within container */
+#cardPage .card-horizontal {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s cubic-bezier(.34,1.3,.64,1);
+}
+
+/* Video containers scale nicely */
+.video-wrap {
+  width: 90vw;
+  max-width: 720px;
+  margin: 1rem auto;
+  position: relative;
+}
+
+.video-16x9::before {
+  content: "";
+  display: block;
+  padding-top: 56.25%; /* 16:9 ratio */
+}
+
+.video-9x16::before {
+  content: "";
+  display: block;
+  padding-top: 177.78%; /* 9:16 ratio */
+}
+
+.video-wrap iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Christmas memory wall responsive */
+#christmas .memory-wall {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
+
+#christmas .polaroid {
+  flex: 1 1 140px;
+  max-width: 180px;
+}
+
+/* Photo and video modals scale to viewport */
+.photo-modal img,
+.photo-modal .video-wrap iframe {
+  max-width: 90vw;
+  max-height: 90vh;
+}
+
+/* Adjust card container for landscape orientation */
+@media (orientation: landscape) {
+  #cardPage .birthday-card-container {
+    width: 50vw;
+    max-width: 500px;
+  }
+
+  #cardPage .card-horizontal {
+    top: 0;
+    transform: none;
+  }
+
+  .video-9x16 {
+    width: min(50vw, 360px);
+  }
+}
+
+/* Small screens adjustments */
+@media (max-width: 480px) {
+  #home .tile,
+  #birthday .tile {
+    font-size: 1rem;
+    padding: 0.8rem;
+  }
+
+  .back-btn,
+  .logout-btn {
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+  }
 }
 
 </style>
-
 </head>
 
 <body>
@@ -29,11 +133,9 @@
 <audio id="birthdayAudio" src="Images/birthday.mp3" loop></audio>
 <audio id="christmasAudio" src="Images/christmas.mp3" loop></audio>
 
-
 <!-- ================= EFFECT LAYERS ================= -->
 <div id="snow" class="effect-layer"></div>
 <div id="balloons" class="effect-layer"></div>
-
 
 <!-- ================= HOME ================= -->
 <div class="card page" id="home" style="display:block;">
@@ -49,8 +151,6 @@
   <button class="back-btn" onclick="goDashboard()">Back</button>
 </div>
 
-
-
 <!-- ================= BIRTHDAY ================= -->
 <div class="card page" id="birthday">
   <h1>2022 Birthday 🎂</h1>
@@ -63,99 +163,64 @@
   <button class="back-btn" onclick="goHome()">Back</button>
 </div>
 
-<!-- ================= CARD (FULL 2022 ANIMATION COPY) ================= -->
-
+<!-- ================= CARD ================= -->
 <div class="card page" id="cardPage">
   <h1>Birthday Card 💌</h1>
-
   <div class="birthday-card-container">
-    <!-- Bottom layer: inner2 -->
-    <div class="card-inner2">
-      <img src="Images/card-inner2.png" class="card-photo">
-    </div>
-
-    <!-- Top layer: double-sided cover -->
+    <div class="card-inner2"><img src="Images/card-inner2.png" class="card-photo"></div>
     <div class="card-flip" id="cardFlip">
-      <!-- Front face -->
-      <div class="card-front">
-        <img src="Images/card-front.png" class="card-photo">
-        <!-- Edge shadow for realism -->
-        <div class="page-shadow"></div>
-      </div>
-
-      <!-- Back face = inner1 -->
-      <div class="card-inner1">
-        <img src="Images/card-inner1.png" class="card-photo">
-      </div>
+      <div class="card-front"><img src="Images/card-front.png" class="card-photo"><div class="page-shadow"></div></div>
+      <div class="card-inner1"><img src="Images/card-inner1.png" class="card-photo"></div>
     </div>
   </div>
-
   <button class="back-btn" onclick="openBirthday()">Back</button>
 </div>
 
 <!-- ================= VIDEO ================= -->
-
 <div class="card page" id="videoPage">
   <h1>Birthday Video 🎥</h1>
-
   <div class="video-wrap video-16x9">
-      <iframe 
-            id="driveVideo"
-            src="https://drive.google.com/file/d/1qY40I4qMtDJPwqCwBsutMvZDnp-0VXSY/preview"
-            frameborder="0" 
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-            allowfullscreen
-            style="border-radius:1rem;">
-      </iframe>
+    <iframe id="driveVideo"
+      src="https://drive.google.com/file/d/1qY40I4qMtDJPwqCwBsutMvZDnp-0VXSY/preview"
+      frameborder="0" allowfullscreen style="border-radius:1rem;">
+    </iframe>
   </div>
-
   <button class="back-btn" onclick="openBirthday()">Back</button>
 </div>
 
-
 <!-- ================= CHRISTMAS ================= -->
-
 <div class="card page" id="christmas">
   <h1>2022 Christmas 🎄</h1>
   <p>Christmas memories of 2022</p>
-
   <div class="memory-wall">
-    <div class="polaroid" data-src="https://drive.google.com/file/d/1Wm0sghpvERLhImt9g0kSjWP1e-5a6ZoV/preview">
-        <img src="Images/thumb1.png">
-        <span>...</span>
+    <div class="polaroid" data-src="https://drive.google.com/file/d/1Wm0sghpvERLhImt9g0kSjVP1e-5a6ZoV/preview">
+      <img src="Images/thumb1.png"><span>...</span>
     </div>
     <div class="polaroid" data-src="https://drive.google.com/file/d/1TfBE2sYzWPnNALq8Rtv_CudvqlYTHftR/preview">
-        <img src="Images/thumb2.png">
-        <span>...</span>
+      <img src="Images/thumb2.png"><span>...</span>
     </div>
     <div class="polaroid" data-src="https://drive.google.com/file/d/1j-UdakTpN7FRji3cvBMaHTQ3jhnCQa37/preview">
-        <img src="Images/thumb3.png">
-        <span>...</span>
+      <img src="Images/thumb3.png"><span>...</span>
     </div>
   </div>
-
   <button class="back-btn" onclick="goHome()">Back</button>
 </div>
 
-
-<!-- ================= PHOTO MODAL (same as 2022) ================= -->
+<!-- ================= PHOTO MODAL ================= -->
 <div id="photoModal" class="photo-modal">
   <span class="photo-close">&times;</span>
-
   <button class="nav prev">&#10094;</button>
   <img id="photoPreview">
   <button class="nav next">&#10095;</button>
 </div>
 
-<!-- Video Modal -->
+<!-- ================= VIDEO MODAL ================= -->
 <div id="videoModal" class="photo-modal">
   <span class="photo-close">&times;</span>
-
   <button class="nav prev">&#10094;</button>
   <div class="video-wrap video-9x16">
-    <iframe id="drivePlayer" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    <iframe id="drivePlayer" frameborder="0" allowfullscreen></iframe>
   </div>
-  
   <button class="nav next">&#10095;</button>
 </div>
 
@@ -581,5 +646,6 @@ videoModal.onclick = (e)=>{
 };
 
 </script>
+
 </body>
 </html>
