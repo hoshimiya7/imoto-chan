@@ -119,9 +119,22 @@
 
   #flower2021{
     margin: 0.25rem auto;
-    width: 60vh;
-    height: 60vh;        /* force square */
-    aspect-ratio: 1;     /* optional but ensures ratio stays */
+
+    /* slightly smaller than before to fit screen better */
+    width: 50vh;
+    height: 50vh;        
+    aspect-ratio: 1;     
+  }
+
+  /* scale petals & center relative to new container size */
+  #flower2021 .flower-petal{
+    width: 10vh;
+    height: 10vh;
+  }
+
+  #flower2021 .flower-center{
+    width: 20vh;
+    height: 20vh;
   }
 
   #cardPage .back-btn,
@@ -129,6 +142,7 @@
     margin: 0.25rem auto 0.4rem;
   }
 }
+
 
 
 </style>
