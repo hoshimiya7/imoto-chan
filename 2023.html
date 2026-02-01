@@ -10,196 +10,130 @@
 <link rel="stylesheet" href="styles.css">
 
 <style>
-/* ================= VIDEO CONTAINERS ================= */
-.video-wrap {
-  width: min(92vw, 420px);
-  margin: 1rem auto;
-  border-radius: 1rem;
-  overflow: hidden;
+/* ================= GENERAL ================= */
+body {
+  margin:0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, rgba(168,85,247,.18), rgba(255,255,255,.95)),
+              repeating-linear-gradient(45deg,#f3e8ff,#f3e8ff 20px,#fff 20px,#fff 40px);
+  min-height:100vh;
+  overflow-x:hidden;
 }
 
-/* portrait videos */
-.birthday-video,
-.christmas-video {
-  aspect-ratio: 9 / 16;
+h1 { color:#b492ee; }
+
+/* ================= CARD ================= */
+.birthday-card-container {
+  width: 360px;   /* Desktop size */
+  height: 640px;
+  margin: 2rem auto;
+  perspective: 1500px;
+  position: relative;
 }
 
-/* iframe fills container */
-.video-wrap iframe {
-  width: 100%;
-  height: 100%;
-  border: 0;
-  display: block;
+.card-inner2, .card-flip, .card-front, .card-inner1 {
+  position: absolute;
+  top:0; left:0;
+  width:100%;
+  height:100%;
 }
 
-/* ================= MOBILE RESPONSIVENESS ================= */
+.card-inner2 img, .card-front img, .card-inner1 img, .card-photo {
+  width:100%;
+  height:100%;
+  object-fit: cover;
+  border-radius: 18px;
+}
 
-/* Mobile portrait (default small screens) */
-@media (max-width: 767px) {
+/* ================= VIDEO ================= */
+.video-wrap{
+  width:min(95vw,900px);
+  margin:0 auto;
+  position:relative;
+  border-radius:1rem;
+  overflow:hidden;
+}
+.video-wrap iframe{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  border:0;
+}
+.video-16x9{ aspect-ratio:16/9; }
+.video-9x16{ aspect-ratio:9/16; width:min(70vw,420px); }
 
-  /* Text scaling for mobile */
-  h1 {
-    font-size: 1.8rem;
-  }
-
-  p {
-    font-size: 1rem;
-  }
-
-  /* Tile buttons smaller and stacked */
-  .tiles {
-    display: flex;
-    flex-direction: column;
-    gap: 0.8rem;
-  }
-
-  .tile {
-    font-size: 1.2rem;
-    padding: 0.8rem;
-  }
-
-  /* Cards */
-  .birthday-card-container,
-  .card-flip,
-  .card-inner1,
-  .card-inner2 {
+/* Landscape phones: make videos wider */
+@media (max-width:900px) and (orientation: landscape) {
+  .video-9x16 {
+    aspect-ratio: 16/9;
     width: 90vw;
-    max-width: 360px;
-  }
-
-  .card-photo {
-    width: 100%;
+    max-width: 95%;
     height: auto;
   }
-
-  /* Video wrapper smaller in mobile portrait */
-  .video-wrap {
-    width: 90vw;
-    max-width: 360px;
-  }
-
-  /* Back button adjustments */
-  .back-btn,
-  .logout-btn {
-    font-size: 1rem;
-    padding: 0.5rem 1rem;
-  }
 }
 
-/* Mobile landscape */
-@media (min-width: 480px) and (max-width: 1024px) and (orientation: landscape) {
-
-  h1 {
-    font-size: 2rem;
-  }
-
-  p {
-    font-size: 1rem;
-  }
-
-  /* Tiles side by side in landscape if enough width */
-  .tiles {
-    flex-direction: row;
-    justify-content: center;
-    gap: 1rem;
-  }
-
-  .tile {
-    font-size: 1.2rem;
-    padding: 0.6rem 1rem;
-  }
-
-  /* Video wrapper larger in landscape */
-  .video-wrap {
-    width: min(70vw, 480px);
-    max-height: 85vh;
-  }
-
-  /* Cards spread horizontally better */
-  .birthday-card-container,
-  .card-flip,
-  .card-inner1,
-  .card-inner2 {
-    width: min(80vw, 480px);
-  }
-
-  .card-photo {
-    width: 100%;
-    height: auto;
-  }
-
-  /* Back button bigger touch area */
-  .back-btn,
-  .logout-btn {
-    font-size: 1.1rem;
-    padding: 0.6rem 1.2rem;
-  }
-}
-
-/* Extra small devices */
-@media (max-width: 399px) {
-  .tile {
-    font-size: 1rem;
-    padding: 0.6rem;
-  }
-  h1 {
-    font-size: 1.5rem;
-  }
-}
-
-/* ================= MOBILE TITLE PADDING ================= */
-
-/* Mobile portrait */
-@media (max-width: 767px) {
-  .card h1 {
-    padding-top: 2rem;    /* space from top */
-    padding-left: 1rem;
-    padding-right: 1rem;
-    font-size: 1.8rem;
+/* ================= PAGE TITLES & PADDING ================= */
+@media (max-width:600px){
+  .page h1 {
+    font-size: 1.6rem;
+    margin: 1rem 0;
+    padding: 0 10px;
     text-align: center;
   }
-  .card p {
-    padding-left: 1rem;
-    padding-right: 1rem;
-    font-size: 1rem;
-    text-align: center;
+
+  .back-btn {
+    margin: 1rem auto;
+    display: block;
   }
 }
 
-/* Mobile landscape */
-@media (min-width: 480px) and (max-width: 1024px) and (orientation: landscape) {
-  .card h1 {
-    padding-top: 2rem;
-    padding-left: 1rem;
-    padding-right: 1rem;
-    font-size: 2rem;
-    text-align: center;
-  }
-  .card p {
-    padding-left: 1rem;
-    padding-right: 1rem;
-    font-size: 1rem;
-    text-align: center;
-  }
-}
+/* ================= MOBILE PORTRAIT & LANDSCAPE OVERRIDES ================= */
+@media (max-width: 900px) {
 
-/* Extra small devices */
-@media (max-width: 399px) {
-  .card h1 {
-    padding-top: 1rem;
-    font-size: 1.5rem;
-    text-align: center;
+  /* Fix card page for mobile scrollable wrapper like 2022 */
+  #cardPage {
+    position: fixed;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 20px);
+    height: calc(100% - 20px);
+    overflow: hidden;
   }
-}
 
-/* ================= MOBILE PORTRAIT CARD OVERRIDE ================= */
-@media (max-width: 767px) {
-  /* Birthday card smaller like Christmas */
+  body {
+    overflow: hidden;
+  }
+
+  /* ⭐ wrapper = scrollable horizontally */
+  #cardPage .birthday-card-wrapper {
+    display: inline-block;
+    white-space: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    padding: 0 300px;          /* space for front card */
+    box-sizing: border-box;
+  }
+
+  /* Each card inline inside wrapper */
   #cardPage .birthday-card-container {
-    width: 220px;   /* same as Christmas card width */
-    height: 390px;  /* same as Christmas card height */
+    display: inline-block;
+    margin: 20px 0;
+    width: 220px;   /* shrink like Christmas portrait */
+    height: 390px;
   }
 
+  /* Add extra scroll space at end */
+  #cardPage .birthday-card-wrapper::after {
+    content: "";
+    display: inline-block;
+    width: 57vw;
+    height: 1px;
+  }
+
+  /* Keep all inner elements sizing correct */
   #cardPage .card-inner2,
   #cardPage .card-flip,
   #cardPage .card-front,
@@ -208,17 +142,44 @@
     width: 100%;
     height: 100%;
   }
-}
 
-/* Mobile landscape: a bit bigger than portrait but still small */
-@media (min-width: 480px) and (max-width: 1024px) and (orientation: landscape) {
-  #cardPage .birthday-card-container {
-    width: 300px;
-    height: 500px;
+  /* ================= CHRISTMAS PAGE SCROLL ================= */
+  #christmas {
+    position: relative;
+    top:0;
+    left:0;
+    transform: none;
+    padding: 20px;
+    box-sizing: border-box;
+    overflow-y: auto;     /* allow scrolling if content exceeds screen */
+    width: 100%;
+    max-width: 100%;
+  }
+
+  /* Memory wall grid for small screens */
+  #christmas .memory-wall {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: auto auto;
+    grid-template-areas:
+      "p1 p1"
+      "p2 p3";
+    justify-items: center;
+    gap: 15px 10px;
+    margin-top: 20px;
+  }
+
+  #christmas .memory-wall .polaroid:nth-child(1){ grid-area: p1; }
+  #christmas .memory-wall .polaroid:nth-child(2){ grid-area: p2; }
+  #christmas .memory-wall .polaroid:nth-child(3){ grid-area: p3; }
+
+  #christmas .memory-wall .polaroid{
+    width: 45%;
+    margin:0;
   }
 }
-
 </style>
+
 
 </head>
 
