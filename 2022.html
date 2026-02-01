@@ -4,7 +4,6 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
 <title>2022 Memories</title>
 
 <style>
@@ -15,6 +14,7 @@ body{
   background: linear-gradient(135deg, rgba(168,85,247,.18), rgba(255,255,255,.95)),
               repeating-linear-gradient(45deg,#f3e8ff,#f3e8ff 20px,#fff 20px,#fff 40px);
   min-height:100vh;
+  overflow-x:hidden; /* prevent horizontal scroll on normal pages */
 }
 h1{color:#b492ee;}
 .page{
@@ -24,6 +24,8 @@ h1{color:#b492ee;}
   left:50%;
   transform:translate(-50%,-50%);
 }
+
+
 .card{
   background:rgba(206, 176, 255, 0.205);
   backdrop-filter:blur(12px);
@@ -89,12 +91,27 @@ h1{color:#b492ee;}
 }
 
 /* ================= BIRTHDAY CARD ================= */
+.birthday-card-wrapper{
+  width: 0px; /*calc(0.45 * 100%);   /* enough width to hold 3 cards */
+  overflow-x:auto;
+  -webkit-overflow-scrolling: touch;
+  display:flex;
+  justify-content:flex-start; /* left align so front isn't cut */
+  padding: 0 450px; /* optional, so front card has space */
+}
 .birthday-card-container{
   position:relative;
-  width:360px; height:640px;
-  margin:2rem auto;
-  perspective:1500px;
+  display:flex;
+  justify-content:center;
+  width: clamp(280px, 40vw, 520px); /* card width */
+  aspect-ratio: 1414/2000;
+  perspective: 1500px;
+  margin: 80px;
+  flex-shrink:0;
 }
+
+
+
 .card-inner2, .card-flip, .card-front, .card-inner1{
   position:absolute;
   top:0; left:0;
@@ -119,9 +136,10 @@ h1{color:#b492ee;}
 .card-horizontal{
   position:absolute;
   top:0;
-  width:100%; height:100%;
-  transition: transform 0.6s cubic-bezier(.34,1.3,.64,1);
+  height:100%;
+  transition:left 0.6s cubic-bezier(.34,1.3,.64,1); /* change from transform */
 }
+
 
 /* clickable card photo */
 .card-photo{
@@ -175,7 +193,6 @@ h1{color:#b492ee;}
 
 /* ================= KEYFRAMES ================= */
 @keyframes fallSnow{ to{ transform:translateY(110vh); } }
-/* Balloons */
 @keyframes riseBalloon{ to{ transform:translateY(-120vh); opacity:0; } }
 
 .photo-modal {
@@ -188,7 +205,6 @@ h1{color:#b492ee;}
   z-index: 10000;
   overflow: hidden;
 }
-
 .photo-modal img {
   max-width: 85%;
   max-height: 85%;
@@ -196,8 +212,6 @@ h1{color:#b492ee;}
   box-shadow: 0 20px 60px rgba(0,0,0,.6);
   transition: transform .25s ease, opacity .25s ease;
 }
-
-/* arrows */
 .nav {
   position: absolute;
   top: 50%;
@@ -211,10 +225,8 @@ h1{color:#b492ee;}
   user-select: none;
   z-index: 10001;
 }
-
 .prev { left: 30px; }
 .next { right: 30px; }
-
 .photo-close {
   position: absolute;
   top: 25px;
@@ -230,50 +242,24 @@ body.christmas-bg {
   background: linear-gradient(135deg,#0ea5e9,#1e3a8a);
   color: white;
 }
-
 .tile-christmas-blue {
-  background: linear-gradient(135deg,#93c5fd,#bfdbfe); /* light blue gradient */
+  background: linear-gradient(135deg,#93c5fd,#bfdbfe);
   color: #1e3a8a;
 }
 .tile-christmas-blue:hover {
   transform: translateY(-6px) scale(1.03);
 }
 
-/* ================= MOBILE RESPONSIVE ================= */
-@media (max-width: 768px) {
-  .card {
-    width: 90%;
-    padding: 1.2rem;
-  }
-  h1 { font-size: 1.5rem; }
-  .tiles { grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap:0.75rem; }
-  .tile { padding:1.2rem; font-size:0.95rem; }
-  .back-btn, .logout-btn { padding:0.5rem 1rem; font-size:0.85rem; }
-  .birthday-card-container { width:280px; height:500px; }
-  .video-wrap.video-16x9 { width:95vw; }
-  .video-wrap.video-9x16 { width:70vw; }
-  .polaroid { width:140px; }
+/* ================= MOBILE PORTRAIT ================= */
+@media (max-width:600px){
+  .card{ width:90%; padding:1.5rem; }
+  .tiles{ gap:0.75rem; }
+  .tile{ padding:1.5rem; font-size:0.9rem; }
+  /*.birthday-card-container{ width:280px; height:500px; }*/
 }
-
-@media (max-width: 768px) and (orientation: landscape) {
-  .card { width: 85%; padding:1rem; }
-  .birthday-card-container { width:320px; height:550px; }
-  .tiles { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap:0.5rem; }
-  .polaroid { width:160px; }
-  .video-wrap.video-16x9 { width:90vw; }
-}
-
-@media (max-width: 480px) {
-  .photo-modal img, .video-wrap iframe { max-width:95vw; max-height:70vh; }
-  .nav { font-size:36px; padding:12px; }
-  .photo-close { font-size:36px; top:15px; right:20px; }
-}
-
 </style>
 
-
 </head>
-
 
 <body>
 
@@ -314,11 +300,13 @@ body.christmas-bg {
 <!-- ================= CARD ================= -->
 <div class="card page" id="cardPage">
   <h1>Birthday Card 💌</h1>
-  <div class="birthday-card-container">
-    <div class="card-inner2"><img src="Images/card-inner2.png" class="card-photo"></div>
-    <div class="card-flip" id="cardFlip">
-      <div class="card-front"><img src="Images/card-front.png" class="card-photo"><div class="page-shadow"></div></div>
-      <div class="card-inner1"><img src="Images/card-inner1.png" class="card-photo"></div>
+  <div class="birthday-card-wrapper">
+    <div class="birthday-card-container">
+      <div class="card-inner2"><img src="Images/card-inner2.png" class="card-photo"></div>
+      <div class="card-flip" id="cardFlip">
+        <div class="card-front"><img src="Images/card-front.png" class="card-photo"><div class="page-shadow"></div></div>
+        <div class="card-inner1"><img src="Images/card-inner1.png" class="card-photo"></div>
+      </div>
     </div>
   </div>
   <button class="back-btn" onclick="openBirthday()">Back</button>
@@ -365,14 +353,13 @@ body.christmas-bg {
 <!-- ================= VIDEO MODAL ================= -->
 <div id="videoModal" class="photo-modal">
   <span class="photo-close">&times;</span>
-
   <button class="nav prev">&#10094;</button>
   <div class="video-wrap video-9x16">
     <iframe id="drivePlayer" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
   </div>
-  
   <button class="nav next">&#10095;</button>
 </div>
+
 
 <!--<script src="auth.js"></script>-->
 
@@ -527,6 +514,7 @@ function flipCard2023() {
     cardInner2.style.transform = `translateX(${spread}px)`;
   }, 2000);
 }
+
 
 function stopDriveVideos(){
   document.querySelectorAll("iframe").forEach(iframe=>{
