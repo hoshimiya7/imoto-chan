@@ -168,13 +168,20 @@ h1 { color:#b492ee; }
 /* ================= PORTRAIT VIDEO PAGE ================= */
 @media (max-width:900px) and (orientation: portrait) {
 
-  /* video page layout */
-  .page#videoPage .video-9x16 iframe {
-      width: 105%;
-      height: 100%;
-      transform: translateX(-2.5%);
-      object-fit: cover;
+  .page#videoPage .video-9x16 {
+      width: 90vw;         /* slightly larger than before */
+      max-width: 100%;
+      height: calc(90vw * 16 / 9); /* keep 9:16 ratio */
+      overflow: visible;   /* allow Drive UI to extend */
+      margin: 0 auto;
   }
+
+  .page#videoPage .video-9x16 iframe {
+      width: 100%;
+      height: 100%;
+      transform: translateX(-1%); /* center video inside iframe */
+  }
+
 
 }
 
