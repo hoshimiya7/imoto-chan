@@ -268,44 +268,41 @@ body.christmas-bg {
 /* ================= MOBILE PORTRAIT & LANDSCAPE ADJUSTMENTS ================= */
 
 @media (max-width:600px){
-  /* Card page fixed so body doesn't scroll */
+  /* Card page fixed with 10px margins */
   #cardPage {
     position: fixed;
     top: 10px;
     left: 50%;
     transform: translateX(-50%);
-    width: calc(100% - 20px); /* 10px margins left/right */
-    max-width: 100%;
-    height: calc(100% - 20px); /* full height minus 10px margin top/bottom */
-    overflow: hidden;          /* prevents scrolling outside card */
+    width: calc(100% - 20px);  /* 10px margins left/right */
+    height: calc(100% - 20px); /* 10px margins top/bottom */
+    overflow: hidden;           /* prevent page scroll */
     z-index: 1000;
   }
 
   /* Card itself */
   #cardPage .card {
     width: 100%;
-    max-width: 100%;
+    height: 100%;
     padding: 1.5rem;
-    height: 100%;              /* fill available height */
-    margin: 0 auto;
     box-sizing: border-box;
+    margin: 0 auto;
   }
 
-  /* Birthday card wrapper: allow horizontal scroll only */
+  /* Birthday card wrapper: horizontal scroll only */
   #cardPage .birthday-card-wrapper {
     display: flex;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
-    padding: 0 270px;          /* front card fully visible */
+    padding: 0 270px;           /* show front card fully */
     margin: 0 auto;
-    width: 100%;
-    box-sizing: content-box;
+    width: max-content;         /* important: wrapper expands to fit all cards */
   }
 
-  /* Each card container */
+  /* Card containers inside wrapper */
   #cardPage .birthday-card-container {
-    flex-shrink: 0;            /* prevent shrinking */
-    margin: 0 10px;            /* small gap between cards */
+    flex-shrink: 0;
+    margin: 0 10px;             /* small spacing between cards */
   }
 
   /* Prevent body scroll completely */
