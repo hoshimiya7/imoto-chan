@@ -250,37 +250,45 @@ h1 { color:#b492ee; }
 
 
 /* =========================================================
-   🎥 LANDSCAPE VIDEO PAGE FIX
+   🎥 LANDSCAPE VIDEO PAGE — PROPER LAYOUT
 ========================================================= */
 @media (max-width:900px) and (orientation: landscape){
 
   #videoPage{
     display:flex;
     flex-direction:column;
-    justify-content:flex-start;
 
-    padding-top:50px;   /* ⭐ gives title breathing room */
-    gap:10px;
+    height:100dvh;
+    overflow:hidden;
 
-    overflow-y:auto;    /* prevents cut-off on short screens */
+    padding:10px 14px;
+    box-sizing:border-box;
   }
 
+  /* title */
   #videoPage h1{
-    margin:0;           /* remove margin collapse */
+    flex:0 0 auto;
+    margin:0 0 8px 0;
     text-align:center;
   }
 
+  /* video takes remaining space */
   #videoPage .video-wrap{
-    width:92vw;
-    max-width:100%;
-    margin:0 auto;
+    flex:1 1 auto;
+    width:100%;
   }
 
+  /* keep aspect ratio inside available height */
+  #videoPage .video-16x9{
+    height:100%;
+  }
+
+  /* back button fixed bottom */
   #videoPage .back-btn{
-    margin:8px auto 12px;
+    flex:0 0 auto;
+    margin:8px auto 0;
   }
 }
-
 
 
 
@@ -364,7 +372,7 @@ h1 { color:#b492ee; }
 
 
 <!-- ================= VIDEO ================= -->
-<div class="card page" id="videoPage">
+<div class="card page" id="videoPage" style="display:none;">
   <h1>Memory Video 🎥</h1>
 
   <div class="video-wrap video-16x9 birthday-video">
