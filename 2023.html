@@ -173,15 +173,19 @@ h1 { color:#b492ee; }
 ========================================================= */
 @media (max-width:900px) and (orientation: landscape){
 
+  /* page can scroll vertically instead of clipping */
   .page#cardPage{
-    overflow:visible; /* ⭐ stops clipping */
+    overflow-y:auto;   /* ⭐ scroll instead of cut */
+    overflow-x:hidden;
   }
 
+  /* scroll area */
   #cardPage .birthday-card-wrapper{
-    align-items:flex-start;
     min-height:0;
+    align-items:flex-start; /* no vertical centering */
   }
 }
+
 
 @media (max-width:900px) and (orientation: landscape){
 
