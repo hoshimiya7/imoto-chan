@@ -91,7 +91,7 @@ h1 { color:#b492ee; }
 /* ================= MOBILE PORTRAIT & LANDSCAPE OVERRIDES ================= */
 @media (max-width: 900px) {
 
-  /* Fix card page for mobile scrollable wrapper like 2022 */
+  /* Card page wrapper: allow horizontal scroll */
   #cardPage {
     position: fixed;
     top: 10px;
@@ -99,7 +99,10 @@ h1 { color:#b492ee; }
     transform: translateX(-50%);
     width: calc(100% - 20px);
     height: calc(100% - 20px);
-    overflow: hidden;
+    overflow-x: auto;    /* ✅ allow horizontal scroll */
+    overflow-y: hidden;  /* prevent vertical scroll */
+    -webkit-overflow-scrolling: touch;
+    white-space: nowrap; /* fallback */
   }
 
   body {
@@ -107,21 +110,20 @@ h1 { color:#b492ee; }
   }
 
   /* ⭐ wrapper = scrollable horizontally */
+  /* Wrapper for multiple cards */
   #cardPage .birthday-card-wrapper {
-    display: inline-block;
-    white-space: nowrap;
-    overflow-x: auto;
-    overflow-y: hidden;
-    -webkit-overflow-scrolling: touch;
-    padding: 0 300px;          /* space for front card */
+    display: flex;           /* ✅ flex for horizontal layout */
+    flex-direction: row;
+    gap: 20px;               /* spacing between cards */
+    padding: 0 20px;         /* small side padding */
     box-sizing: border-box;
   }
 
   /* Each card inline inside wrapper */
+  /* Each card: don't shrink */
   #cardPage .birthday-card-container {
-    display: inline-block;
-    margin: 20px 0;
-    width: 220px;   /* shrink like Christmas portrait */
+    flex: 0 0 auto;
+    width: 220px; 
     height: 390px;
   }
 
