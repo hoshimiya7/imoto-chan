@@ -250,43 +250,47 @@ h1 { color:#b492ee; }
 
 
 /* =========================================================
-   🎥 LANDSCAPE VIDEO PAGE — PROPER LAYOUT
+   🎥 LANDSCAPE VIDEO PAGE — FIX BACK BUTTON
 ========================================================= */
 @media (max-width:900px) and (orientation: landscape){
 
-  #videoPage{
-    display:flex;
-    flex-direction:column;
+  /* page wrapper */
+  .page#videoPage {
+    display: flex;
+    flex-direction: column;
 
-    height:100dvh;
-    overflow:hidden;
+    /* full viewport, plus safe padding for bottom buttons */
+    min-height: 100dvh;
+    padding: 10px 14px env(safe-area-inset-bottom);
+    box-sizing: border-box;
 
-    padding:10px 14px;
-    box-sizing:border-box;
+    overflow: hidden;
   }
 
   /* title */
-  #videoPage h1{
-    flex:0 0 auto;
-    margin:0 0 8px 0;
-    text-align:center;
+  .page#videoPage h1 {
+    flex: 0 0 auto;
+    margin: 0 0 8px 0;
+    text-align: center;
   }
 
   /* video takes remaining space */
-  #videoPage .video-wrap{
-    flex:1 1 auto;
-    width:100%;
+  .page#videoPage .video-wrap {
+    flex: 1 1 auto;
+    width: 100%;
+    max-height: 100%;
   }
 
-  /* keep aspect ratio inside available height */
-  #videoPage .video-16x9{
-    height:100%;
+  /* ensure aspect ratio fits */
+  .page#videoPage .video-16x9 {
+    height: 100%;
   }
 
-  /* back button fixed bottom */
-  #videoPage .back-btn{
-    flex:0 0 auto;
-    margin:8px auto 0;
+  /* back button at bottom, with safe spacing */
+  .page#videoPage .back-btn {
+    flex: 0 0 auto;
+    margin: 8px auto 0;
+    z-index: 5;
   }
 }
 
