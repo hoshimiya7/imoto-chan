@@ -249,6 +249,37 @@ h1 { color:#b492ee; }
 }
 
 
+/* =========================================================
+   🎥 LANDSCAPE VIDEO PAGE FIX
+========================================================= */
+@media (max-width:900px) and (orientation: landscape){
+
+  #videoPage{
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-start;
+
+    padding-top:12px;   /* ⭐ gives title breathing room */
+    gap:10px;
+
+    overflow-y:auto;    /* prevents cut-off on short screens */
+  }
+
+  #videoPage h1{
+    margin:0;           /* remove margin collapse */
+    text-align:center;
+  }
+
+  #videoPage .video-wrap{
+    width:92vw;
+    max-width:100%;
+    margin:0 auto;
+  }
+
+  #videoPage .back-btn{
+    margin:8px auto 12px;
+  }
+}
 
 
 
