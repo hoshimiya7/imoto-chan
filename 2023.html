@@ -258,7 +258,7 @@ h1 { color:#b492ee; }
   .page#videoPage {
     display: flex;
     flex-direction: column;
-    min-height: auto; /* don't force 100vh */
+    min-height: 0;
     padding: env(safe-area-inset-top) 12px env(safe-area-inset-bottom);
     box-sizing: border-box;
   }
@@ -267,16 +267,19 @@ h1 { color:#b492ee; }
   .page#videoPage h1 {
     flex: 0 0 auto;
     text-align: center;
-    margin: 6px 0 6px 0;
+    margin: 6px 0;
+    padding-top: 6px; /* extra top padding to make it fully visible */
   }
 
-  /* video wrapper scrollable if needed */
-  .page#videoPage .video-wrap {
+  /* video wrapper for 9:16 videos */
+  .page#videoPage .video-9x16 {
     flex: 1 1 auto;
-    min-height: 0;
-    max-height: calc(100vh - 50px - 50px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
-    overflow-y: auto; /* scroll if video too tall */
-    margin-bottom: 6px;
+    width: auto;
+    height: auto;
+    max-height: calc(100vh - 50px - 50px - env(safe-area-inset-top) - env(safe-area-inset-bottom)); 
+    /* 50px for title + 50px for back button approx */
+    margin: 6px auto;
+    overflow-y: auto;
   }
 
   /* back button always visible */
