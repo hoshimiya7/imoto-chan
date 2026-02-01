@@ -106,10 +106,9 @@ h1 { color:#b492ee; }
   }
 
   body {
-    overflow: hidden;
+    overflow: hidden; /* prevent whole page scroll */
   }
 
-  /* ⭐ wrapper = scrollable horizontally */
   /* Wrapper for multiple cards */
   #cardPage .birthday-card-wrapper {
     display: flex;           /* ✅ flex for horizontal layout */
@@ -119,7 +118,6 @@ h1 { color:#b492ee; }
     box-sizing: border-box;
   }
 
-  /* Each card inline inside wrapper */
   /* Each card: don't shrink */
   #cardPage .birthday-card-container {
     flex: 0 0 auto;
@@ -127,15 +125,7 @@ h1 { color:#b492ee; }
     height: 390px;
   }
 
-  /* Add extra scroll space at end */
-  #cardPage .birthday-card-wrapper::after {
-    content: "";
-    display: inline-block;
-    width: 57vw;
-    height: 1px;
-  }
-
-  /* Keep all inner elements sizing correct */
+  /* Inner elements: stay 100% */
   #cardPage .card-inner2,
   #cardPage .card-flip,
   #cardPage .card-front,
@@ -146,6 +136,7 @@ h1 { color:#b492ee; }
   }
 
 }
+
 </style>
 
 
