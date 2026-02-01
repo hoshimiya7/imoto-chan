@@ -268,48 +268,40 @@ body.christmas-bg {
 /* ================= MOBILE PORTRAIT & LANDSCAPE ADJUSTMENTS ================= */
 
 @media (max-width:600px){
-  /* Card page fixed with 10px margins */
-  #cardPage {
-    position: fixed;
-    top: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: calc(100% - 20px);  /* 10px margins left/right */
-    height: calc(100% - 20px); /* 10px margins top/bottom */
-    overflow: hidden;           /* prevent page scroll */
-    z-index: 1000;
+
+  /* page locked */
+  #cardPage{
+    position:fixed;
+    top:10px;
+    left:50%;
+    transform:translateX(-50%);
+    width:calc(100% - 20px);
+    height:calc(100% - 20px);
+    overflow:hidden;
   }
 
-  /* Card itself */
-  #cardPage .card {
-    width: 100%;
-    height: 100%;
-    padding: 1.5rem;
-    box-sizing: border-box;
-    margin: 0 auto;
+  body{
+    overflow:hidden;
   }
 
-  /* Birthday card wrapper: horizontal scroll only */
-  #cardPage .birthday-card-wrapper {
-    display: flex;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    padding: 0 270px;           /* show front card fully */
-    margin: 0 auto;
-    width: max-content;         /* important: wrapper expands to fit all cards */
+  /* ⭐ SCROLL CONTAINER (fixed width) */
+  #cardPage .birthday-card-wrapper{
+    width:100%;
+    overflow-x:auto;
+    overflow-y:hidden;
+    -webkit-overflow-scrolling:touch;
+
+    padding:0 270px;   /* keep your front visible */
+    box-sizing:border-box;
   }
 
-  /* Card containers inside wrapper */
-  #cardPage .birthday-card-container {
-    flex-shrink: 0;
-    margin: 0 10px;             /* small spacing between cards */
-  }
-
-  /* Prevent body scroll completely */
-  body {
-    overflow: hidden;
-    margin: 0;
-    padding: 0;
+  /* ⭐ ACTUAL WIDE CONTENT */
+  #cardPage .birthday-card-container{
+    display:flex;
+    gap:20px;
+    width:max-content;     /* move max-content HERE */
+    margin:20px auto;
+    flex-shrink:0;
   }
 }
 
