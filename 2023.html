@@ -169,53 +169,13 @@ h1 { color:#b492ee; }
 @media (max-width:900px) and (orientation: portrait) {
 
   /* video page layout */
-  .page#videoPage {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start; /* stack title + video + button */
-    align-items: center; /* center video horizontally */
-    padding: env(safe-area-inset-top) 12px env(safe-area-inset-bottom);
-    min-height: 100dvh;
-    box-sizing: border-box;
-  }
-
-  /* title */
-  .page#videoPage h1 {
-    flex: 0 0 auto;
-    text-align: center;
-    margin: 6px 0;
-    padding-top: 10px;
-  }
-
-  /* video wrapper */
-  .page#videoPage .video-9x16 {
-    flex: 0 0 auto;
-    width: min(70vw, 420px); /* max width */
-    max-height: calc(100dvh - 120px); /* leave space for title + back button */
-    margin: 12px 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #000; /* black container */
-    border-radius: 1rem;
-    overflow: hidden;
-    position: relative;
-  }
-
   .page#videoPage .video-9x16 iframe {
-    position: relative; /* no longer absolute */
-    width: auto;
-    max-width: 100%;
-    height: 100%;
-    object-fit: contain; /* keep video centered and fully visible */
-    border-radius: 1rem;
+      width: 105%;
+      height: 100%;
+      transform: translateX(-2.5%);
+      object-fit: cover;
   }
 
-  /* back button */
-  .page#videoPage .back-btn {
-    flex: 0 0 auto;
-    margin: 6px auto 12px auto;
-  }
 }
 
 
@@ -484,7 +444,7 @@ h1 { color:#b492ee; }
 <div class="card page" id="christmasVideoPage">
   <h1>Christmas Video 🎥</h1>
 
-  <div class="video-wrap video-16x9 christmas-video">
+  <div class="video-wrap video-9x16 christmas-video">
       <iframe 
             id="driveVideo2022"
             src="https://drive.google.com/file/d/1M5CcowDj5OYO9Bs7LHQVhiPqH1qDwr5L/preview"
