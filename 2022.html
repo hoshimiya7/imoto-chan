@@ -269,23 +269,55 @@ body.christmas-bg {
 
 /* Mobile portrait (narrower than 600px) */
 @media (max-width:600px){
-  /* Adjust card page vertical start */
+
+  /* Make page fixed, centered, with 10px margin */
   #cardPage {
-    top: 20px;           /* more space from top */
-    left: 50%;
-    transform: translateX(-50%);
+    position: fixed;      /* fix the page in viewport */
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    width: auto;
+    height: auto;
+    transform: none;      /* no translate needed */
+    overflow: hidden;     /* prevent scroll outside card */
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
-  /* Birthday card wrapper: reduce horizontal padding */
+  /* Card itself: fill most of available space but keep 10px margin */
+  #cardPage .card {
+    width: 100%;
+    max-width: calc(100% - 20px); /* 10px margin each side */
+    height: 100%;
+    max-height: calc(100% - 20px); /* vertical margin */
+    padding: 1.5rem;       /* keep some internal padding */
+    overflow: hidden;      /* no scroll outside card */
+    box-sizing: border-box;
+  }
+
+  /* Birthday card wrapper: horizontal scroll only inside card */
   #cardPage .birthday-card-wrapper {
-    padding: 0 300px;     /* instead of 450px on desktop */
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 0 300px;      /* keep front card visible */
+    box-sizing: content-box;
   }
 
   /* Container: reduce margin */
   #cardPage .birthday-card-container {
-    margin: 20px auto;   /* smaller than desktop 80px */
+    margin: 20px auto;     /* smaller than desktop */
+    flex-shrink: 0;
+  }
+
+  /* Prevent body from scrolling outside */
+  body {
+    overflow: hidden;
   }
 }
+
 
 /* Mobile landscape (width > height, but still narrow) */
 @media (max-width:900px) and (orientation: landscape){
