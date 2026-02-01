@@ -315,12 +315,11 @@ body.christmas-bg {
 
   /* Override .page centering */
   #christmas{
-    display:block;
     position: relative;    /* instead of absolute */
     top: 0;
     left: 0;
     transform: none;      /* remove translate(-50%, -50%) */
-    padding: 20px 20px 0px;  /* top padding for title/back */
+    padding: 20px 20px 20px;  /* top padding for title/back */
     box-sizing: border-box;
     overflow-y: auto;     /* allow scrolling if needed */
     width: 100%;          /* full width for mobile */
@@ -388,9 +387,14 @@ body.christmas-bg {
   }
 
   /* ===== Christmas page landscape spacing fix ===== */
-  #christmasPage{
-    top: 180px;                 /* push down from top */
-    transform: translateX(-50%); /* remove vertical centering only */
+    #christmas{
+    position: relative;       /* allow natural flow */
+    top: 0;                   /* reset absolute offsets */
+    left: 0;
+    transform: none;
+    padding: 80px 20px 20px;  /* space for title/back button */
+    width: 100%;
+    max-width: 100%;
   }
 
 
