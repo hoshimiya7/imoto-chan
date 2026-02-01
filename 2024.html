@@ -525,13 +525,13 @@ function flipCard2023() {
     if(window.innerWidth <= 900){
 
       if(window.matchMedia("(orientation: landscape)").matches){
-        spread = container.clientWidth * 0.4; // tighter for landscape
+        spread = container.clientWidth * 0.6; // tighter for landscape
       }else{
-        spread = container.clientWidth * 0.55; // portrait
+        spread = container.clientWidth * 0.7; // portrait
       }
 
     }else{
-      spread = container.clientWidth * 0.45; // desktop
+      spread = container.clientWidth * 0.4; // desktop
     }
 
 
@@ -584,13 +584,13 @@ function flipChristmasCard() {
     if(window.innerWidth <= 900){
 
       if(window.matchMedia("(orientation: landscape)").matches){
-        spread = container.clientWidth * 0.4; // tighter for landscape
+        spread = container.clientWidth * 0.6; // tighter for landscape
       }else{
-        spread = container.clientWidth * 0.55; // portrait
+        spread = container.clientWidth * 0.7; // portrait
       }
 
     }else{
-      spread = container.clientWidth * 0.45; // desktop
+      spread = container.clientWidth * 0.4; // desktop
     }
 
     cardFront.style.transform = `translateX(-${spread}px)`;
