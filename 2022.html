@@ -264,6 +264,46 @@ body.christmas-bg {
   .tile{ padding:1.5rem; font-size:0.9rem; }
   /*.birthday-card-container{ width:280px; height:500px; }*/
 }
+
+/* ================= MOBILE PORTRAIT & LANDSCAPE ADJUSTMENTS ================= */
+
+/* Mobile portrait (narrower than 600px) */
+@media (max-width:600px){
+  /* Adjust card page vertical start */
+  #cardPage {
+    top: 20px;           /* more space from top */
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  /* Birthday card wrapper: reduce horizontal padding */
+  #cardPage .birthday-card-wrapper {
+    padding: 0 20px;     /* instead of 450px on desktop */
+  }
+
+  /* Container: reduce margin */
+  #cardPage .birthday-card-container {
+    margin: 40px auto;   /* smaller than desktop 80px */
+  }
+}
+
+/* Mobile landscape (width > height, but still narrow) */
+@media (max-width:900px) and (orientation: landscape){
+  #cardPage {
+    top: 10px;           /* slightly higher in landscape */
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  #cardPage .birthday-card-wrapper {
+    padding: 0 60px;     /* more horizontal space than portrait but less than desktop */
+  }
+
+  #cardPage .birthday-card-container {
+    margin: 50px auto;
+  }
+}
+
 </style>
 
 </head>
