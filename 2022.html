@@ -291,17 +291,24 @@ body.christmas-bg {
     overflow-y:hidden;
     -webkit-overflow-scrolling:touch;
 
-    padding:0 270px; /* your working value */
-    box-sizing:border-box;
-
     display:flex;        /* ⭐ only wrapper flex */
     justify-content:flex-start;
+
+    /* ⭐ KEY FIX */
+    padding:0 270px; /* your working value */  /* keeps front visible */
+    gap:0;
+
+    box-sizing:border-box;
+
   }
 
-  /* ⭐ DO NOT use max-content here */
+  /* ⭐ THIS is the missing piece */
   #cardPage .birthday-card-container{
     flex-shrink:0;       /* keep natural width */
-    margin:20px auto;
+    margin:20px 0;
+
+    /* give real scroll space for 3 cards */
+    min-width:calc(300% + 540px); /* 3 cards + both paddings */
   }
 }
 
