@@ -278,24 +278,18 @@ body.christmas-bg {
 
   #cardPage .card {
     width: 98%;           /* almost full screen width */
-    max-width: 400px;      /* remove 900px limit */
+    max-width: 400;      /* remove 900px limit */
     padding: 1.5rem 1rem; /* a bit more horizontal padding */
-    overflow-x: hidden;   /* contain any scroll inside wrapper */
   }
 
-  /* Birthday card wrapper: keep padding but allow horizontal scroll */
+  /* Birthday card wrapper: reduce horizontal padding */
   #cardPage .birthday-card-wrapper {
-    width: 100%;          /* fill parent card */
-    overflow-x: auto;     /* allow horizontal scroll inside card */
-    -webkit-overflow-scrolling: touch;
-    padding: 0 300px;     /* keep your front card visible */
-    box-sizing: content-box; /* ensure padding doesn't shrink content */
+    padding: 0 300px;     /* instead of 450px on desktop */
   }
 
   /* Container: reduce margin */
   #cardPage .birthday-card-container {
-    margin: 20px auto;  
-    flex-shrink: 0;
+    margin: 20px auto;   /* smaller than desktop 80px */
   }
 }
 
