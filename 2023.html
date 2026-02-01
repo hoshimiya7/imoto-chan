@@ -252,40 +252,37 @@ h1 { color:#b492ee; }
 /* =========================================================
    🎥 LANDSCAPE VIDEO & CARD PAGE — FIX TITLE + BACK BUTTON
 ========================================================= */
-@media (max-width:900px) and (orientation: landscape){
+@media (max-width:900px) and (orientation: landscape) {
 
-  /* page wrapper */
-  .page#videoPage,
-  .page#cardPage {
+  /* video page layout */
+  .page#videoPage {
     display: flex;
     flex-direction: column;
-    min-height: auto; /* remove 100dvh */
+    min-height: auto; /* don't force 100vh */
     padding: env(safe-area-inset-top) 12px env(safe-area-inset-bottom);
     box-sizing: border-box;
   }
 
-  /* header always visible */
-  .page#videoPage h1,
-  .page#cardPage .card-header {
+  /* title/header */
+  .page#videoPage h1 {
     flex: 0 0 auto;
     text-align: center;
-    margin: 0 0 6px 0;
+    margin: 6px 0 6px 0;
   }
 
-  /* scrollable content: cards or video */
-  .page#videoPage .video-wrap,
-  .page#cardPage .birthday-card-wrapper {
+  /* video wrapper scrollable if needed */
+  .page#videoPage .video-wrap {
     flex: 1 1 auto;
-    min-height: 0; /* important for flex shrink */
-    max-height: calc(100vh - 60px - 50px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
-    overflow-y: auto; /* scroll if content too tall */
+    min-height: 0;
+    max-height: calc(100vh - 50px - 50px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+    overflow-y: auto; /* scroll if video too tall */
+    margin-bottom: 6px;
   }
 
-  /* back button */
-  .page#videoPage .back-btn,
-  .page#cardPage .back-btn {
+  /* back button always visible */
+  .page#videoPage .back-btn {
     flex: 0 0 auto;
-    margin: 6px auto 0;
+    margin: 6px auto 6px auto;
   }
 }
 
