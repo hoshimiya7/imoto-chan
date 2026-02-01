@@ -169,11 +169,11 @@ h1 { color:#b492ee; }
 
 
 /* =========================================================
-   📱📱 LANDSCAPE  (FINAL FIX – no clipping)
+   📱📱 LANDSCAPE — FINAL (no clipping, no centering bug)
 ========================================================= */
 @media (max-width:900px) and (orientation: landscape){
 
-  /* allow page to size naturally */
+  /* page layout */
   #cardPage{
     display:flex;
     flex-direction:column;
@@ -181,46 +181,52 @@ h1 { color:#b492ee; }
     overflow:hidden;
   }
 
-  /* header stays fixed */
+  /* header fixed */
   #cardPage .card-header{
     flex:0 0 auto;
     padding:6px 0;
     text-align:center;
   }
 
-  /* ⭐ CRITICAL FIXES HERE */
+  /* scroll area */
   #cardPage .birthday-card-wrapper{
     flex:1 1 auto;
-    min-height:0;              /* ← prevents bottom clipping */
+    min-height:0;
+
     display:flex;
-    align-items:center;
+
+    /* ⭐ CRITICAL: do NOT center vertically */
+    align-items:flex-start;
 
     overflow-x:auto;
     overflow-y:hidden;
 
     gap:14px;
-    padding:0 12px;
+    padding:10px 12px 0 12px;
 
     scroll-behavior:smooth;
     scroll-snap-type:x mandatory;
   }
 
-  /* center first/last cards */
+  /* center first/last horizontally only */
   #cardPage .birthday-card-wrapper::before,
   #cardPage .birthday-card-wrapper::after{
     content:"";
     flex:0 0 calc((100vw - 170px)/2);
   }
 
-  /* ⭐ KEY: use max-height instead of fixed height */
+  /* card sizing */
   #cardPage .birthday-card-container{
     flex:0 0 auto;
 
     width:170px;
-    height:auto;                 /* ← stop forcing height */
-    max-height:85vh;             /* ← always fully visible */
 
-    aspect-ratio: 360 / 640;     /* keeps same proportions */
+    /* ⭐ height based on real available space */
+    height:calc(100dvh - 90px);
+
+    max-height:100%;
+
+    aspect-ratio:360/640;
 
     scroll-snap-align:center;
   }
