@@ -173,6 +173,17 @@ h1{color:#b492ee;}
 .video-16x9{ aspect-ratio:16/9; }
 .video-9x16{ aspect-ratio:9/16; width:min(70vw,420px); }
 
+/* Landscape phones: make videos wider */
+@media (max-width:900px) and (orientation: landscape) {
+  .video-9x16 {
+    aspect-ratio: 16/9;      /* switch to landscape ratio */
+    width: 90vw;              /* almost full width */
+    max-width: 95%;           /* never overflow */
+    height: auto;             /* allow browser to calculate height */
+  }
+}
+
+
 /* ================= CHRISTMAS MEMORY WALL ================= */
 .memory-wall{
   display:flex;
