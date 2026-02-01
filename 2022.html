@@ -1,5 +1,4 @@
 <!-- ================= Isolated 2022 from index - Responsive ================= -->
-<!-- ================= Isolated 2022 from index - Responsive ================= -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,180 +6,272 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 <title>2022 Memories</title>
-<link rel="stylesheet" href="styles.css">
 
 <style>
-/* ================= 2022 RESPONSIVE OVERRIDES ================= */
-
-.page {
-  padding-top: max(20px, env(safe-area-inset-top));
-  overflow-y: auto;
+/* ==================== GENERAL ==================== */
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background: linear-gradient(135deg, rgba(168,85,247,.18), rgba(255,255,255,.95)),
+              repeating-linear-gradient(45deg,#f3e8ff,#f3e8ff 20px,#fff 20px,#fff 40px);
+  min-height:100vh;
+}
+h1{color:#b492ee;}
+.page{
+  display:none;
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+}
+.card{
+  background:rgba(206, 176, 255, 0.205);
+  backdrop-filter:blur(12px);
+  padding:2rem;
+  border-radius:1.25rem;
+  box-shadow:0 8px 30px rgba(0,0,0,.25);
+  color:#4a044e;
+  max-width:900px;
+  width:95%;
+  margin:auto;
+  text-align:center;
+}
+.tiles{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:1rem;
+  margin-top:1rem;
+}
+.tile{
+  background:linear-gradient(135deg,#f9a8d4,#c7d2fe);
+  padding:2rem;
+  border-radius:1.25rem;
+  text-align:center;
+  font-weight:bold;
+  cursor:pointer;
+  color:#4a044e;
+  box-shadow:0 6px 16px rgba(0,0,0,.25);
+  transition:.25s;
+}
+.tile:hover{ transform:translateY(-6px) scale(1.03); }
+.back-btn{
+  margin-top:2rem;
+  background:#10b981;
+  color:white;
+  padding:.6rem 1.2rem;
+  border:none;
+  border-radius:999px;
+  cursor:pointer;
+}
+.logout-btn{
+  position:absolute;
+  top:20px;
+  right:20px;
+  background:linear-gradient(135deg,#fb7185,#f43f5e);
+  color:white;
+  padding:.5rem 1.25rem;
+  border-radius:999px;
+  border:none;
+  cursor:pointer;
 }
 
-
-/* ================= TILE LAYOUT ================= */
-
-#home .tiles,
-#birthday .tiles {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 1rem;
+/* ================= EFFECT LAYERS ================= */
+.effect-layer{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  pointer-events:none;
+  overflow:hidden;
+  z-index:9999;
+  display:none;
 }
 
-#home .tile,
-#birthday .tile {
-  flex: 1 1 140px;
-  max-width: 200px;
-  font-size: 1.1rem;
-  padding: 1rem;
+/* ================= BIRTHDAY CARD ================= */
+.birthday-card-container{
+  position:relative;
+  width:360px; height:640px;
+  margin:2rem auto;
+  perspective:1500px;
 }
-
-
-/* =========================================================
-   🎂 BIRTHDAY CARD – TRUE IMAGE RATIO (1414 x 2000)
-   ========================================================= */
-
-/* =========================================
-   UNIVERSAL CARD SIZING (birthday + christmas)
-   ========================================= */
-
-/* desktop */
-.birthday-card-container {
-  aspect-ratio: 1414 / 2000;
-  width: 420px;
-  margin: 2rem auto;
-  perspective: 1500px;
-  position: relative;
+.card-inner2, .card-flip, .card-front, .card-inner1{
+  position:absolute;
+  top:0; left:0;
+  width:100%; height:100%;
 }
-
-
-/* ================= PORTRAIT PHONES ================= */
-/* 1/3 screen width so 3 cards fit during spread */
-@media (max-width: 768px) and (orientation: portrait) {
-  .birthday-card-container {
-    width: 30vw;   /* ⭐ your requested 1/3 width */
-    height: auto;
-  }
+.card-inner2 img, .card-front img, .card-inner1 img{
+  width:100%; height:100%;
+  border-radius:18px;
+  object-fit:contain; /* ✅ changed from cover */
 }
-
-
-/* ================= LANDSCAPE PHONES ================= */
-/* size by remaining height so title always visible */
-@media (max-height: 600px) {
-  .birthday-card-container {
-    height: calc(100vh - 160px);  /* leaves room for title/buttons */
-    width: auto;
-  }
+.card-flip{
+  transform-style: preserve-3d;
+  transform-origin:left;
+  cursor:pointer;
+  z-index:2;
 }
-
-
-
-/* =========================================================
-   CARD STRUCTURE
-   ========================================================= */
-
-#cardPage .card-inner2,
-#cardPage .card-flip,
-#cardPage .card-front,
-#cardPage .card-inner1 {
-  position: absolute;
-  width: 100%;
-  height: 100%;
+.card-front, .card-inner1{
+  backface-visibility:hidden;
+  border-radius:18px;
 }
-
-#cardPage .card-photo {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 18px;
-}
-
-/* horizontal spread after flip */
-#cardPage .card-horizontal {
-  position: absolute;
-  top: 0;
+.card-inner1{ transform:rotateY(180deg); }
+.card-horizontal{
+  position:absolute;
+  top:0;
+  width:100%; height:100%;
   transition: transform 0.6s cubic-bezier(.34,1.3,.64,1);
 }
 
-
-/* =========================================================
-   VIDEO
-   ========================================================= */
-
-.video-wrap {
-  width: 90vw;
-  max-width: 720px;
-  margin: 1rem auto;
-  position: relative;
+/* clickable card photo */
+.card-photo{
+  cursor:pointer;
+  transition: transform .25s ease;
 }
+.card-photo:hover{ transform: scale(1.03); }
 
-.video-16x9::before {
-  content: "";
-  display: block;
-  padding-top: 56.25%;
+/* ================= VIDEO ================= */
+.video-wrap{
+  width:min(95vw,900px);
+  margin:0 auto;
+  position:relative;
+  border-radius:1rem;
+  overflow:hidden;
 }
-
-.video-9x16::before {
-  content: "";
-  display: block;
-  padding-top: 177.78%;
+.video-wrap iframe{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  border:0;
 }
+.video-16x9{ aspect-ratio:16/9; }
+.video-9x16{ aspect-ratio:9/16; width:min(70vw,420px); }
 
-.video-wrap iframe {
-  position: absolute;
+/* ================= CHRISTMAS MEMORY WALL ================= */
+.memory-wall{
+  display:flex;
+  justify-content:center;
+  gap:30px;
+  flex-wrap:wrap;
+  margin-top:30px;
+}
+.polaroid{
+  background:white;
+  padding:12px 12px 30px;
+  border-radius:10px;
+  width:180px;
+  cursor:pointer;
+  box-shadow:0 10px 25px rgba(0,0,0,.25);
+  text-align:center;
+  transition:.25s;
+}
+.polaroid img{ width:100%; border-radius:6px; }
+.polaroid span{ display:block; margin-top:10px; font-size:.85rem; color:#444; }
+.polaroid:nth-child(1){ transform:rotate(-6deg); }
+.polaroid:nth-child(2){ transform:rotate(5deg); }
+.polaroid:nth-child(3){ transform:rotate(-3deg); }
+.polaroid:hover{ transform:scale(1.08) rotate(0deg); }
+
+/* ================= KEYFRAMES ================= */
+@keyframes fallSnow{ to{ transform:translateY(110vh); } }
+/* Balloons */
+@keyframes riseBalloon{ to{ transform:translateY(-120vh); opacity:0; } }
+
+.photo-modal {
+  display: none;
+  position: fixed;
   inset: 0;
-  width: 100%;
-  height: 100%;
-}
-
-
-/* =========================================================
-   CHRISTMAS WALL
-   ========================================================= */
-
-#christmas .memory-wall {
-  display: flex;
-  flex-wrap: wrap;
+  background: rgba(0,0,0,.75);
   justify-content: center;
-  gap: 1rem;
+  align-items: center;
+  z-index: 10000;
+  overflow: hidden;
 }
 
-#christmas .polaroid {
-  flex: 1 1 140px;
-  max-width: 180px;
+.photo-modal img {
+  max-width: 85%;
+  max-height: 85%;
+  border-radius: 18px;
+  box-shadow: 0 20px 60px rgba(0,0,0,.6);
+  transition: transform .25s ease, opacity .25s ease;
 }
 
-
-/* =========================================================
-   MODALS
-   ========================================================= */
-
-.photo-modal img,
-.photo-modal .video-wrap iframe {
-  max-width: 90vw;
-  max-height: 90vh;
+/* arrows */
+.nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 50px;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  padding: 20px;
+  user-select: none;
+  z-index: 10001;
 }
 
+.prev { left: 30px; }
+.next { right: 30px; }
 
-/* =========================================================
-   SMALL SCREEN TEXT
-   ========================================================= */
+.photo-close {
+  position: absolute;
+  top: 25px;
+  right: 40px;
+  font-size: 42px;
+  color: white;
+  cursor: pointer;
+  z-index: 10001;
+}
+
+/* ================= CHRISTMAS THEME ================= */
+body.christmas-bg {
+  background: linear-gradient(135deg,#0ea5e9,#1e3a8a);
+  color: white;
+}
+
+.tile-christmas-blue {
+  background: linear-gradient(135deg,#93c5fd,#bfdbfe); /* light blue gradient */
+  color: #1e3a8a;
+}
+.tile-christmas-blue:hover {
+  transform: translateY(-6px) scale(1.03);
+}
+
+/* ================= MOBILE RESPONSIVE ================= */
+@media (max-width: 768px) {
+  .card {
+    width: 90%;
+    padding: 1.2rem;
+  }
+  h1 { font-size: 1.5rem; }
+  .tiles { grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap:0.75rem; }
+  .tile { padding:1.2rem; font-size:0.95rem; }
+  .back-btn, .logout-btn { padding:0.5rem 1rem; font-size:0.85rem; }
+  .birthday-card-container { width:280px; height:500px; }
+  .video-wrap.video-16x9 { width:95vw; }
+  .video-wrap.video-9x16 { width:70vw; }
+  .polaroid { width:140px; }
+}
+
+@media (max-width: 768px) and (orientation: landscape) {
+  .card { width: 85%; padding:1rem; }
+  .birthday-card-container { width:320px; height:550px; }
+  .tiles { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap:0.5rem; }
+  .polaroid { width:160px; }
+  .video-wrap.video-16x9 { width:90vw; }
+}
 
 @media (max-width: 480px) {
-  #home .tile,
-  #birthday .tile {
-    font-size: 1rem;
-    padding: 0.8rem;
-  }
-
-  .back-btn,
-  .logout-btn {
-    font-size: 0.9rem;
-    padding: 0.5rem 1rem;
-  }
+  .photo-modal img, .video-wrap iframe { max-width:95vw; max-height:70vh; }
+  .nav { font-size:36px; padding:12px; }
+  .photo-close { font-size:36px; top:15px; right:20px; }
 }
+
 </style>
+
+
 </head>
 
 
@@ -239,7 +330,7 @@
   <div class="video-wrap video-16x9">
     <iframe id="driveVideo"
       src="https://drive.google.com/file/d/1qY40I4qMtDJPwqCwBsutMvZDnp-0VXSY/preview"
-      frameborder="0" allowfullscreen style="border-radius:1rem;">
+      frameborder="0" allow="autoplay; encrypted-media" allowfullscreen style="border-radius:1rem;">
     </iframe>
   </div>
   <button class="back-btn" onclick="openBirthday()">Back</button>
@@ -250,7 +341,7 @@
   <h1>2022 Christmas 🎄</h1>
   <p>Christmas memories of 2022</p>
   <div class="memory-wall">
-    <div class="polaroid" data-src="https://drive.google.com/file/d/1Wm0sghpvERLhImt9g0kSjVP1e-5a6ZoV/preview">
+    <div class="polaroid" data-src="https://drive.google.com/file/d/1Wm0sghpvERLhImt9g0kSjWP1e-5a6ZoV/preview">
       <img src="Images/thumb1.png"><span>...</span>
     </div>
     <div class="polaroid" data-src="https://drive.google.com/file/d/1TfBE2sYzWPnNALq8Rtv_CudvqlYTHftR/preview">
@@ -274,10 +365,12 @@
 <!-- ================= VIDEO MODAL ================= -->
 <div id="videoModal" class="photo-modal">
   <span class="photo-close">&times;</span>
+
   <button class="nav prev">&#10094;</button>
   <div class="video-wrap video-9x16">
-    <iframe id="drivePlayer" frameborder="0" allowfullscreen></iframe>
+    <iframe id="drivePlayer" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
   </div>
+  
   <button class="nav next">&#10095;</button>
 </div>
 
@@ -428,7 +521,7 @@ function flipCard2023() {
     cardFlip.style.transition="none";
     cardFlip.style.transform="none";
     [cardFront, cardInner1, cardInner2].forEach(c=>c.classList.add("card-horizontal"));
-    const spread = container.querySelector(".birthday-card-container").clientWidth * 1;
+    const spread = container.querySelector(".birthday-card-container").clientWidth * 1.025;
     cardFront.style.transform = `translateX(-${spread}px)`;
     cardInner1.style.transform = `translateX(0px)`;
     cardInner2.style.transform = `translateX(${spread}px)`;
