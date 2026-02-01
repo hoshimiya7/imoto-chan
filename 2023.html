@@ -91,50 +91,22 @@ h1 { color:#b492ee; }
 /* ================= MOBILE PORTRAIT & LANDSCAPE OVERRIDES ================= */
 @media (max-width: 900px) {
 
-  #cardPage {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden; /* keep vertical scroll hidden */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-top: 60px; /* space for fixed header */
-  }
-
-  /* Stationary header */
-  #cardPage .card-header {
-    position: fixed;
-    top: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: calc(100% - 20px);
-    text-align: center;
-    z-index: 10;
-  }
-
-  #cardPage .card-header h1 {
-    margin: 0 0 10px 0;
-    font-size: 1.6rem;
-    color: #b492ee;
-  }
-
-  #cardPage .card-header .back-btn {
-    display: inline-block;
-    margin: 0 auto;
-  }
-
   /* Scrollable wrapper */
   #cardPage .birthday-card-wrapper {
     display: flex;
     flex-direction: row;
     gap: 20px;
     overflow-x: auto;
+    overflow-y: hidden;
     padding: 20px;
     box-sizing: border-box;
     scroll-behavior: smooth;
+
+    /* Center cards vertically */
+    align-items: center;
+    justify-content: flex-start;
+    height: calc(100% - 80px); /* space for fixed header */
+    margin-top: 60px; /* push below header */
   }
 
   /* Cards inside wrapper */
@@ -144,17 +116,18 @@ h1 { color:#b492ee; }
     height: 390px;
   }
 
-  /* Inner elements sizing */
-  #cardPage .card-inner2,
-  #cardPage .card-flip,
-  #cardPage .card-front,
-  #cardPage .card-inner1,
-  #cardPage .card-photo {
-    width: 100%;
-    height: 100%;
+  /* Header */
+  #cardPage .card-header {
+    position: fixed;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 20px);
+    text-align: center;
+    z-index: 10;
   }
-
 }
+
 
 
 </style>
