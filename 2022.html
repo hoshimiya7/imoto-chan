@@ -267,54 +267,46 @@ body.christmas-bg {
 
 /* ================= MOBILE PORTRAIT & LANDSCAPE ADJUSTMENTS ================= */
 
-/* Mobile portrait (narrower than 600px) */
 @media (max-width:600px){
-
-  /* Make page fixed, centered, with 10px margin */
+  /* Card page position normal, keep it centered */
   #cardPage {
-    position: fixed;      /* fix the page in viewport */
     top: 10px;
-    left: 10px;
-    right: 10px;
-    bottom: 10px;
-    width: auto;
-    height: auto;
-    transform: none;      /* no translate needed */
-    overflow: hidden;     /* prevent scroll outside card */
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    left: 50%;
+    transform: translateX(-50%);
+    position: absolute;   /* normal flow */
+    width: calc(100% - 20px); /* 10px margins */
+    max-width: 100%;
+    overflow: hidden;     /* prevent card content spilling out */
   }
 
-  /* Card itself: fill most of available space but keep 10px margin */
+  /* Card itself */
   #cardPage .card {
     width: 100%;
-    max-width: calc(100% - 20px); /* 10px margin each side */
-    height: 100%;
-    max-height: calc(100% - 20px); /* vertical margin */
-    padding: 1.5rem;       /* keep some internal padding */
-    overflow: hidden;      /* no scroll outside card */
+    max-width: 100%;
+    padding: 1.5rem;
+    margin: 0 auto;
     box-sizing: border-box;
   }
 
-  /* Birthday card wrapper: horizontal scroll only inside card */
+  /* Birthday card wrapper: horizontal scroll only */
   #cardPage .birthday-card-wrapper {
-    width: 100%;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
-    padding: 0 300px;      /* keep front card visible */
-    box-sizing: content-box;
+    padding: 0 120px;  /* adjust so front card is visible but scroll contained */
+    margin: 0 auto;
   }
 
-  /* Container: reduce margin */
+  /* Card container margin */
   #cardPage .birthday-card-container {
-    margin: 20px auto;     /* smaller than desktop */
+    margin: 20px auto;
     flex-shrink: 0;
   }
 
-  /* Prevent body from scrolling outside */
+  /* Limit body scroll vertically */
   body {
-    overflow: hidden;
+    overflow-y: hidden;
+    padding: 0;
+    margin: 0;
   }
 }
 
