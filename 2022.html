@@ -13,8 +13,10 @@
 /* ================= 2022 RESPONSIVE OVERRIDES ================= */
 
 .page {
-  padding-top: max(1rem, env(safe-area-inset-top));
+  padding-top: max(20px, env(safe-area-inset-top));
+  overflow-y: auto;
 }
+
 
 /* ================= TILE LAYOUT ================= */
 
@@ -39,8 +41,12 @@
    🎂 BIRTHDAY CARD – TRUE IMAGE RATIO (1414 x 2000)
    ========================================================= */
 
-/* Desktop */
-#cardPage .birthday-card-container {
+/* =========================================
+   UNIVERSAL CARD SIZING (birthday + christmas)
+   ========================================= */
+
+/* desktop */
+.birthday-card-container {
   aspect-ratio: 1414 / 2000;
   width: 420px;
   margin: 2rem auto;
@@ -49,32 +55,25 @@
 }
 
 
-/* ================= MOBILE PORTRAIT ================= */
-/* size by HEIGHT so full card always fits */
+/* ================= PORTRAIT PHONES ================= */
+/* 1/3 screen width so 3 cards fit during spread */
 @media (max-width: 768px) and (orientation: portrait) {
-  #cardPage .birthday-card-container {
-    height: 70vh;      /* key fix */
-    width: auto;
+  .birthday-card-container {
+    width: 30vw;   /* ⭐ your requested 1/3 width */
+    height: auto;
   }
 }
 
 
-/* ================= MOBILE LANDSCAPE ================= */
-/* height is even smaller here */
-@media (max-width: 1024px) and (orientation: landscape) {
-  #cardPage .birthday-card-container {
-    height: 75vh;
-    width: auto;
-  }
-}
-
-
-/* very small devices safety */
+/* ================= LANDSCAPE PHONES ================= */
+/* size by remaining height so title always visible */
 @media (max-height: 600px) {
-  #cardPage .birthday-card-container {
-    height: 65vh;
+  .birthday-card-container {
+    height: calc(100vh - 160px);  /* leaves room for title/buttons */
+    width: auto;
   }
 }
+
 
 
 /* =========================================================
