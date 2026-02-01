@@ -250,50 +250,50 @@ h1 { color:#b492ee; }
 
 
 /* =========================================================
-   🎥 LANDSCAPE VIDEO PAGE — FIX BACK BUTTON
+   🎥 LANDSCAPE VIDEO & CARD PAGE — FIX TITLE + BACK BUTTON
 ========================================================= */
 @media (max-width:900px) and (orientation: landscape){
 
   /* page wrapper */
-  .page#videoPage {
+  .page#videoPage,
+  .page#cardPage {
     display: flex;
     flex-direction: column;
-
-    /* full viewport, plus safe padding for bottom buttons */
     min-height: 100dvh;
-    padding: 10px 14px env(safe-area-inset-bottom);
+    padding: 6px 12px env(safe-area-inset-bottom);
     box-sizing: border-box;
-
-    overflow: hidden;
   }
 
-  /* title */
-  .page#videoPage h1 {
+  /* header / title always visible */
+  .page#videoPage .card-header,
+  .page#videoPage h1,
+  .page#cardPage .card-header {
     flex: 0 0 auto;
-    margin: 0 0 8px 0;
+    margin: 0;
     text-align: center;
   }
 
-  /* video takes remaining space */
-  .page#videoPage .video-wrap {
+  /* scrollable/flexible content area */
+  .page#videoPage .video-wrap,
+  .page#cardPage .birthday-card-wrapper {
     flex: 1 1 auto;
-    width: 100%;
-    max-height: 100%;
+    min-height: 0; /* important for flex shrink to prevent overflow */
+    overflow: hidden; /* or auto if scrolling needed */
   }
 
-  /* ensure aspect ratio fits */
+  /* back button always visible at bottom */
+  .page#videoPage .back-btn,
+  .page#cardPage .back-btn {
+    flex: 0 0 auto;
+    margin: 6px auto 0;
+  }
+
+  /* video aspect */
   .page#videoPage .video-16x9 {
+    width: 100%;
     height: 100%;
   }
-
-  /* back button at bottom, with safe spacing */
-  .page#videoPage .back-btn {
-    flex: 0 0 auto;
-    margin: 8px auto 0;
-    z-index: 5;
-  }
 }
-
 
 
 </style>
