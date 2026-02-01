@@ -22,28 +22,38 @@ body {
 
 h1 { color:#b492ee; }
 
+
+
 /* ================= CARD ================= */
 .birthday-card-container {
-  width: 360px;   /* Desktop size */
+  width: 360px;   /* Desktop size (UNCHANGED) */
   height: 640px;
   margin: 2rem auto;
   perspective: 1500px;
   position: relative;
 }
 
-.card-inner2, .card-flip, .card-front, .card-inner1 {
+.card-inner2,
+.card-flip,
+.card-front,
+.card-inner1 {
   position: absolute;
   top:0; left:0;
   width:100%;
   height:100%;
 }
 
-.card-inner2 img, .card-front img, .card-inner1 img, .card-photo {
+.card-inner2 img,
+.card-front img,
+.card-inner1 img,
+.card-photo {
   width:100%;
   height:100%;
   object-fit: cover;
   border-radius: 18px;
 }
+
+
 
 /* ================= VIDEO ================= */
 .video-wrap{
@@ -53,6 +63,7 @@ h1 { color:#b492ee; }
   border-radius:1rem;
   overflow:hidden;
 }
+
 .video-wrap iframe{
   position:absolute;
   inset:0;
@@ -60,10 +71,11 @@ h1 { color:#b492ee; }
   height:100%;
   border:0;
 }
+
 .video-16x9{ aspect-ratio:16/9; }
 .video-9x16{ aspect-ratio:9/16; width:min(70vw,420px); }
 
-/* Landscape phones: make videos wider */
+/* Landscape phones: make portrait videos wider */
 @media (max-width:900px) and (orientation: landscape) {
   .video-9x16 {
     aspect-ratio: 16/9;
@@ -72,6 +84,8 @@ h1 { color:#b492ee; }
     height: auto;
   }
 }
+
+
 
 /* ================= PAGE TITLES & PADDING ================= */
 @media (max-width:600px){
@@ -88,57 +102,127 @@ h1 { color:#b492ee; }
   }
 }
 
-/* ================= MOBILE PORTRAIT & LANDSCAPE OVERRIDES ================= */
-@media (max-width: 900px) {
 
-  #cardPage {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    overflow: hidden;
+
+/* =========================================================
+   MOBILE LAYOUT SYSTEM
+   (Portrait + Landscape split so landscape can be fixed)
+========================================================= */
+
+
+
+/* =========================================================
+   📱 PORTRAIT  (your working version — unchanged)
+========================================================= */
+@media (max-width:900px) and (orientation: portrait){
+
+  #cardPage{
+    display:flex;
+    flex-direction:column;
+    height:100dvh; /* better than vh on mobile */
+    overflow:hidden;
   }
 
-  /* HEADER (title + back button fixed) */
-  #cardPage .card-header {
-    flex: 0 0 auto;
-    text-align: center;
-    padding: 10px 0;
-    z-index: 5;
+  /* fixed header */
+  #cardPage .card-header{
+    flex:0 0 auto;
+    text-align:center;
+    padding:10px 0;
+    z-index:5;
   }
 
-  /* Scrollable wrapper */
-  #cardPage .birthday-card-wrapper {
-    flex: 1;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 20px;
+  /* scrollable cards */
+  #cardPage .birthday-card-wrapper{
+    flex:1;
+    display:flex;
+    flex-direction:row;
+    align-items:center;
 
-    overflow-x: auto;
-    overflow-y: hidden;
+    gap:20px;
 
-    scroll-behavior: smooth;
-    scroll-snap-type: x mandatory;
+    overflow-x:auto;
+    overflow-y:hidden;
 
-    padding: 0 20px; /* SMALL only */
-    box-sizing: border-box;
+    scroll-behavior:smooth;
+    scroll-snap-type:x mandatory;
+
+    padding:0 20px;
+    box-sizing:border-box;
   }
 
-  /* fake space BEFORE first card */
+  /* side spacing to center first/last */
   #cardPage .birthday-card-wrapper::before,
   #cardPage .birthday-card-wrapper::after {
-    content: "";
-    flex: 0 0 calc((100vw - 5px) / 2); /* gives centered first/last card */
+    content:"";
+    flex:0 0 calc((100vw - 5px)/2);
   }
 
-  /* cards */
-  #cardPage .birthday-card-container {
-    flex: 0 0 auto;
-    width: 220px;
-    height: 390px;
-    scroll-snap-align: center;
+  #cardPage .birthday-card-container{
+    flex:0 0 auto;
+    width:220px;
+    height:390px;
+    scroll-snap-align:center;
   }
 }
+
+
+
+
+/* =========================================================
+   📱📱 LANDSCAPE  ⭐ FIXED VERSION
+========================================================= */
+@media (max-width:900px) and (orientation: landscape){
+
+  /* FULL height without browser cut-off */
+  #cardPage{
+    display:flex;
+    flex-direction:column;
+    height:100dvh;   /* fixes bottom clipping */
+    overflow:hidden;
+  }
+
+  /* header always visible */
+  #cardPage .card-header{
+    flex:0 0 auto;
+    text-align:center;
+    padding:6px 0;
+    z-index:5;
+  }
+
+  /* horizontal scroll area */
+  #cardPage .birthday-card-wrapper{
+    flex:1;
+
+    display:flex;
+    flex-direction:row;
+    align-items:center;
+
+    overflow-x:auto;
+    overflow-y:hidden;
+
+    gap:14px;
+    padding:0 12px;
+
+    scroll-behavior:smooth;
+    scroll-snap-type:x mandatory;
+  }
+
+  /* center first/last cards */
+  #cardPage .birthday-card-wrapper::before,
+  #cardPage .birthday-card-wrapper::after {
+    content:"";
+    flex:0 0 calc((100vw - 170px)/2);
+  }
+
+  /* smaller cards so full card fits landscape height */
+  #cardPage .birthday-card-container{
+    flex:0 0 auto;
+    width:170px;
+    height:300px;
+    scroll-snap-align:center;
+  }
+}
+
 
 
 
