@@ -143,40 +143,6 @@ h1 { color:#b492ee; }
     height: 100%;
   }
 
-  /* ================= CHRISTMAS PAGE SCROLL ================= */
-  #christmas {
-    position: relative;
-    top:0;
-    left:0;
-    transform: none;
-    padding: 20px;
-    box-sizing: border-box;
-    overflow-y: auto;     /* allow scrolling if content exceeds screen */
-    width: 100%;
-    max-width: 100%;
-  }
-
-  /* Memory wall grid for small screens */
-  #christmas .memory-wall {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: auto auto;
-    grid-template-areas:
-      "p1 p1"
-      "p2 p3";
-    justify-items: center;
-    gap: 15px 10px;
-    margin-top: 20px;
-  }
-
-  #christmas .memory-wall .polaroid:nth-child(1){ grid-area: p1; }
-  #christmas .memory-wall .polaroid:nth-child(2){ grid-area: p2; }
-  #christmas .memory-wall .polaroid:nth-child(3){ grid-area: p3; }
-
-  #christmas .memory-wall .polaroid{
-    width: 45%;
-    margin:0;
-  }
 }
 </style>
 
@@ -228,34 +194,37 @@ h1 { color:#b492ee; }
 <div class="card page" id="cardPage">
   <h1>Memory Card 💌</h1>
 
-  <div class="birthday-card-container">
+  <!-- ⭐ wrapper for scroll on mobile -->
+  <div class="birthday-card-wrapper">
+    <div class="birthday-card-container">
 
-    <div class="card-inner2">
-      <img src="Images/three.png" class="card-photo">
-    </div>
-
-    <div class="card-flip c" id="cardFlip">
-
-      <div class="card-front">
-        <img src="Images/one.png" class="card-photo">
+      <div class="card-inner2">
+        <img src="Images/three.png" class="card-photo">
       </div>
 
-      <div class="card-inner1">
-        <img src="Images/two.png" class="card-photo">
+      <div class="card-flip c" id="cardFlip">
+
+        <div class="card-front">
+          <img src="Images/one.png" class="card-photo">
+        </div>
+
+        <div class="card-inner1">
+          <img src="Images/two.png" class="card-photo">
+        </div>
+
       </div>
-
     </div>
-
   </div>
 
   <button class="back-btn" onclick="openBirthday()">Back</button>
 </div>
 
+
 <!-- ================= VIDEO ================= -->
 <div class="card page" id="videoPage">
   <h1>Memory Video 🎥</h1>
 
-  <div class="video-wrap birthday-video">
+  <div class="video-wrap video-16x9 birthday-video">
     <iframe
         id="driveVideo"
         src="https://drive.google.com/file/d/11WZc9oFU9wtB9JzRBAPerfkGN-TxiI41/preview"
@@ -314,7 +283,7 @@ h1 { color:#b492ee; }
 <div class="card page" id="christmasVideoPage">
   <h1>Christmas Video 🎥</h1>
 
-  <div class="video-wrap christmas-video">
+  <div class="video-wrap video-16x9 christmas-video">
       <iframe 
             id="driveVideo2022"
             src="https://drive.google.com/file/d/1M5CcowDj5OYO9Bs7LHQVhiPqH1qDwr5L/preview"
@@ -553,12 +522,22 @@ function flipCard2023() {
     cardFlip.style.transform = "none";
     [cardFront, cardInner1, cardInner2].forEach(c => c.classList.add("card-horizontal"));
 
-    const spread = container.clientWidth * 0.4; // 40% of container width
+    // ✅ Adjust spread based on orientation
+    let spread;
+    if(window.innerWidth <= 900) {
+      // Mobile portrait/landscape
+      spread = container.clientWidth * 0.55; // bigger spread for portrait
+    } else {
+      // Desktop
+      spread = container.clientWidth * 0.4;
+    }
+
     cardFront.style.transform = `translateX(-${spread}px)`;
     cardInner1.style.transform = `translateX(0px)`;
     cardInner2.style.transform = `translateX(${spread}px)`;
   }, 2000);
 }
+
 
 /* ================= CHRISTMAS FUNCTIONS ================= */
 function openChristmasCard() {
