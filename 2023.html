@@ -173,6 +173,18 @@ h1 { color:#b492ee; }
 ========================================================= */
 @media (max-width:900px) and (orientation: landscape){
 
+  .page#cardPage{
+    overflow:visible; /* ⭐ stops clipping */
+  }
+
+  #cardPage .birthday-card-wrapper{
+    align-items:flex-start;
+    min-height:0;
+  }
+}
+
+@media (max-width:900px) and (orientation: landscape){
+
   /* page layout */
   #cardPage{
     display:flex;
