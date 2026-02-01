@@ -610,13 +610,18 @@ function flipCard2023() {
 
     // ✅ Adjust spread based on orientation
     let spread;
-    if(window.innerWidth <= 900) {
-      // Mobile portrait/landscape
-      spread = container.clientWidth * 0.55; // bigger spread for portrait
-    } else {
-      // Desktop
-      spread = container.clientWidth * 0.4;
+    if(window.innerWidth <= 900){
+
+      if(window.matchMedia("(orientation: landscape)").matches){
+        spread = container.clientWidth * 0.28; // tighter for landscape
+      }else{
+        spread = container.clientWidth * 0.55; // portrait
+      }
+
+    }else{
+      spread = container.clientWidth * 0.4; // desktop
     }
+
 
     cardFront.style.transform = `translateX(-${spread}px)`;
     cardInner1.style.transform = `translateX(0px)`;
