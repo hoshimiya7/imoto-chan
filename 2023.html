@@ -464,52 +464,51 @@ h1 { color:#b492ee; }
    📱📱 CHRISTMAS CARD — LANDSCAPE
 ========================================================= */
 @media (max-width:900px) and (orientation: landscape){
-  #christmasCardPage{
-    display:flex;
-    flex-direction:column;
-    height:100dvh;
-    overflow:hidden;
+  /* allow vertical scroll to prevent clipping */
+  #christmasCardPage {
+    display: flex;
+    flex-direction: column;
+    height: 100dvh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: env(safe-area-inset-top) 12px env(safe-area-inset-bottom);
+    box-sizing: border-box;
   }
 
-  /* header fixed */
-  #christmasCardPage .card-header{
-    flex:0 0 auto;
-    padding:6px 0;
-    text-align:center;
+  /* header/title fixed at top */
+  #christmasCardPage h1 {
+    flex: 0 0 auto;
+    text-align: center;
+    margin: 6px 0;
+    padding-top: 20px;
   }
 
-  /* scrollable cards */
-  #christmasCardPage .birthday-card-wrapper{
-    flex:1 1 auto;
-    min-height:0;
-
-    display:flex;
-    align-items:flex-start; /* do NOT center vertically */
-    overflow-x:auto;
-    overflow-y:hidden;
-
-    gap:14px;
-    padding:10px 12px 0 12px;
-
-    scroll-behavior:smooth;
-    scroll-snap-type:x mandatory;
+  /* scrollable card wrapper */
+  #christmasCardPage .birthday-card-wrapper {
+    flex: 1 1 auto;
+    display: flex;
+    align-items: flex-start; /* ⭐ align top to prevent clipping */
+    gap: 14px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+    padding: 10px 12px 10px 12px;
   }
 
   /* center first/last horizontally only */
   #christmasCardPage .birthday-card-wrapper::before,
-  #christmasCardPage .birthday-card-wrapper::after{
-    content:"";
-    flex:0 0 calc((100vw - 170px)/2);
+  #christmasCardPage .birthday-card-wrapper::after {
+    content: "";
+    flex: 0 0 calc((100vw - 170px)/2);
   }
 
   /* card sizing */
-  #christmasCardPage .birthday-card-container{
-    flex:0 0 auto;
-    width:170px;
-    height:calc(100dvh - 20px);
-    max-height:100%;
-    aspect-ratio:360/640;
-    scroll-snap-align:center;
+  #christmasCardPage .birthday-card-container {
+    flex: 0 0 auto;
+    width: 170px;
+    aspect-ratio: 360/640;  /* height adjusts automatically */
+    scroll-snap-align: center;
   }
 }
 
