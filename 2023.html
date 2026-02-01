@@ -187,12 +187,12 @@ h1 { color:#b492ee; }
 
   /* video wrapper for 9:16 videos */
   .page#videoPage .video-9x16 {
-      /*flex: 1 1 auto;*/
+      flex: 1 1 auto;
       width: 90vw;               /* slightly larger for mobile portrait */
       max-width: 100%;
       height: calc(90vw * 16 / 9); /* maintain 9:16 ratio */
       overflow: visible;          /* allow Drive UI to extend */
-      margin: 0 auto;           /* spacing above & below */
+      margin: 6px auto;           /* spacing above & below */
   }
 
   .page#videoPage .video-9x16 iframe {
@@ -326,6 +326,83 @@ h1 { color:#b492ee; }
 
   /* back button always visible */
   .page#videoPage .back-btn {
+    flex: 0 0 auto;
+    margin: 6px auto 6px auto;
+  }
+}
+
+/* =========================================================
+   🎄 CHRISTMAS VIDEO PAGE — SAME RESPONSIVENESS AS BIRTHDAY
+========================================================= */
+
+/* 📱 Portrait */
+@media (max-width:900px) and (orientation: portrait) {
+
+  .page#christmasVideoPage {
+      display: flex;
+      flex-direction: column;
+      min-height: 100dvh;
+      padding: env(safe-area-inset-top) 12px env(safe-area-inset-bottom);
+      box-sizing: border-box;
+  }
+
+  .page#christmasVideoPage h1 {
+      flex: 0 0 auto;
+      text-align: center;
+      margin: 6px 0;
+      padding-top: 40px;
+  }
+
+  .page#christmasVideoPage .video-9x16 {
+      flex: 1 1 auto;
+      width: 90vw;
+      max-width: 100%;
+      height: calc(90vw * 16 / 9);
+      overflow: visible;
+      margin: 6px auto;
+  }
+
+  .page#christmasVideoPage .video-9x16 iframe {
+      width: 100%;
+      height: 100%;
+      transform: translateX(-1%);
+  }
+
+  .page#christmasVideoPage .back-btn {
+      flex: 0 0 auto;
+      margin: 6px auto 12px auto;
+  }
+}
+
+
+/* 📱📱 Landscape */
+@media (max-width:900px) and (orientation: landscape) {
+
+  .page#christmasVideoPage {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    padding: env(safe-area-inset-top) 12px env(safe-area-inset-bottom);
+    box-sizing: border-box;
+  }
+
+  .page#christmasVideoPage h1 {
+    flex: 0 0 auto;
+    text-align: center;
+    margin: 6px 0;
+    padding-top: 60px;
+  }
+
+  .page#christmasVideoPage .video-9x16 {
+    flex: 1 1 auto;
+    width: auto;
+    height: auto;
+    max-height: calc(100vh - 50px - 50px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+    margin: 6px auto;
+    overflow-y: auto;
+  }
+
+  .page#christmasVideoPage .back-btn {
     flex: 0 0 auto;
     margin: 6px auto 6px auto;
   }
