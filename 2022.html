@@ -284,33 +284,23 @@ body.christmas-bg {
     overflow:hidden;
   }
 
+  /* ⭐ REAL FIX */
   #cardPage .birthday-card-wrapper{
+    display:flex;              /* keep horizontal layout */
     overflow-x:auto;
     overflow-y:hidden;
     -webkit-overflow-scrolling:touch;
 
-    display:block;              /* ⭐ stop flex coupling */
-
-    padding:0 270px;
+    width:100%;
     box-sizing:border-box;
+
+    padding:0 40px;            /* small side spacing only */
   }
 
-  /* ⭐ create independent scroll width WITHOUT resizing card */
-  #cardPage .birthday-card-wrapper::after{
-    content:"";
-    display:block;
-
-    width:calc(200%);  /* adds extra scroll space */
-    height:1px;
-  }
-
-  /* ⭐ THIS is the missing piece */
+  /* ⭐ THIS creates true scroll width */
   #cardPage .birthday-card-container{
-    flex-shrink:0;       /* keep natural width */
-    margin:20px 0;
-
-    /* give real scroll space for 3 cards */
-    /*min-width:calc(300% + 540px); /* 3 cards + both paddings */
+    flex:0 0 auto;             /* DO NOT shrink */
+    margin:20px auto;
   }
 }
 
