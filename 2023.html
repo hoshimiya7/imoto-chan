@@ -146,6 +146,52 @@
     font-size: 1.5rem;
   }
 }
+
+/* ================= MOBILE TITLE PADDING ================= */
+
+/* Mobile portrait */
+@media (max-width: 767px) {
+  .card h1 {
+    padding-top: 1.5rem;    /* space from top */
+    padding-left: 1rem;
+    padding-right: 1rem;
+    font-size: 1.8rem;
+    text-align: center;
+  }
+  .card p {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    font-size: 1rem;
+    text-align: center;
+  }
+}
+
+/* Mobile landscape */
+@media (min-width: 480px) and (max-width: 1024px) and (orientation: landscape) {
+  .card h1 {
+    padding-top: 1rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    font-size: 2rem;
+    text-align: center;
+  }
+  .card p {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    font-size: 1rem;
+    text-align: center;
+  }
+}
+
+/* Extra small devices */
+@media (max-width: 399px) {
+  .card h1 {
+    padding-top: 1rem;
+    font-size: 1.5rem;
+    text-align: center;
+  }
+}
+
 </style>
 
 </head>
@@ -305,7 +351,7 @@
   <button class="nav next" onclick="nextPhoto()">❯</button>
 </div>
 
-<script src="auth.js"></script>
+<!--<script src="auth.js"></script>-->
 
 <script>
 
