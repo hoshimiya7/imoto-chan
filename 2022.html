@@ -269,7 +269,7 @@ body.christmas-bg {
 
 @media (max-width:600px){
 
-  /* page locked */
+  /* lock page */
   #cardPage{
     position:fixed;
     top:10px;
@@ -284,24 +284,24 @@ body.christmas-bg {
     overflow:hidden;
   }
 
-  /* ⭐ SCROLL CONTAINER (fixed width) */
+  /* scroll container (viewport sized) */
   #cardPage .birthday-card-wrapper{
     width:100%;
     overflow-x:auto;
     overflow-y:hidden;
     -webkit-overflow-scrolling:touch;
 
-    padding:0 270px;   /* keep your front visible */
+    padding:0 270px; /* your working value */
     box-sizing:border-box;
+
+    display:flex;        /* ⭐ only wrapper flex */
+    justify-content:flex-start;
   }
 
-  /* ⭐ ACTUAL WIDE CONTENT */
+  /* ⭐ DO NOT use max-content here */
   #cardPage .birthday-card-container{
-    display:flex;
-    gap:20px;
-    width:max-content;     /* move max-content HERE */
+    flex-shrink:0;       /* keep natural width */
     margin:20px auto;
-    flex-shrink:0;
   }
 }
 
