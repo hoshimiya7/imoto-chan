@@ -91,42 +91,55 @@ h1 { color:#b492ee; }
 /* ================= MOBILE PORTRAIT & LANDSCAPE OVERRIDES ================= */
 @media (max-width: 900px) {
 
-  /* Scrollable wrapper */
-  #cardPage .birthday-card-wrapper {
+  #cardPage {
     display: flex;
-    flex-direction: row;
-    gap: 20px;
-    overflow-x: auto;
-    overflow-y: hidden;
-    padding: 250px;
-    box-sizing: border-box;
-    scroll-behavior: smooth;
-
-    /* Center cards vertically */
-    align-items: center;
-    justify-content: flex-start;
-    height: calc(100% - 80px); /* space for fixed header */
-    margin-top: 60px; /* push below header */
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
   }
 
-  /* Cards inside wrapper */
+  /* HEADER (title + back button fixed) */
+  #cardPage .card-header {
+    flex: 0 0 auto;
+    text-align: center;
+    padding: 10px 0;
+    z-index: 5;
+  }
+
+  /* Scrollable wrapper */
+  #cardPage .birthday-card-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+
+    padding: 0 20px; /* SMALL only */
+    box-sizing: border-box;
+  }
+
+  /* fake space BEFORE first card */
+  #cardPage .birthday-card-wrapper::before,
+  #cardPage .birthday-card-wrapper::after {
+    content: "";
+    flex: 0 0 45vw; /* gives centered first/last card */
+  }
+
+  /* cards */
   #cardPage .birthday-card-container {
     flex: 0 0 auto;
     width: 220px;
     height: 390px;
-  }
-
-  /* Header */
-  #cardPage .card-header {
-    position: fixed;
-    top: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: calc(100% - 20px);
-    text-align: center;
-    z-index: 10;
+    scroll-snap-align: center;
   }
 }
+
 
 
 
