@@ -1,4 +1,4 @@
-<!-- ================= Isolated 2022 from index - Responsive ================= -->
+<!-- ================= Isolated 2022 from index - Desktop working with scroll ================= -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,6 +23,13 @@ h1{color:#b492ee;}
   top:50%;
   left:50%;
   transform:translate(-50%,-50%);
+}
+
+#cardPage {
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  position: absolute;
 }
 
 
@@ -483,6 +490,12 @@ function flipCard2023() {
   const cardFront = container.querySelector(".card-front");
   const cardInner1 = container.querySelector(".card-inner1");
   const cardInner2 = container.querySelector(".card-inner2");
+  const wrapper = container.querySelector(".birthday-card-wrapper");
+
+  const cardWidth = container.querySelector(".birthday-card-container").clientWidth;
+  const offset = cardWidth * 0.3; // tweak this value (0.2~0.4) for how much front shows
+  wrapper.scrollLeft = cardWidth - offset; // scroll so inner1 is centered
+
 
   // Reset
   cardFlip.style.transition="none";
