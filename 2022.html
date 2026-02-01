@@ -268,42 +268,49 @@ body.christmas-bg {
 /* ================= MOBILE PORTRAIT & LANDSCAPE ADJUSTMENTS ================= */
 
 @media (max-width:600px){
+  /* Card page fixed so body doesn't scroll */
   #cardPage {
+    position: fixed;
     top: 10px;
     left: 50%;
     transform: translateX(-50%);
-    position: absolute;
-    width: calc(100% - 20px);  /* 10px margin each side */
+    width: calc(100% - 20px); /* 10px margins left/right */
     max-width: 100%;
+    height: calc(100% - 20px); /* full height minus 10px margin top/bottom */
+    overflow: hidden;          /* prevents scrolling outside card */
+    z-index: 1000;
   }
 
+  /* Card itself */
   #cardPage .card {
     width: 100%;
+    max-width: 100%;
     padding: 1.5rem;
-    box-sizing: border-box;
+    height: 100%;              /* fill available height */
     margin: 0 auto;
+    box-sizing: border-box;
   }
 
-  /* Birthday card wrapper: horizontal scroll */
+  /* Birthday card wrapper: allow horizontal scroll only */
   #cardPage .birthday-card-wrapper {
     display: flex;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
-    padding-left: 270px;   /* enough to show front card fully */
-    /*padding-right: 250px;  /* enough to allow last card to scroll into view */
+    padding: 0 270px;          /* front card fully visible */
+    margin: 0 auto;
+    width: 100%;
     box-sizing: content-box;
   }
 
   /* Each card container */
   #cardPage .birthday-card-container {
-    flex-shrink: 0;
-    width: clamp(280px, 40vw, 520px);
-    margin: 20px;
+    flex-shrink: 0;            /* prevent shrinking */
+    margin: 0 10px;            /* small gap between cards */
   }
 
-  /* Prevent vertical scroll */
+  /* Prevent body scroll completely */
   body {
-    overflow-y: hidden;
+    overflow: hidden;
     margin: 0;
     padding: 0;
   }
