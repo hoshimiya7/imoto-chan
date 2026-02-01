@@ -269,7 +269,6 @@ body.christmas-bg {
 
 @media (max-width:600px){
 
-  /* lock page */
   #cardPage{
     position:fixed;
     top:10px;
@@ -284,23 +283,22 @@ body.christmas-bg {
     overflow:hidden;
   }
 
-  /* ⭐ REAL FIX */
+  /* scroll viewport */
   #cardPage .birthday-card-wrapper{
-    display:flex;              /* keep horizontal layout */
     overflow-x:auto;
     overflow-y:hidden;
     -webkit-overflow-scrolling:touch;
 
     width:100%;
+    padding:0 270px;     /* ⭐ keep your working spacing */
     box-sizing:border-box;
-
-    padding:0 40px;            /* small side spacing only */
   }
 
-  /* ⭐ THIS creates true scroll width */
+  /* ⭐⭐ TRUE independent width ⭐⭐ */
   #cardPage .birthday-card-container{
-    flex:0 0 auto;             /* DO NOT shrink */
-    margin:20px auto;
+    position:relative;
+    width:300%;          /* 3 cards worth of space */
+    max-width:none;
   }
 }
 
