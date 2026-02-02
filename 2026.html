@@ -318,7 +318,45 @@
   }
 }
 
+/* =========================================================
+   🎥 LANDSCAPE VIDEO & CARD PAGE — FIX TITLE + BACK BUTTON
+========================================================= */
+@media (max-width:900px) and (orientation: landscape) {
 
+  /* video page layout */
+  .page#videoPage {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    padding: env(safe-area-inset-top) 12px env(safe-area-inset-bottom);
+    box-sizing: border-box;
+  }
+
+  /* title/header */
+  .page#videoPage h1 {
+    flex: 0 0 auto;
+    text-align: center;
+    margin: 6px 0;
+    padding-top: 60px; /* extra top padding to make it fully visible */
+  }
+
+  /* video wrapper for 9:16 videos */
+  .page#videoPage .video-5x7 {
+    flex: 1 1 auto;
+    width: auto;
+    height: auto;
+    max-height: calc(100vh - 50px - 50px - env(safe-area-inset-top) - env(safe-area-inset-bottom)); 
+    /* 50px for title + 50px for back button approx */
+    margin: 6px auto;
+    overflow-y: auto;
+  }
+
+  /* back button always visible */
+  .page#videoPage .back-btn {
+    flex: 0 0 auto;
+    margin: 6px auto 6px auto;
+  }
+}
 
 
 
