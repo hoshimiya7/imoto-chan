@@ -336,22 +336,27 @@
   }
 
   /* video wrapper — 5:7 ratio for mobile landscape */
+  /* video wrapper — no cropping, no scrolling */
   .page#videoPage .video-9x16 {
     flex: 1 1 auto;
 
-    aspect-ratio: 5 / 7;   /* ⭐ new ratio */
+    aspect-ratio: 5 / 7; /* keep your ratio */
 
-    height: calc(
+    height: auto;
+    max-height: calc(
       100vh - 50px - 50px
       - env(safe-area-inset-top)
       - env(safe-area-inset-bottom)
     );
 
-    width: auto;           /* auto width so ratio controls it */
-    max-width: 95vw;       /* prevent overflow */
+    width: auto;
+    max-width: 95vw;
 
     margin: 6px auto;
+
+    overflow: visible; /* ⭐ important */
   }
+
 
 
   /* back button always visible */
