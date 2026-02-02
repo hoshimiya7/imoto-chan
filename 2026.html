@@ -335,14 +335,15 @@
   }
 
   /* VIDEO WRAPPER */
+  /* VIDEO WRAPPER */
   .video-wrap {
-    width: min(90vw, 420px);      /* max width */
-    aspect-ratio: 5 / 7;          /* match video ratio */
+    width: min(90vw, 420px);  /* max width */
+    aspect-ratio: 5 / 7;      /* correct video ratio */
     margin: auto;
     background: black;
     border-radius: 1rem;
     overflow: hidden;
-    display: flex;                /* center iframe */
+    display: flex;            /* center iframe */
     justify-content: center;
     align-items: center;
   }
@@ -353,8 +354,9 @@
     height: 100%;
     border: none;
     border-radius: 1rem;
-    object-fit: contain;          /* maintain video without clipping */
+    object-fit: contain;      /* maintain ratio, no clipping */
   }
+
 
 
 
