@@ -37,110 +37,78 @@
 
 /* ================= MOBILE RESPONSIVENESS ================= */
 
-/* Portrait mobile */
-@media (max-width: 768px) and (orientation: portrait) {
-
+/* Small screens general */
+@media (max-width: 768px) {
   body {
     font-size: 14px;
   }
 
-  /* Home Tiles */
+  h1 {
+    font-size: 1.5rem;
+  }
+
   .tiles {
     flex-direction: column;
-    gap: 1rem;
-    align-items: center;
+    gap: 10px;
   }
 
   .tile {
-    width: 80vw;
-    padding: 1rem;
+    padding: 12px 8px;
     font-size: 1.2rem;
   }
 
-  /* Back and Logout Buttons */
   .back-btn, .logout-btn {
-    width: 80vw;
     font-size: 1rem;
-    margin: 0.5rem auto;
+    padding: 8px 12px;
   }
-
-  /* Card Containers */
-  #cardPage .birthday-card-container,
-  #christmasCardPage .birthday-card-container {
-    width: 90vw;
-    aspect-ratio: auto;
-  }
-
-  /* Video resize */
-  #videoPage iframe {
-    width: 90vw;
-    height: auto;
-  }
-
 }
 
-/* Landscape mobile */
-@media (max-width: 1024px) and (orientation: landscape) {
+/* Mobile portrait */
+@media (max-width: 768px) and (orientation: portrait) {
+  #cardPage .birthday-card-container {
+    width: 85vw;
+  }
+  #christmasCardPage .birthday-card-container {
+    width: 75vw;
+  }
+}
 
-  body {
-    font-size: 15px;
+/* Mobile landscape */
+@media (max-width: 768px) and (orientation: landscape) {
+  #cardPage .birthday-card-container {
+    width: 60vw;
+  }
+  #christmasCardPage .birthday-card-container {
+    width: 50vw;
   }
 
   .tiles {
     flex-direction: row;
-    flex-wrap: wrap;
-    gap: 1rem;
-    justify-content: center;
+    justify-content: space-around;
   }
 
-  .tile {
-    width: 40vw;
-    padding: 1rem;
-    font-size: 1.2rem;
+  h1 {
+    font-size: 1.3rem;
   }
-
-  .back-btn, .logout-btn {
-    width: 40vw;
-    font-size: 1rem;
-    margin: 0.5rem auto;
-  }
-
-  /* Card Containers slightly bigger in landscape */
-  #cardPage .birthday-card-container,
-  #christmasCardPage .birthday-card-container {
-    width: 70vw;
-    aspect-ratio: auto;
-  }
-
-  /* Video resize for landscape */
-  #videoPage iframe {
-    width: 70vw;
-    height: auto;
-  }
-
 }
 
-/* Ensure card photos scale within containers */
-.birthday-card-container img.card-photo {
-  width: 100%;
-  height: auto;
+/* Ensure photo modal fits mobile */
+.photo-modal img#photoViewer {
+  max-width: 95vw;
+  max-height: 90vh;
   object-fit: contain;
 }
 
-/* Optional: adjust page padding */
-.card.page {
-  padding: 1rem;
-}
+/* ================= MOBILE RESPONSIVENESS — 2024 CARD SCROLL ================= */
 
-/* ================= MOBILE SCROLLABLE CARDS ================= */
-
-/* Portrait phones */
+/* 📱 Portrait */
 @media (max-width:900px) and (orientation: portrait){
 
+  /* Birthday + Christmas page layout */
   #cardPage, #christmasCardPage {
-    display: flex;
+    display:flex;
     flex-direction: column;
-    height: 100dvh;
+    height: 100dvh; 
     overflow: hidden;
   }
 
@@ -152,18 +120,15 @@
   }
 
   .birthday-card-wrapper {
-    flex: 1;
+    flex: 1 1 auto;
     display: flex;
     flex-direction: row;
     align-items: center;
     gap: 20px;
-
     overflow-x: auto;
     overflow-y: hidden;
-
     scroll-behavior: smooth;
     scroll-snap-type: x mandatory;
-
     padding: 0 20px;
     box-sizing: border-box;
   }
@@ -171,7 +136,7 @@
   .birthday-card-wrapper::before,
   .birthday-card-wrapper::after {
     content: "";
-    flex: 0 0 calc((100vw - 220px)/2); /* center first/last */
+    flex: 0 0 calc((100vw - 5px)/2);
   }
 
   .birthday-card-container {
@@ -182,14 +147,13 @@
   }
 }
 
-/* Landscape phones */
+/* 📱 Landscape */
 @media (max-width:900px) and (orientation: landscape){
-
   #cardPage, #christmasCardPage {
-    display: flex;
+    display:flex;
     flex-direction: column;
     height: 100dvh;
-    overflow-y: auto; /* scroll vertically instead of cutting off */
+    overflow-y: auto; /* scroll vertically to prevent clipping */
     overflow-x: hidden;
     padding: env(safe-area-inset-top) 12px env(safe-area-inset-bottom);
     box-sizing: border-box;
@@ -197,22 +161,19 @@
 
   .card-header {
     flex: 0 0 auto;
-    text-align: center;
     padding: 6px 0;
+    text-align: center;
   }
 
   .birthday-card-wrapper {
     flex: 1 1 auto;
     display: flex;
-    align-items: flex-start;
+    align-items: flex-start; /* align top to prevent clipping */
     gap: 14px;
-
     overflow-x: auto;
     overflow-y: hidden;
-
     scroll-behavior: smooth;
     scroll-snap-type: x mandatory;
-
     padding: 10px 12px 10px 12px;
   }
 
@@ -230,12 +191,26 @@
   }
 }
 
-/* Ensure images scale properly */
-.birthday-card-container img.card-photo {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 18px;
+/* ================= 2024 MOBILE CARD SIZE TWEAKS ================= */
+
+/* Mobile portrait */
+@media (max-width: 768px) and (orientation: portrait) {
+  #cardPage .birthday-card-container {
+    width: 60vw;  /* reduced from 85vw */
+  }
+  #christmasCardPage .birthday-card-container {
+    width: 55vw;  /* reduced from 75vw */
+  }
+}
+
+/* Mobile landscape */
+@media (max-width: 768px) and (orientation: landscape) {
+  #cardPage .birthday-card-container {
+    width: 23vw;  /* reduced from 60vw */
+  }
+  #christmasCardPage .birthday-card-container {
+    width: 25vw;  /* reduced from 50vw */
+  }
 }
 
 </style>
