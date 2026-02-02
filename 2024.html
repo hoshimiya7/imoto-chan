@@ -187,17 +187,17 @@
 /* Mobile portrait */
 @media (max-width: 768px) and (orientation: portrait) {
   #cardPage .birthday-card-container {
-    width: 65vw;  /* reduced from 85vw */
+    width: 60vw;  /* reduced from 85vw */
   }
   #christmasCardPage .birthday-card-container {
-    width: 60vw;  /* reduced from 75vw */
+    width: 55vw;  /* reduced from 75vw */
   }
 }
 
 /* Mobile landscape */
 @media (max-width: 768px) and (orientation: landscape) {
   #cardPage .birthday-card-container {
-    width: 25vw;  /* reduced from 60vw */
+    width: 23vw;  /* reduced from 60vw */
   }
   #christmasCardPage .birthday-card-container {
     width: 25vw;  /* reduced from 50vw */
@@ -547,7 +547,7 @@ function flipCard2023() {
     if(window.innerWidth <= 900){
 
       if(window.matchMedia("(orientation: landscape)").matches){
-        spread = container.clientWidth * 0.28; // tighter for landscape
+        spread = container.clientWidth * 0.35; // tighter for landscape
       }else{
         spread = container.clientWidth * 0.55; // portrait
       }
