@@ -28,17 +28,34 @@
 
 /* ================= VIDEO RESIZE ================= */
 
-.video-wrap.video-9x16 {
-  width: min(90vw, 420px);
-  aspect-ratio: 5/7; /* vertical video ratio */
-  margin: 0 auto;
+.video-wrap{
+  width:min(95vw,900px);
+  margin:0 auto;
+  position:relative;
+  border-radius:1rem;
+  overflow:hidden;
 }
 
-.video-wrap.video-9x16 iframe {
-  width: 100%;
-  height: 100%;
-  display: block;
-  border-radius: 1rem;
+.video-wrap iframe{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  border:0;
+}
+
+.video-16x9{ aspect-ratio:16/9; }
+.video-9x16{ aspect-ratio:9/16; width:min(70vw,420px); }
+.video-5x7{ aspect-ratio:5/7; width:min(70vw,420px); }
+
+/* Landscape phones: make portrait videos wider */
+@media (max-width:900px) and (orientation: landscape) {
+  .video-5x7 {
+    aspect-ratio: 5/7;
+    width: 90vw;
+    max-width: 95%;
+    height: auto;
+  }
 }
 
 
@@ -301,44 +318,7 @@
   }
 }
 
-/* =========================================================
-   🎥 LANDSCAPE VIDEO PAGE — SAME LOGIC AS 2023 (stable)
-========================================================= */
-@media (max-width:900px) and (orientation: landscape) {
 
-  .page#videoPage {
-    display:block;
-    text-align:center;
-    padding: env(safe-area-inset-top) 12px env(safe-area-inset-bottom);
-  }
-
-  .page#videoPage h1 {
-    margin: 6px 0;
-    padding-top: 60px;
-  }
-
-  /* ⭐ EXACT 2023 BEHAVIOUR, ONLY RATIO CHANGED */
-  .page#videoPage .video-9x16 {
-    aspect-ratio: 5 / 7;   /* changed from 9/16 */
-
-    width: 90vw;           /* width ONLY — same as 2023 */
-    max-width: 95%;
-
-    height: auto;          /* never constrain height */
-
-    margin: 6px auto;
-  }
-
-  .page#videoPage .back-btn {
-    margin: 10px auto;
-  }
-}
-
-@media (max-width: 768px) and (orientation: landscape) {
-  .video-wrap.video-9x16 {
-    width: 100vw; 
-  }
-}
 
 
 
@@ -485,7 +465,7 @@
 <div class="card page" id="videoPage" style="display:none;">
   <h1>Memory Video 🎥</h1>
 
-  <div class="video-wrap video-9x16 birthday-video">
+  <div class="video-wrap video-5x7 birthday-video">
     <iframe
         id="driveVideo"
         src="https://drive.google.com/file/d/1tnu1bR_GRkwVhU-D2tj-O7no0IKLgkgt/preview"
