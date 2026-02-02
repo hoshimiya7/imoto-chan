@@ -335,16 +335,24 @@
     padding-top: 60px; /* extra top padding to make it fully visible */
   }
 
-  /* video wrapper for 9:16 videos */
+  /* video wrapper — 5:7 ratio for mobile landscape */
   .page#videoPage .video-9x16 {
     flex: 1 1 auto;
-    width: auto;
-    height: auto;
-    max-height: calc(100vh - 50px - 50px - env(safe-area-inset-top) - env(safe-area-inset-bottom)); 
-    /* 50px for title + 50px for back button approx */
+
+    aspect-ratio: 5 / 7;   /* ⭐ new ratio */
+
+    height: calc(
+      100vh - 50px - 50px
+      - env(safe-area-inset-top)
+      - env(safe-area-inset-bottom)
+    );
+
+    width: auto;           /* auto width so ratio controls it */
+    max-width: 95vw;       /* prevent overflow */
+
     margin: 6px auto;
-    overflow-y: auto;
   }
+
 
   /* back button always visible */
   .page#videoPage .back-btn {
