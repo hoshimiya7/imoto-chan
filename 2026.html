@@ -337,14 +337,16 @@
       100vh - 120px
       - env(safe-area-inset-top)
       - env(safe-area-inset-bottom)
-    );   /* ⭐ height controlled */
+    );
 
-    width: auto;        /* ⭐ width auto from ratio */
+    width: auto;
+    max-width: 95vw;   /* ⭐ prevents right-side cutoff */
 
     margin: 10px auto;
 
     flex: none;
   }
+
 
 
   .page#videoPage .back-btn {
