@@ -352,6 +352,17 @@
     border-radius: 1rem;
   }
 
+  /* video wrapper for 9:16 videos */
+  .page#videoPage .video-5x7 {
+    flex: 1 1 auto;
+    width: auto;
+    height: auto;
+    max-height: calc(100vh - 50px - 50px - env(safe-area-inset-top) - env(safe-area-inset-bottom)); 
+    /* 50px for title + 50px for back button approx */
+    margin: 6px auto;
+    overflow-y: auto;
+  }
+
   /* Back button spacing */
   #videoPage .back-btn{
     margin-top: 6px;
