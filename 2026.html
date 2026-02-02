@@ -318,53 +318,34 @@
 ========================================================= */
 @media (max-width:900px) and (orientation: landscape) {
 
-  /* video page layout */
   .page#videoPage {
-    display: flex;
-    flex-direction: column;
-    min-height: 0;
+    display: block;   /* ⭐ remove flex completely */
     padding: env(safe-area-inset-top) 12px env(safe-area-inset-bottom);
-    box-sizing: border-box;
+    text-align:center;
   }
 
-  /* title/header */
   .page#videoPage h1 {
-    flex: 0 0 auto;
-    text-align: center;
     margin: 6px 0;
-    padding-top: 60px; /* extra top padding to make it fully visible */
+    padding-top: 60px;
   }
 
-  /* video wrapper — 5:7 ratio for mobile landscape */
-  /* video wrapper — no cropping, no scrolling */
+  /* ⭐ KEY FIX */
   .page#videoPage .video-9x16 {
-    flex: 1 1 auto;
+    aspect-ratio: 5 / 7;
 
-    aspect-ratio: 5 / 7; /* keep your ratio */
-
+    width: min(95vw, 600px);
     height: auto;
-    max-height: calc(
-      100vh - 50px - 50px
-      - env(safe-area-inset-top)
-      - env(safe-area-inset-bottom)
-    );
 
-    width: auto;
-    max-width: 95vw;
+    margin: 10px auto;
 
-    margin: 6px auto;
-
-    overflow: visible; /* ⭐ important */
+    flex: none;       /* ⭐ stop flex shrink */
   }
 
-
-
-  /* back button always visible */
   .page#videoPage .back-btn {
-    flex: 0 0 auto;
-    margin: 6px auto 6px auto;
+    margin: 10px auto;
   }
 }
+
 
 </style>
 
