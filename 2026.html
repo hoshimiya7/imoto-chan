@@ -28,99 +28,11 @@
 
 /* ================= VIDEO RESIZE ================= */
 
-.video-wrap{
+#videoPage iframe{
+  display:block;
+  margin:auto;
   width:min(90vw,420px);
-  margin:0 auto;
-  position:relative;
-  border-radius:1rem;
-  overflow:hidden;
-}
-
-.video-wrap iframe{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  border:0;
-}
-
-.video-16x9{ aspect-ratio:16/9; }
-.video-9x16{ aspect-ratio:9/16; width:min(70vw,420px); }
-.video-5x7{ aspect-ratio:5/7; width:min(90vw,420px); }
-
-
-
-
-/* ================= Enter Code ================= */
-.code-input{
-  padding:12px;
-  font-size:18px;
-  border-radius:10px;
-  border:none;
-  text-align:center;
-  width:200px;
-}
-
-.shake{
-  animation: shake .3s;
-}
-
-@keyframes shake{
-  0%,100%{transform:translateX(0)}
-  25%{transform:translateX(-5px)}
-  75%{transform:translateX(5px)}
-}
-
-/* Buttons */
-.unlock-btn{
-  margin-top:2rem;
-  background:#10aeb9;
-  color:white;
-  padding:.6rem 1.2rem;
-  border:none;
-  border-radius:999px;
-  cursor:pointer;
-}
-
-/* center whole lock content */
-#lockPage{
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-}
-
-/* groups input + buttons */
-.lock-box{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:16px;
-  margin-top:1rem;
-}
-
-/* input */
-.code-input{
-  padding:12px 16px;
-  font-size:18px;
-  border-radius:12px;
-  border:none;
-  text-align:center;
-  width:220px;
-}
-
-/* buttons row perfectly centered */
-.lock-buttons{
-  display:flex;
-  gap:12px;
-  justify-content:center;
-}
-
-/* error */
-.code-error{
-  color:#ff4d6d;
-  display:none;
-  margin:0;
+  aspect-ratio:5/7;
 }
 
 /* ================= MOBILE RESPONSIVENESS ================= */
@@ -310,9 +222,7 @@
   }
 }
 
-/* =========================================================
-   🎥 LANDSCAPE VIDEO & CARD PAGE — FIX TITLE + BACK BUTTON
-========================================================= */
+/* ================= VIDEO PAGE — PERFECT LANDSCAPE FIT ================= */
 @media (max-width: 768px) and (orientation: landscape) {
 
   /* Page layout */
@@ -352,23 +262,11 @@
     border-radius: 1rem;
   }
 
-  /* video wrapper for 9:16 videos */
-  .page#videoPage .video-5x7 {
-    flex: 1 1 auto;
-    width: auto;
-    height: auto;
-    max-height: calc(100vh - 50px - 50px - env(safe-area-inset-top) - env(safe-area-inset-bottom)); 
-    /* 50px for title + 50px for back button approx */
-    margin: 6px auto;
-    overflow-y: auto;
-  }
-
   /* Back button spacing */
   #videoPage .back-btn{
     margin-top: 6px;
   }
 }
-
 
 
 </style>
@@ -496,7 +394,7 @@
 </div>
 
 <!-- ================= VIDEO ================= -->
-<!--<div class="card page" id="videoPage" style="display:none;">
+<div class="card page" id="videoPage" style="display:none;">
   <h1>Memory Video 🎥</h1>
 
   <iframe
@@ -509,9 +407,9 @@
   </iframe>
 
   <button class="back-btn" onclick="openBirthday()">Back</button>
-</div>-->
+</div>
 
-<div class="card page" id="videoPage" style="display:none;">
+<!--<div class="card page" id="videoPage" style="display:none;">
   <h1>Memory Video 🎥</h1>
 
   <div class="video-wrap video-5x7 birthday-video">
@@ -527,7 +425,7 @@
   
 
   <button class="back-btn" onclick="openBirthday()">Back</button>
-</div>
+</div>-->
 
 
 <!-- ================= CHRISTMAS ================= -->
