@@ -107,6 +107,239 @@
   margin:0;
 }
 
+/* ================= MOBILE RESPONSIVENESS ================= */
+
+/* Small screens general */
+@media (max-width: 768px) {
+  body {
+    font-size: 14px;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  .tiles {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .tile {
+    padding: 12px 8px;
+    font-size: 1.2rem;
+  }
+
+  .back-btn, .logout-btn {
+    font-size: 1rem;
+    padding: 8px 12px;
+  }
+}
+
+/* Mobile portrait */
+@media (max-width: 768px) and (orientation: portrait) {
+  #cardPage .birthday-card-container {
+    width: 85vw;
+  }
+  #christmasCardPage .birthday-card-container {
+    width: 75vw;
+  }
+}
+
+/* Mobile landscape */
+@media (max-width: 768px) and (orientation: landscape) {
+  #cardPage .birthday-card-container {
+    width: 60vw;
+  }
+  #christmasCardPage .birthday-card-container {
+    width: 50vw;
+  }
+
+  .tiles {
+    flex-direction: row;
+    justify-content: space-around;
+  }
+
+  h1 {
+    font-size: 1.3rem;
+  }
+}
+
+/* Ensure photo modal fits mobile */
+.photo-modal img#photoViewer {
+  max-width: 95vw;
+  max-height: 90vh;
+  object-fit: contain;
+}
+
+/* ================= MOBILE RESPONSIVENESS — 2024 CARD SCROLL ================= */
+
+/* 📱 Portrait */
+@media (max-width:900px) and (orientation: portrait){
+
+  /* Birthday + Christmas page layout */
+  #cardPage, #christmasCardPage {
+    display:flex;
+    flex-direction: column;
+    height: 100dvh; 
+    overflow: hidden;
+  }
+
+  .card-header {
+    flex: 0 0 auto;
+    text-align: center;
+    padding: 10px 0;
+    z-index: 5;
+  }
+
+  .birthday-card-wrapper {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+    padding: 0 20px;
+    box-sizing: border-box;
+  }
+
+  .birthday-card-wrapper::before,
+  .birthday-card-wrapper::after {
+    content: "";
+    flex: 0 0 calc((100vw - 5px)/2);
+  }
+
+  .birthday-card-container {
+    flex: 0 0 auto;
+    width: 220px;
+    height: 390px;
+    scroll-snap-align: center;
+  }
+}
+
+/* 📱 Landscape */
+@media (max-width:900px) and (orientation: landscape){
+  #cardPage, #christmasCardPage {
+    display:flex;
+    flex-direction: column;
+    height: 100dvh;
+    overflow-y: auto; /* scroll vertically to prevent clipping */
+    overflow-x: hidden;
+    padding: env(safe-area-inset-top) 12px env(safe-area-inset-bottom);
+    box-sizing: border-box;
+  }
+
+  .card-header {
+    flex: 0 0 auto;
+    padding: 6px 0;
+    text-align: center;
+  }
+
+  .birthday-card-wrapper {
+    flex: 1 1 auto;
+    display: flex;
+    align-items: flex-start; /* align top to prevent clipping */
+    gap: 14px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+    padding: 10px 12px 10px 12px;
+  }
+
+  .birthday-card-wrapper::before,
+  .birthday-card-wrapper::after {
+    content: "";
+    flex: 0 0 calc((100vw - 170px)/2);
+  }
+
+  .birthday-card-container {
+    flex: 0 0 auto;
+    width: 170px;
+    aspect-ratio: 360/640;
+    scroll-snap-align: center;
+  }
+}
+
+/* ================= 2025 MOBILE CARD SIZE TWEAKS ================= */
+
+/* Mobile portrait */
+@media (max-width: 768px) and (orientation: portrait) {
+  #cardPage .birthday-card-container {
+    width: 60vw;  /* reduced from 85vw */
+  }
+  #christmasCardPage .birthday-card-container {
+    width: 55vw;  /* reduced from 75vw */
+  }
+}
+
+/* Mobile landscape */
+@media (max-width: 768px) and (orientation: landscape) {
+  #cardPage .birthday-card-container {
+    width: 23vw;  /* reduced from 60vw */
+  }
+  #christmasCardPage .birthday-card-container {
+    width: 25vw;  /* reduced from 50vw */
+  }
+}
+
+/* Mobile portrait keeps previous size */
+@media (max-width: 768px) and (orientation: portrait) {
+  #videoPage iframe {
+    width: 90vw;
+    aspect-ratio: 5/7;
+    height: auto;
+  }
+}
+
+/* ================= VIDEO PAGE — PERFECT LANDSCAPE FIT ================= */
+@media (max-width: 768px) and (orientation: landscape) {
+
+  /* Page layout */
+  #videoPage{
+    display:flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+
+    height: 100dvh; /* dynamic viewport (fixes mobile cut-off) */
+    padding:
+      env(safe-area-inset-top)
+      12px
+      env(safe-area-inset-bottom);
+
+    box-sizing: border-box;
+    gap: 8px;
+  }
+
+  /* Title spacing fix */
+  #videoPage h1{
+    margin: 4px 0 6px 0;
+    font-size: 1.2rem;
+    text-align:center;
+  }
+
+  /* Video auto-fits remaining height */
+  #videoPage iframe{
+    flex: 1 1 auto;
+
+    width: 100%;          /* symmetrical */
+    max-width: 95vw;
+
+    height: 80vh;         /* let flex handle height */
+    aspect-ratio: 5/7;   /* proper video ratio (Google Drive is 16:9) */
+
+    border-radius: 1rem;
+  }
+
+  /* Back button spacing */
+  #videoPage .back-btn{
+    margin-top: 6px;
+  }
+}
+
 </style>
 
 </head>
@@ -131,7 +364,7 @@
 
   <div class="tiles">
     <div class="tile" onclick="openBirthday()">🎂 Birthday</div>
-    <!--<div class="tile" onclick="openChristmas()">🎄 Christmas</div>-->
+    <div class="tile" onclick="openChristmas()">🎄 Christmas</div>
   </div>
 
   <button class="back-btn" onclick="goDashboard()">Back</button>
@@ -177,7 +410,7 @@
 </div>
 
 <!-- ================= CARD (FULL 2022 ANIMATION COPY) ================= -->
-<div class="card page" id="cardPage">
+<!--<div class="card page" id="cardPage">
   <h1>Memory Card 💌</h1>
 
   <div class="birthday-card-container">
@@ -201,10 +434,38 @@
   </div>
 
   <button class="back-btn" onclick="openBirthday()">Back</button>
+</div>-->
+
+<div class="card page" id="cardPage" style="display:none;">
+  <!-- Stationary header for mobile scroll -->
+  <div class="card-header">
+    <h1>Memory Card 💌</h1>
+    <button class="back-btn" onclick="openBirthday()">Back</button>
+  </div>
+
+  <!-- Scrollable wrapper -->
+  <div class="birthday-card-wrapper">
+    <div class="birthday-card-container">
+
+      <div class="card-inner2">
+        <img src="Images/Birthday_2025_3.gif" class="card-photo">
+      </div>
+
+      <div class="card-flip c" id="cardFlip">
+        <div class="card-front">
+          <img src="Images/Birthday_2025_1.gif" class="card-photo">
+        </div>
+
+        <div class="card-inner1">
+          <img src="Images/Birthday_2025_2.gif" class="card-photo">
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- ================= VIDEO ================= -->
-<div class="card page" id="videoPage">
+<div class="card page" id="videoPage" style="display:none;">
   <h1>Memory Video 🎥</h1>
 
   <iframe
@@ -222,7 +483,7 @@
 
 
 <!-- ================= CHRISTMAS ================= -->
-<div class="card page" id="christmasCardPage">
+<!--<div class="card page" id="christmasCardPage">
   <h1>2025 Christmas 🎄</h1>
 
   <div class="birthday-card-container">
@@ -242,9 +503,41 @@
   </div>
 
   <button class="back-btn" onclick="goHome()">Back</button>
+</div>-->
+
+<div class="card page" id="christmasCardPage" style="display:none;">
+  <!-- Stationary header -->
+  <div class="card-header">
+    <h1>Memory Card 💌</h1>
+    <button class="back-btn" onclick="goHome()">Back</button>
+  </div>
+
+  <!-- Scrollable cards wrapper -->
+  <div class="birthday-card-wrapper">
+    <div class="birthday-card-container">
+
+      <!-- Back inner layer -->
+      <div class="card-inner2">
+        <img src="Images/Christmas_2025_3.png" class="card-photo">
+      </div>
+
+      <!-- Flip card -->
+      <div class="card-flip" id="christmasCardFlip">
+
+        <!-- Front of card -->
+        <div class="card-front">
+          <img src="Images/Christmas_2025_1.png" class="card-photo">
+        </div>
+
+        <!-- Inner card layer -->
+        <div class="card-inner1">
+          <img src="Images/Christmas_2025_2.png" class="card-photo">
+        </div>
+
+      </div> <!-- end card-flip -->
+    </div> <!-- end birthday-card-container -->
+  </div> <!-- end birthday-card-wrapper -->
 </div>
-
-
 
 <!-- ================= PHOTO MODAL (same as 2022) ================= -->
 <div class="photo-modal" id="photoModal">
@@ -254,7 +547,7 @@
   <button class="nav next" onclick="nextPhoto()">❯</button>
 </div>
 
-<script src="auth.js"></script>
+<!--<script src="auth.js"></script>-->
 
 <script>
 
@@ -486,7 +779,19 @@ function flipCard2023() {
     cardFlip.style.transform = "none";
     [cardFront, cardInner1, cardInner2].forEach(c => c.classList.add("card-horizontal"));
 
-    const spread = container.clientWidth * 0.45; // 40% of container width
+    //const spread = container.clientWidth * 0.45; // 40% of container width
+
+    let spread;
+    if(window.innerWidth <= 900){
+      if(window.matchMedia("(orientation: landscape)").matches){
+        spread = container.clientWidth * 0.28;
+      }else{
+        spread = container.clientWidth * 0.55;
+      }
+    }else{
+      spread = container.clientWidth * 0.4; // desktop
+    }
+
     cardFront.style.transform = `translateX(-${spread}px)`;
     cardInner1.style.transform = `translateX(0px)`;
     cardInner2.style.transform = `translateX(${spread}px)`;
@@ -529,7 +834,19 @@ function flipChristmasCard() {
     cardFlip.style.transform = "none";
     [cardFront, cardInner1, cardInner2].forEach(c => c.classList.add("card-horizontal"));
 
-    const spread = container.clientWidth * 0.35; // 35% of container width for narrower Xmas card
+    //const spread = container.clientWidth * 0.35; // 35% of container width for narrower Xmas card
+
+    let spread;
+    if(window.innerWidth <= 900){
+      if(window.matchMedia("(orientation: landscape)").matches){
+        spread = container.clientWidth * 0.28;
+      }else{
+        spread = container.clientWidth * 0.55;
+      }
+    }else{
+      spread = container.clientWidth * 0.4; // desktop
+    }
+
     cardFront.style.transform = `translateX(-${spread}px)`;
     cardInner1.style.transform = `translateX(0px)`;
     cardInner2.style.transform = `translateX(${spread}px)`;
