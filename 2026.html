@@ -333,7 +333,9 @@
   .page#videoPage .video-9x16 {
     aspect-ratio: 5 / 7;
 
-    width: min(92vw, 420px);  /* ⭐ width drives size */
+    /* ⭐ key line */
+    width: min(92vw, calc((100vh - 120px) * 5 / 7));
+
     height: auto;
 
     margin: 10px auto;
