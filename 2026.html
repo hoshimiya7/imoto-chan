@@ -333,13 +333,19 @@
   .page#videoPage .video-9x16 {
     aspect-ratio: 5 / 7;
 
-    width: min(95vw, 600px);
-    height: auto;
+    height: calc(
+      100vh - 120px
+      - env(safe-area-inset-top)
+      - env(safe-area-inset-bottom)
+    );   /* ⭐ height controlled */
+
+    width: auto;        /* ⭐ width auto from ratio */
 
     margin: 10px auto;
 
-    flex: none;       /* ⭐ stop flex shrink */
+    flex: none;
   }
+
 
   .page#videoPage .back-btn {
     margin: 10px auto;
