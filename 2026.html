@@ -314,36 +314,32 @@
 }
 
 /* =========================================================
-   🎥 LANDSCAPE VIDEO & CARD PAGE — FIX TITLE + BACK BUTTON
+   🎥 LANDSCAPE VIDEO PAGE — SAME LOGIC AS 2023 (stable)
 ========================================================= */
 @media (max-width:900px) and (orientation: landscape) {
 
   .page#videoPage {
-    display: block;
-    text-align: center;
+    display:block;
+    text-align:center;
+    padding: env(safe-area-inset-top) 12px env(safe-area-inset-bottom);
   }
-
 
   .page#videoPage h1 {
     margin: 6px 0;
     padding-top: 60px;
   }
 
-  /* ⭐ KEY FIX */
+  /* ⭐ EXACT 2023 BEHAVIOUR, ONLY RATIO CHANGED */
   .page#videoPage .video-9x16 {
-    aspect-ratio: 5 / 7;
+    aspect-ratio: 5 / 7;   /* changed from 9/16 */
 
-    width: 90vw;      /* ⭐ ONLY width control */
-    max-width: 420px; /* optional cap */
+    width: 90vw;           /* width ONLY — same as 2023 */
+    max-width: 95%;
 
-    height: auto;     /* never constrain height */
+    height: auto;          /* never constrain height */
 
-    margin: 10px auto;
+    margin: 6px auto;
   }
-
-
-
-
 
   .page#videoPage .back-btn {
     margin: 10px auto;
