@@ -319,10 +319,10 @@
 @media (max-width:900px) and (orientation: landscape) {
 
   .page#videoPage {
-    display: block;   /* ⭐ remove flex completely */
-    padding: env(safe-area-inset-top) 12px env(safe-area-inset-bottom);
-    text-align:center;
+    display: block;
+    text-align: center;
   }
+
 
   .page#videoPage h1 {
     margin: 6px 0;
@@ -333,15 +333,14 @@
   .page#videoPage .video-9x16 {
     aspect-ratio: 5 / 7;
 
-    /* ⭐ key line */
-    width: min(92vw, calc((100vh - 120px) * 5 / 7));
+    width: 90vw;      /* ⭐ ONLY width control */
+    max-width: 420px; /* optional cap */
 
-    height: auto;
+    height: auto;     /* never constrain height */
 
     margin: 10px auto;
-
-    flex: none;
   }
+
 
 
 
