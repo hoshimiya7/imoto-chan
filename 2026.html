@@ -333,19 +333,14 @@
   .page#videoPage .video-9x16 {
     aspect-ratio: 5 / 7;
 
-    height: calc(
-      100vh - 120px
-      - env(safe-area-inset-top)
-      - env(safe-area-inset-bottom)
-    );
-
-    width: auto;
-    max-width: 95vw;   /* ⭐ prevents right-side cutoff */
+    width: min(92vw, 420px);  /* ⭐ width drives size */
+    height: auto;
 
     margin: 10px auto;
 
     flex: none;
   }
+
 
 
 
