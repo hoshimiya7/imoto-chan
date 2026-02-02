@@ -336,24 +336,26 @@
 
   /* VIDEO WRAPPER */
   .video-wrap {
-    position: relative;
-    width: min(90vw, 420px);  /* max width */
+    width: min(90vw, 420px);      /* max width */
+    aspect-ratio: 5 / 7;          /* match video ratio */
     margin: auto;
     background: black;
     border-radius: 1rem;
-    /* maintain aspect ratio dynamically */
-    aspect-ratio: 5 / 7; /* change this for your video if needed */
     overflow: hidden;
+    display: flex;                /* center iframe */
+    justify-content: center;
+    align-items: center;
   }
 
-  /* Iframe fills wrapper while preserving ratio */
+  /* Iframe fills wrapper without clipping */
   .video-wrap iframe {
     width: 100%;
     height: 100%;
     border: none;
     border-radius: 1rem;
-    display: block;
+    object-fit: contain;          /* maintain video without clipping */
   }
+
 
 
 }
