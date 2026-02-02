@@ -222,51 +222,47 @@
   }
 }
 
-/* ================= VIDEO PAGE — PERFECT LANDSCAPE FIT ================= */
-@media (max-width: 768px) and (orientation: landscape) {
+/* =========================================================
+   🎥 BIRTHDAY VIDEO PAGE — MOBILE LANDSCAPE
+========================================================= */
+@media (max-width:900px) and (orientation: landscape) {
 
-  /* Page layout */
-  #videoPage{
-    display:flex;
+  .page#videoPage {
+    display: flex;
     flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-
-    height: 100dvh; /* dynamic viewport (fixes mobile cut-off) */
-    padding:
-      env(safe-area-inset-top)
-      12px
-      env(safe-area-inset-bottom);
-
+    min-height: 0;
+    padding: env(safe-area-inset-top) 12px env(safe-area-inset-bottom);
     box-sizing: border-box;
-    gap: 8px;
   }
 
-  /* Title spacing fix */
-  #videoPage h1{
-    margin: 4px 0 6px 0;
-    font-size: 1.2rem;
-    text-align:center;
+  /* title/header fully visible */
+  .page#videoPage h1 {
+    flex: 0 0 auto;
+    text-align: center;
+    margin: 6px 0;
+    padding-top: 60px; /* extra top padding for visibility */
   }
 
-  /* Video auto-fits remaining height */
-  #videoPage iframe{
+  /* video wrapper for portrait 9:16 videos in landscape */
+  .page#videoPage .video-9x16 {
     flex: 1 1 auto;
-
-    width: 100%;          /* symmetrical */
-    max-width: 95vw;
-
-    height: 80vh;         /* let flex handle height */
-    aspect-ratio: 5/7;   /* proper video ratio (Google Drive is 16:9) */
-
-    border-radius: 1rem;
+    width: auto;
+    height: auto;
+    max-height: calc(
+      100vh - 50px - 50px - env(safe-area-inset-top) - env(safe-area-inset-bottom)
+    ); 
+    /* 50px approx for title + 50px for back button */
+    margin: 6px auto;
+    overflow-y: auto;
   }
 
-  /* Back button spacing */
-  #videoPage .back-btn{
-    margin-top: 6px;
+  /* back button always visible */
+  .page#videoPage .back-btn {
+    flex: 0 0 auto;
+    margin: 6px auto 6px auto;
   }
 }
+
 
 
 </style>
@@ -394,7 +390,7 @@
 </div>
 
 <!-- ================= VIDEO ================= -->
-<div class="card page" id="videoPage" style="display:none;">
+<!--<div class="card page" id="videoPage" style="display:none;">
   <h1>Memory Video 🎥</h1>
 
   <iframe
@@ -407,12 +403,12 @@
   </iframe>
 
   <button class="back-btn" onclick="openBirthday()">Back</button>
-</div>
+</div>-->
 
-<!--<div class="card page" id="videoPage" style="display:none;">
+<div class="card page" id="videoPage" style="display:none;">
   <h1>Memory Video 🎥</h1>
 
-  <div class="video-wrap video-5x7 birthday-video">
+  <div class="video-wrap video-9x16 birthday-video">
     <iframe
         id="driveVideo"
         src="https://drive.google.com/file/d/1tnu1bR_GRkwVhU-D2tj-O7no0IKLgkgt/preview"
@@ -425,7 +421,7 @@
   
 
   <button class="back-btn" onclick="openBirthday()">Back</button>
-</div>-->
+</div>
 
 
 <!-- ================= CHRISTMAS ================= -->
