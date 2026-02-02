@@ -28,12 +28,31 @@
 
 /* ================= VIDEO RESIZE ================= */
 
-#videoPage iframe{
+/*#videoPage iframe{
   display:block;
   margin:auto;
   width:min(90vw,420px);
   aspect-ratio:5/7;
+}*/
+
+.video-wrap{
+  width:min(95vw,900px);
+  margin:0 auto;
+  position:relative;
+  border-radius:1rem;
+  overflow:hidden;
 }
+
+.video-wrap iframe{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  border:0;
+}
+
+.video-16x9{ aspect-ratio:16/9; }
+.video-9x16{ aspect-ratio:5/7; width:min(90vw,420px); }
 
 /* ================= Enter Code ================= */
 .code-input{
@@ -459,7 +478,7 @@
 </div>
 
 <!-- ================= VIDEO ================= -->
-<div class="card page" id="videoPage" style="display:none;">
+<!--<div class="card page" id="videoPage" style="display:none;">
   <h1>Memory Video 🎥</h1>
 
   <iframe
@@ -472,8 +491,25 @@
   </iframe>
 
   <button class="back-btn" onclick="openBirthday()">Back</button>
-</div>
+</div>-->
 
+<div class="card page" id="videoPage" style="display:none;">
+  <h1>Memory Video 🎥</h1>
+
+  <div class="video-wrap video-9x16 birthday-video">
+    <iframe
+        id="driveVideo"
+        src="https://drive.google.com/file/d/1tnu1bR_GRkwVhU-D2tj-O7no0IKLgkgt/preview"
+        frameborder="0" 
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+        allowfullscreen
+        style="border-radius:1rem;">
+    </iframe>
+  </div>
+  
+
+  <button class="back-btn" onclick="openBirthday()">Back</button>
+</div>
 
 
 <!-- ================= CHRISTMAS ================= -->
