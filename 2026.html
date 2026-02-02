@@ -28,31 +28,19 @@
 
 /* ================= VIDEO RESIZE ================= */
 
-/*#videoPage iframe{
-  display:block;
-  margin:auto;
-  width:min(90vw,420px);
-  aspect-ratio:5/7;
-}*/
-
-.video-wrap{
-  width:min(95vw,900px);
-  margin:0 auto;
-  position:relative;
-  border-radius:1rem;
-  overflow:hidden;
+.video-wrap.video-9x16 {
+  width: min(90vw, 420px);
+  aspect-ratio: 5/7; /* vertical video ratio */
+  margin: 0 auto;
 }
 
-.video-wrap iframe{
-  width:100%;
-  height:100%;
-  display:block;
-  border:0;
+.video-wrap.video-9x16 iframe {
+  width: 100%;
+  height: 100%;
+  display: block;
+  border-radius: 1rem;
 }
 
-
-.video-16x9{ aspect-ratio:16/9; }
-.video-9x16{ aspect-ratio:5/7; width:min(90vw,420px); }
 
 /* ================= Enter Code ================= */
 .code-input{
@@ -343,6 +331,12 @@
 
   .page#videoPage .back-btn {
     margin: 10px auto;
+  }
+}
+
+@media (max-width: 768px) and (orientation: landscape) {
+  .video-wrap.video-9x16 {
+    width: 60vw; 
   }
 }
 
