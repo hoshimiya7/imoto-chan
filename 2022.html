@@ -6,6 +6,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>2022 Memories</title>
 
+<link rel="stylesheet" href="styles.css">
+
 <style>
 /* ================= BIRTHDAY diagonal red stripes BACKGROUND ================= */
 body.birthday13-bg {
@@ -140,53 +142,11 @@ h1{color:#b492ee;}
 }
 
 /* ================= BIRTHDAY CARD ================= */
-.birthday-card-wrapper{
-  width: auto;  /* natural width */
-  overflow-x: visible;  /* remove scroll for desktop */
-  display:flex;
-  justify-content:flex-start; /* left align so front isn't cut */
-  padding: 0 0; /* optional: remove extra spacing */
-}
-
-.birthday-card-container{
-  position:relative;
-  display:flex;
-  justify-content:center;
-  width: clamp(280px, 40vw, 520px); /* card width */
-  aspect-ratio: 1414/2000;
-  perspective: 1500px;
-  margin: 80px;
-  flex-shrink:0;
-}
-
-
-
-.card-inner2, .card-flip, .card-front, .card-inner1{
-  position:absolute;
-  top:0; left:0;
-  width:100%; height:100%;
-}
-.card-inner2 img, .card-front img, .card-inner1 img{
-  width:100%; height:100%;
-  border-radius:18px;
-  object-fit:contain; /* ✅ changed from cover */
-}
-.card-flip{
-  transform-style: preserve-3d;
-  transform-origin:left;
-  cursor:pointer;
-  z-index:2;
-}
-.card-front, .card-inner1{
-  backface-visibility:hidden;
-  border-radius:18px;
-}
-.card-inner1{ transform:rotateY(180deg); }
-.card-horizontal{
-  position:absolute;
-  top:0;
-  height:100%;
-  transition:left 0.6s cubic-bezier(.34,1.3,.64,1); /* change from transform */
+/* Birthday */
+#cardPage .birthday-card-container{
+  width: min(90vw, 420px);
+  height: auto;                
+  aspect-ratio: 1429 / 2000;   
 }
 
 
@@ -319,48 +279,122 @@ body.christmas-bg {
 }
 
 /* ================= MOBILE PORTRAIT & LANDSCAPE ADJUSTMENTS ================= */
+/* Mobile portrait */
+@media (max-width: 768px) and (orientation: portrait) {
+  #cardPage .birthday-card-container {
+    width: 85vw;
+  }
+  #christmasCardPage .birthday-card-container {
+    width: 75vw;
+  }
+}
 
-@media (max-width:600px){
-
-  #cardPage{
-    position:fixed;
-    top:10px;
-    left:50%;
-    transform:translateX(-50%);
-    width:calc(100% - 20px);
-    height:calc(100% - 20px);
-    overflow:hidden;
+/* Mobile landscape */
+@media (max-width: 768px) and (orientation: landscape) {
+  #cardPage .birthday-card-container {
+    width: 60vw;
+  }
+  #christmasCardPage .birthday-card-container {
+    width: 50vw;
   }
 
-  body{
-    overflow:hidden;
+  .tiles {
+    flex-direction: row;
+    justify-content: space-around;
   }
 
-  /* ⭐ wrapper = scroll viewport */
-  #cardPage .birthday-card-wrapper{
-    overflow-x:auto;
-    overflow-y:hidden;
-    -webkit-overflow-scrolling:touch;
+  h1 {
+    font-size: 1.3rem;
+  }
+}
 
-    padding:0 290px;   /* keep your good front spacing */
-    box-sizing:border-box;
+/* 📱 Portrait */
+@media (max-width:900px) and (orientation: portrait){
 
-    display:inline-block;   /* ⭐ KEY: allows width to grow naturally */
-    white-space:nowrap;    /* ⭐ makes content horizontal */
+  /* Birthday + Christmas page layout */
+  #cardPage, #christmasCardPage {
+    display:flex;
+    flex-direction: column;
+    height: 100dvh; 
+    overflow: hidden;
   }
 
-  /* keep container EXACTLY natural size */
-  #cardPage .birthday-card-container{
-    display:inline-block;
-    margin:20px 0;
+  .card-header {
+    flex: 0 0 auto;
+    text-align: center;
+    padding: 10px 0;
+    z-index: 5;
   }
 
-  /* ⭐ add REAL scroll room without touching cards */
-  #cardPage .birthday-card-wrapper::after{
-    content:"";
-    display:inline-block;
-    width:57vw;   /* extra space to reach inner2 */
-    height:1px;
+  .birthday-card-wrapper {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+    padding: 0 20px;
+    box-sizing: border-box;
+  }
+
+  .birthday-card-wrapper::before,
+  .birthday-card-wrapper::after {
+    content: "";
+    flex: 0 0 calc((100vw - 5px)/2);
+  }
+
+  .birthday-card-container {
+    flex: 0 0 auto;
+    width: 220px;
+    height: 390px;
+    scroll-snap-align: center;
+  }
+}
+
+/* 📱 Landscape */
+@media (max-width:900px) and (orientation: landscape){
+  #cardPage, #christmasCardPage {
+    display:flex;
+    flex-direction: column;
+    height: 100dvh;
+    overflow-y: auto; /* scroll vertically to prevent clipping */
+    overflow-x: hidden;
+    padding: env(safe-area-inset-top) 12px env(safe-area-inset-bottom);
+    box-sizing: border-box;
+  }
+
+  .card-header {
+    flex: 0 0 auto;
+    padding: 6px 0;
+    text-align: center;
+  }
+
+  .birthday-card-wrapper {
+    flex: 1 1 auto;
+    display: flex;
+    align-items: flex-start; /* align top to prevent clipping */
+    gap: 14px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+    padding: 10px 12px 10px 12px;
+  }
+
+  .birthday-card-wrapper::before,
+  .birthday-card-wrapper::after {
+    content: "";
+    flex: 0 0 calc((100vw - 170px)/2);
+  }
+
+  .birthday-card-container {
+    flex: 0 0 auto;
+    width: 170px;
+    aspect-ratio: 360/640;
+    scroll-snap-align: center;
   }
 }
 
@@ -425,14 +459,6 @@ body.christmas-bg {
     transform: translateX(-50%);
   }
 
-  #cardPage .birthday-card-wrapper {
-    padding: 0 370px;     /* more horizontal space than portrait but less than desktop */
-  }
-
-  #cardPage .birthday-card-container {
-    margin: 40px auto;
-  }
-
   /* ===== Birthday video page landscape spacing fix ===== */
   #videoPage{
     top: 20px;                 /* push down from top */
@@ -494,18 +520,31 @@ body.christmas-bg {
 </div>
 
 <!-- ================= CARD ================= -->
-<div class="card page" id="cardPage">
-  <h1>Birthday Card 💌</h1>
+
+<div class="card page" id="cardPage" style="display:none;">
+  <div class="card-header">
+    <h1>2024 Birthday Card 💌</h1>
+    <button class="back-btn" onclick="openBirthday()">Back</button>
+  </div>
+
+  <!-- ⭐ Scrollable wrapper for mobile -->
   <div class="birthday-card-wrapper">
     <div class="birthday-card-container">
-      <div class="card-inner2"><img src="Images/card-inner2.png" class="card-photo"></div>
+      <div class="card-inner2">
+        <img src="Images/card-inner2.png" class="card-photo">
+      </div>
+
       <div class="card-flip" id="cardFlip">
-        <div class="card-front"><img src="Images/card-front.png" class="card-photo"><div class="page-shadow"></div></div>
-        <div class="card-inner1"><img src="Images/card-inner1.png" class="card-photo"></div>
+        <div class="card-front">
+          <img src="Images/card-front.png" class="card-photo">
+        </div>
+
+        <div class="card-inner1">
+          <img src="Images/card-inner1.png" class="card-photo">
+        </div>
       </div>
     </div>
   </div>
-  <button class="back-btn" onclick="openBirthday()">Back</button>
 </div>
 
 <!-- ================= VIDEO ================= -->
@@ -687,12 +726,6 @@ function flipCard2023() {
   const cardFront = container.querySelector(".card-front");
   const cardInner1 = container.querySelector(".card-inner1");
   const cardInner2 = container.querySelector(".card-inner2");
-  const wrapper = container.querySelector(".birthday-card-wrapper");
-
-  const cardWidth = container.querySelector(".birthday-card-container").clientWidth;
-  const offset = cardWidth * 0.3; // tweak this value (0.2~0.4) for how much front shows
-  wrapper.scrollLeft = cardWidth - offset; // scroll so inner1 is centered
-
 
   // Reset
   cardFlip.style.transition="none";
@@ -718,7 +751,18 @@ function flipCard2023() {
     cardFlip.style.transition="none";
     cardFlip.style.transform="none";
     [cardFront, cardInner1, cardInner2].forEach(c=>c.classList.add("card-horizontal"));
-    const spread = container.querySelector(".birthday-card-container").clientWidth * 1.025;
+    //const spread = container.querySelector(".birthday-card-container").clientWidth * 1.025;
+
+    if(window.innerWidth <= 900){
+      if(window.matchMedia("(orientation: landscape)").matches){
+        spread = container.clientWidth * 0.28; // tighter for landscape
+      }else{
+        spread = container.clientWidth * 0.55; // portrait
+      }
+    }else{
+      spread = container.clientWidth * 0.35; // desktop
+    }
+
     cardFront.style.transform = `translateX(-${spread}px)`;
     cardInner1.style.transform = `translateX(0px)`;
     cardInner2.style.transform = `translateX(${spread}px)`;
