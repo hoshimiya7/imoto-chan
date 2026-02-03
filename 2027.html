@@ -1,0 +1,877 @@
+<!-- ================= 2027 TEMPLATE (using part of 2025) Opening card (flip) and then cards take turns in spotlight ================= -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>2027 Memories</title>
+
+<!--<link rel="stylesheet" href="styles.css">-->
+
+<style>
+/* ==================== GENERAL ==================== */
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background: linear-gradient(135deg, rgba(168,85,247,.18), rgba(255,255,255,.95)),
+              repeating-linear-gradient(45deg,#f3e8ff,#f3e8ff 20px,#fff 20px,#fff 40px);
+  min-height:100vh;
+}
+
+/* Card */
+.card{
+  background:rgba(206, 176, 255, 0.205);
+  backdrop-filter:blur(12px);
+  padding:2rem;
+  border-radius:1.25rem;
+  box-shadow:0 8px 30px rgba(0,0,0,.25);
+  color:#4a044e;
+  max-width:900px;
+  width:95%;
+  margin:auto;
+  text-align:center;
+}
+
+/* Titles */
+h1{color:#b492ee;}
+
+/* Dashboard tiles */
+.tiles{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:1rem;
+  margin-top:1rem;
+}
+
+.tile{
+  background:linear-gradient(135deg,#f9a8d4,#c7d2fe);
+  padding:2rem;
+  border-radius:1.25rem;
+  text-align:center;
+  font-weight:bold;
+  cursor:pointer;
+  color:#4a044e;
+  box-shadow:0 6px 16px rgba(0,0,0,.25);
+  transition:.25s;
+}
+
+.tile:hover{
+  transform:translateY(-6px) scale(1.03);
+}
+
+/* Buttons */
+.back-btn{
+  margin-top:2rem;
+  background:#10b981;
+  color:white;
+  padding:.6rem 1.2rem;
+  border:none;
+  border-radius:999px;
+  cursor:pointer;
+}
+
+.logout-btn{
+  position:absolute;
+  top:20px;
+  right:20px;
+  background:linear-gradient(135deg,#fb7185,#f43f5e);
+  color:white;
+  padding:.5rem 1.25rem;
+  border-radius:999px;
+  border:none;
+  cursor:pointer;
+}
+
+/* Pages hidden initially */
+.page{
+  display:none;
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+}
+
+/* Effect layers */
+.effect-layer{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  pointer-events:none;
+  overflow:hidden;
+  z-index:9999;
+  display:none;
+}
+
+/* Firework glow */
+.firework-particle {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  box-shadow: 0 0 8px #fff, 0 0 16px #fff;
+}
+
+
+/* Snow */
+@keyframes fallSnow{ to{ transform:translateY(110vh); } }
+
+/* Confetti */
+@keyframes fallConfetti{ to{ transform:translateY(110vh) rotate(720deg); opacity:0; } }
+
+/* ===== Photo viewer modal ===== */
+
+.photo-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.75);
+
+  justify-content: center;
+  align-items: center;
+
+  z-index: 10000;
+  overflow: hidden;
+}
+
+.photo-modal img {
+  max-width: 85%;
+  max-height: 85%;
+  border-radius: 18px;
+  box-shadow: 0 20px 60px rgba(0,0,0,.6);
+  transition: transform .25s ease, opacity .25s ease;
+}
+
+/* arrows */
+.nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 50px;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  padding: 20px;
+  user-select: none;
+}
+
+.prev { left: 30px; }
+.next { right: 30px; }
+
+.photo-close {
+  position: absolute;
+  top: 25px;
+  right: 40px;
+  font-size: 42px;
+  color: white;
+  cursor: pointer;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0 }
+  to { opacity: 1 }
+}
+
+@keyframes zoomIn {
+  from { transform: scale(.7) }
+  to { transform: scale(1) }
+}
+
+/* ================= BIRTHDAY CARD centred on desktop ================= */
+#cardPage .birthday-card-container {
+  width: 357px;   /* scaled down from 1429px */
+  height: 500px;  /* scaled down from 2000px */
+  margin: 2rem auto;
+  perspective: 1500px;
+  position: relative;
+}
+
+/* ================= 2027 ONLY overrides ================= */
+
+/* ================= VIDEO RESIZE ================= */
+
+#videoPage iframe {
+  display: block;
+  margin: auto;
+  width: min(90vw, 420px);
+  aspect-ratio: 5/7;
+}
+
+.video-wrap {
+  width: min(90vw, 420px);
+  aspect-ratio: 5 / 7;
+  margin: 20px auto;
+  background: black;
+  border-radius: 1rem;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.video-wrap iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: 1rem;
+  object-fit: contain;
+}
+
+/* ================= MOBILE RESPONSIVENESS ================= */
+
+@media (max-width: 768px) {
+  body { font-size: 14px; }
+  h1 { font-size: 1.5rem; }
+  .tiles { flex-direction: column; gap: 10px; }
+  .tile { padding: 12px 8px; font-size: 1.2rem; }
+  .back-btn, .logout-btn { font-size: 1rem; padding: 8px 12px; }
+}
+
+/* Ensure photo modal fits mobile */
+.photo-modal img#photoViewer {
+  max-width: 95vw;
+  max-height: 90vh;
+  object-fit: contain;
+}
+
+/* ================= CARDS — DESKTOP ================= */
+#cardPage .birthday-card-container {
+  aspect-ratio: 5/7;
+  max-width: 420px;
+  width: auto;
+  height: auto;
+}
+
+#christmasCardPage .birthday-card-container {
+  aspect-ratio: 1429/2000; /* exact image ratio */
+  max-width: 300px;
+  width: auto;
+  height: auto;
+}
+
+/* ================= CARD SCROLLING — PORTRAIT (animated scroll preserved) ================= */
+@media (max-width: 900px) and (orientation: portrait) {
+  #cardPage, #christmasCardPage {
+    display: flex;
+    flex-direction: column;
+    height: 100dvh;
+    overflow: hidden;
+  }
+
+  .card-header {
+    flex: 0 0 auto;
+    text-align: center;
+    padding: 10px 0;
+    z-index: 5;
+  }
+
+  .birthday-card-wrapper {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+    padding: 0 20px;
+    box-sizing: border-box;
+  }
+
+  .birthday-card-wrapper::before,
+  .birthday-card-wrapper::after {
+    content: "";
+    flex: 0 0 calc((100vw - 220px)/2); /* first/last card centering */
+  }
+
+  #cardPage .birthday-card-container { 
+    height: 280px; 
+    width: auto; 
+    scroll-snap-align: center;
+  }
+
+  #christmasCardPage .birthday-card-container { 
+    height: 260px; 
+    width: auto; 
+    scroll-snap-align: center;
+  }
+}
+
+/* =================================================
+   MOBILE LANDSCAPE — TRUE SCALE FIX
+   (works with absolute children + flip animation)
+================================================= */
+/* ================= CARD SCROLLING — LANDSCAPE (smaller cards) ================= */
+@media (max-width: 900px) and (orientation: landscape) {
+  #cardPage, #christmasCardPage {
+    display: flex;
+    flex-direction: column;
+    height: 100dvh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: env(safe-area-inset-top) 12px env(safe-area-inset-bottom);
+    box-sizing: border-box;
+  }
+
+  .card-header {
+    flex: 0 0 auto;
+    padding: 6px 0;
+    text-align: center;
+  }
+
+  .birthday-card-wrapper {
+    flex: 1 1 auto;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+    padding: 10px 12px;
+  }
+
+  .birthday-card-wrapper::before,
+  .birthday-card-wrapper::after {
+    content: "";
+    flex: 0 0 calc((100vw - 120px)/2); /* first/last card centered */
+  }
+
+  /* Halved card sizes for landscape */
+  #cardPage .birthday-card-container { 
+    height: 260px; 
+    width: auto; 
+    scroll-snap-align: center;
+  }
+
+  #christmasCardPage .birthday-card-container { 
+    height: 220px; 
+    width: auto; 
+    scroll-snap-align: center;
+  }
+}
+
+/* =========================================================
+   🎥 BIRTHDAY VIDEO PAGE — MOBILE LANDSCAPE
+========================================================= */
+@media (max-width:900px) and (orientation: landscape) {
+  .page#videoPage {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    padding: env(safe-area-inset-top) 12px env(safe-area-inset-bottom);
+    box-sizing: border-box;
+  }
+
+  .page#videoPage h1 {
+    flex: 0 0 auto;
+    text-align: center;
+    margin: 6px 0;
+    padding-top: 60px;
+  }
+
+  .page#videoPage .video-9x16 {
+    flex: 1 1 auto;
+    width: 55vw;
+    height: auto;
+    max-height: calc(
+      100vh - 50px - 50px - env(safe-area-inset-top) - env(safe-area-inset-bottom)
+    );
+    margin: 6px auto;
+    overflow-y: auto;
+  }
+
+  .page#videoPage .back-btn {
+    flex: 0 0 auto;
+    margin: 6px auto;
+  }
+}
+
+/* =================================================
+   🎂 OPENING CARD STACK ANIMATION
+================================================= */
+.opening-stack{
+  position: relative;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  perspective: 1400px;
+}
+
+.opening-stack img{
+  position:absolute;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  border-radius:1rem;
+  cursor:pointer;
+  box-shadow:0 10px 30px rgba(0,0,0,0.35);
+  transition: transform 0.9s cubic-bezier(.2,.8,.2,1), opacity .6s ease;
+}
+
+.front  { z-index:3; }
+.inner1 { z-index:2; }
+.inner2 { z-index:1; }
+
+.opening-stack.open .front{
+  transform: rotateY(-150deg) translateX(-30px);
+}
+.opening-stack.open .inner1{
+  transform: rotateY(-40deg) translateX(-10px);
+}
+
+.opening-stack.spread .front{
+  transform: rotate(-10deg) translateX(-60px);
+}
+.opening-stack.spread .inner1{
+  transform: rotate(6deg);
+}
+.opening-stack.spread .inner2{
+  transform: rotate(12deg) translateX(60px);
+}
+
+.opening-stack.rotate img{
+  opacity:0;
+  transform: scale(.9);
+}
+.opening-stack.rotate img.active{
+  opacity:1;
+  transform: scale(1);
+  z-index:5;
+}
+
+/* =================================================
+   📖 REAL BOOK FLIP
+================================================= */
+.book{
+  position:relative;
+  perspective:1600px;
+}
+
+.base-page{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  border-radius:1rem;
+  z-index:1;
+}
+
+.cover{
+  position:absolute;
+  inset:0;
+  transform-style:preserve-3d;
+  transform-origin:left center;
+  transition: transform 1.2s cubic-bezier(.2,.8,.2,1);
+  z-index:3;
+}
+
+.book.open .cover{
+  transform: rotateY(-180deg);
+}
+
+.cover img{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  border-radius:1rem;
+  backface-visibility:hidden;
+}
+
+.front-face{
+  transform: rotateY(0deg);
+}
+.back-face{
+  transform: rotateY(180deg);
+}
+
+.book.rotate .cover{
+  transform:none !important;
+}
+
+.book.rotate .card-photo{
+  position:absolute;
+  inset:0;
+  opacity:0;
+  transform: scale(.92);
+  backface-visibility:visible;
+  transition: opacity .6s ease, transform .6s ease;
+}
+.book.rotate .card-photo.active{
+  opacity:1;
+  transform: scale(1);
+  z-index:5;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- ================= AUDIO ================= -->
+<audio id="birthdayAudio" src="Images/birthday.mp3" loop></audio>
+<audio id="christmasAudio" src="Images/christmas.mp3" loop></audio>
+
+
+<!-- ================= EFFECT LAYERS ================= -->
+<div id="snow" class="effect-layer"></div>
+<div id="fireworks" class="effect-layer"></div>
+
+
+<!-- ================= HOME ================= -->
+<div class="card page" id="home" style="display:block;">
+  <h1>2027</h1>
+  <p>Select an event:</p>
+  <button class="logout-btn" onclick="logout()">Logout</button>
+
+  <div class="tiles">
+    <div class="tile" onclick="openBirthday()">🎂 Birthday</div>
+    <div class="tile" onclick="openChristmas()">🎄 Christmas</div>
+  </div>
+
+  <button class="back-btn" onclick="goDashboard()">Back</button>
+</div>
+
+
+
+<!-- ================= BIRTHDAY ================= -->
+<!-- ================= BIRTHDAY ================= -->
+<div class="card page" id="cardPage" style="display:none;">
+
+  <div class="card-header">
+    <h1>2027 Birthday 🎂</h1>
+    <button class="back-btn" onclick="goHome()">Back</button>
+  </div>
+
+  <div class="birthday-card-wrapper">
+    <div class="birthday-card-container book" id="birthdayBook">
+        <!-- page already visible -->
+        <img src="Images/Birthday_2024_3.png" class="card-photo base-page">
+
+        <!-- flipping cover -->
+        <div class="cover" id="bookCover">
+
+            <img src="Images/Birthday_2024_1.png" class="card-photo front-face">
+            <img src="Images/Birthday_2024_2.png" class="card-photo back-face">
+
+        </div>
+    </div>
+  </div>
+
+</div>
+
+
+
+<!-- ================= CHRISTMAS CARD PAGE 2025 ================= -->
+<div class="card page" id="christmasCardPage" style="display:none;">
+  <!-- Stationary header -->
+  <div class="card-header">
+    <h1>2027 Christmas 💌</h1>
+    <button class="back-btn" onclick="goHome()">Back</button>
+  </div>
+</div>
+
+
+
+
+<!-- ================= PHOTO MODAL (same as 2022) ================= -->
+<div class="photo-modal" id="photoModal">
+  <span class="photo-close" onclick="closePhoto()">✕</span>
+  <button class="nav prev" onclick="prevPhoto()">❮</button>
+  <img id="photoViewer">
+  <button class="nav next" onclick="nextPhoto()">❯</button>
+</div>
+
+<!--<script src="auth.js"></script>-->
+
+<script>
+
+/* =====================================================
+   GLOBAL
+===================================================== */
+
+const snow = document.getElementById("snow");
+const fireworks = document.getElementById("fireworks");
+
+const bdayAudio = document.getElementById("birthdayAudio");
+const xmasAudio = document.getElementById("christmasAudio");
+
+let snowInterval = null;
+
+
+
+/* =====================================================
+   PAGE CONTROL
+===================================================== */
+
+function hideAll(){
+  document.querySelectorAll(".page").forEach(p=>p.style.display="none");
+  stopEffects();
+}
+
+function goHome(){
+  hideAll();
+  document.body.classList.remove("christmas-bg");
+  document.body.classList.remove("birthday-bg");
+  document.getElementById("home").style.display="block";
+}
+
+function goDashboard(){
+  window.location.href = "index.html";
+}
+
+function logout(){
+  sessionStorage.clear();
+  localStorage.clear();
+  window.location.replace("login.html");
+}
+
+/* =====================================================
+   OPEN SECTIONS
+===================================================== */
+
+function openBirthday(){
+  hideAll();
+
+  document.body.classList.add("birthday-bg"); // 👈 add this
+  document.getElementById("cardPage").style.display="block";
+
+  bdayAudio.play();
+  startFireworks();
+
+  startBirthdayOpening();
+}
+
+function openChristmas(){
+  hideAll();
+
+  document.body.classList.add("christmas-bg");
+  document.getElementById("christmasCardPage").style.display="block";
+
+  xmasAudio.play();
+  startSnow();
+
+}
+
+
+
+/* =====================================================
+   STOP EVERYTHING WHEN LEAVING PAGE  ⭐
+===================================================== */
+
+function stopEffects(){
+
+  /* Fireworks */
+  if(fireworksInterval){
+    clearInterval(fireworksInterval);
+    fireworksInterval = null;
+  }
+  fireworks.innerHTML="";
+  fireworks.style.display="none";
+
+  /* snow */
+  if(snowInterval){
+    clearInterval(snowInterval);
+    snowInterval = null;
+  }
+  snow.innerHTML="";
+  snow.style.display="none";
+
+  /* audio */
+  bdayAudio.pause();
+  xmasAudio.pause();
+  bdayAudio.currentTime=0;
+  xmasAudio.currentTime=0;
+
+  /* stop video */
+  const iframe = document.getElementById("driveVideo");
+  if(iframe) iframe.src = iframe.src;
+
+  if(birthdayInterval){
+    clearInterval(birthdayInterval);
+    birthdayInterval = null;
+  }
+
+}
+
+let fireworksInterval = null;
+
+function startFireworks(){
+  const fireworks = document.getElementById("fireworks");
+  fireworks.style.display = "block";
+
+  const colors = ["#ff3838","#ff9f1a","#32ff7e","#18dcff","#7d5fff","#fffa65"];
+
+  fireworksInterval = setInterval(() => {
+    const fX = Math.random() * 100; // anywhere across width
+    const fY = 20 + Math.random() * 60; // slightly top to center
+
+    const particleCount = 15 + Math.floor(Math.random()*25);
+
+    for(let i=0;i<particleCount;i++){
+      const p = document.createElement("div");
+      p.className = "firework-particle";
+      const color = colors[Math.floor(Math.random()*colors.length)];
+      p.style.background = color;
+      p.style.width = "6px"; // bigger particles
+      p.style.height = "6px"; // bigger particles
+      p.style.left = fX + "vw";
+      p.style.top = fY + "vh";
+
+      fireworks.appendChild(p);
+
+      const angle = Math.random() * 2 * Math.PI;
+      const distance = 15 + Math.random() * 50; // wider spread
+      const duration = 1200 + Math.random()*800;
+
+      // Animate particle with trailing glow using keyframes
+      p.animate([
+        { transform: "translate(0,0)", opacity: 1 },
+        { transform: `translate(${Math.cos(angle)*distance}vw, ${Math.sin(angle)*distance}vh)`, opacity: 0 }
+      ],{
+        duration: duration,
+        easing: "ease-out",
+        fill: "forwards"
+      });
+
+      setTimeout(()=>p.remove(), duration);
+    }
+
+  }, 400); // burst interval
+}
+
+/* =====================================================
+   SNOW (same as your Christmas)
+===================================================== */
+
+function startSnow(){
+
+  snow.style.display="block";
+
+  snowInterval=setInterval(()=>{
+
+    const s=document.createElement("div");
+    s.innerHTML="❄";
+    s.style.position="absolute";
+    s.style.left=Math.random()*100+"vw";
+    s.style.animation="fallSnow 5s linear forwards";
+
+    snow.appendChild(s);
+
+    setTimeout(()=>s.remove(),5000);
+
+  },150);
+}
+
+/* =====================================================
+   PHOTO VIEWER (shared like 2022)
+===================================================== */
+
+const photoModal = document.getElementById("photoModal");
+const photoViewer = document.getElementById("photoViewer");
+
+let photos = [];
+let photoIndex = 0;
+
+/* open from any card-photo automatically */
+document.addEventListener("click", e => {
+
+  const img = e.target.closest(".card-photo");
+  if(!img) return;
+
+  /* only trigger inside card pages */
+  if(!img.closest("#cardPage, #christmasCardPage")) return;
+
+  photos = Array.from(
+    img.closest(".birthday-card-container").querySelectorAll(".card-photo")
+  );
+
+  photoIndex = photos.indexOf(img);
+
+  showPhoto(photoIndex);
+  photoModal.style.display = "flex";
+});
+
+function showPhoto(i){
+  photoViewer.src = photos[i].src;
+}
+
+function closePhoto(){
+  photoModal.style.display = "none";
+}
+
+function nextPhoto(){
+  photoIndex = (photoIndex + 1) % photos.length;
+  showPhoto(photoIndex);
+}
+
+function prevPhoto(){
+  photoIndex = (photoIndex - 1 + photos.length) % photos.length;
+  showPhoto(photoIndex);
+}
+
+/* swipe support */
+let startX = 0;
+
+photoModal.addEventListener("touchstart", e=>{
+  startX = e.touches[0].clientX;
+});
+
+photoModal.addEventListener("touchend", e=>{
+  const diff = e.changedTouches[0].clientX - startX;
+  if(Math.abs(diff) < 40) return;
+  diff < 0 ? nextPhoto() : prevPhoto();
+});
+
+/* =====================================================
+   🎂 BIRTHDAY OPENING + ROTATING SHOWCASE
+===================================================== */
+
+let birthdayInterval = null;
+
+function startBirthdayOpening(){
+
+  const book = document.getElementById("birthdayBook");
+  const cover = document.getElementById("bookCover");
+
+  const allPhotos = book.querySelectorAll(".card-photo");
+
+  book.classList.remove("open","rotate");
+  allPhotos.forEach(p=>p.classList.remove("active"));
+
+  /* 1️⃣ open book */
+  setTimeout(()=>{
+    book.classList.add("open");
+  },100);
+
+  /* 2️⃣ start rotation after flip */
+  setTimeout(()=>{
+
+    book.classList.add("rotate");
+
+    let index = 0;
+
+    allPhotos[index].classList.add("active");
+
+    birthdayInterval = setInterval(()=>{
+
+      allPhotos[index].classList.remove("active");
+      index = (index + 1) % allPhotos.length;
+      allPhotos[index].classList.add("active");
+
+    },2000);
+
+  },1400); // wait for flip
+}
+
+
+</script>
+</body>
+</html>
