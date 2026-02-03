@@ -485,8 +485,12 @@ body.christmas-bg {
   #cardPage .birthday-card-container {
     width: 60vw;  /* reduced from 85vw */
   }
-  #christmasCardPage .birthday-card-container {
-    width: 55vw;  /* reduced from 75vw */
+}
+
+/* Mobile landscape */
+@media (max-width: 768px) and (orientation: landscape) {
+  #cardPage .birthday-card-container {
+    width: 23vw;  /* reduced from 60vw */
   }
 }
 </style>
@@ -767,7 +771,7 @@ function flipCard2023() {
       if(window.matchMedia("(orientation: landscape)").matches){
         spread = container.clientWidth * 0.28; // tighter for landscape
       }else{
-        spread = container.clientWidth * 0.55; // portrait
+        spread = container.clientWidth * 0.60; // portrait
       }
     }else{
       spread = container.clientWidth * 0.35; // desktop
