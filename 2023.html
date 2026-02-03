@@ -10,6 +10,48 @@
 <link rel="stylesheet" href="styles.css">
 
 <style>
+/* ================= BIRTHDAY diagonal orange stripes BACKGROUND ================= */
+body.birthday14-bg {
+  background-color: #ffe0b3;
+  background-image: repeating-linear-gradient(
+    45deg,
+    #ffe0b3 0px,
+    #ffe0b3 20px,
+    #ffb84d 20px,
+    #ffb84d 40px
+  );
+  background-attachment: fixed;
+}
+
+/* ================= BIRTHDAY random flower patterned BACKGROUND ================= */
+body.birthday7-bg {
+  background-color: #f2d6ff; /* soft pink-purple base */
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'><g fill-opacity='0.85'><g transform='translate(20 30) rotate(-15)'><circle cx='0' cy='-6' r='4' fill='%23ffb3d9'/><circle cx='6' cy='0' r='4' fill='%23ff8fd4'/><circle cx='0' cy='6' r='4' fill='%23ffb3d9'/><circle cx='-6' cy='0' r='4' fill='%23ff8fd4'/><circle cx='0' cy='0' r='3' fill='%23ffd84d'/></g><g transform='translate(80 40) rotate(25)'><circle cx='0' cy='-5' r='3.5' fill='%23c4a1ff'/><circle cx='5' cy='0' r='3.5' fill='%23b36bff'/><circle cx='0' cy='5' r='3.5' fill='%23c4a1ff'/><circle cx='-5' cy='0' r='3.5' fill='%23b36bff'/><circle cx='0' cy='0' r='2.5' fill='%23ffe066'/></g><g transform='translate(50 90) rotate(-10)'><circle cx='0' cy='-6' r='4' fill='%23ff8fd4'/><circle cx='6' cy='0' r='4' fill='%23ffb3d9'/><circle cx='0' cy='6' r='4' fill='%23ff8fd4'/><circle cx='-6' cy='0' r='4' fill='%23ffb3d9'/><circle cx='0' cy='0' r='3' fill='%23ffd84d'/></g><g transform='translate(110 100) rotate(20)'><circle cx='0' cy='-5' r='3.5' fill='%23c4a1ff'/><circle cx='5' cy='0' r='3.5' fill='%23b36bff'/><circle cx='0' cy='5' r='3.5' fill='%23c4a1ff'/><circle cx='-5' cy='0' r='3.5' fill='%23b36bff'/><circle cx='0' cy='0' r='2.5' fill='%23ffe066'/></g></g></svg>");
+  background-repeat: repeat;
+  background-size: 140px 140px;
+  background-attachment: fixed;
+  color: #5a2a82;
+}
+
+/* ================= CHRISTMAS STAR + SNOWFLAKE BACKGROUND ================= */
+
+body.christmas8-bg {
+  background-color: #a8d0f0; /* light winter blue */
+
+  /* SVG tile: stars + snowflakes */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cg fill-opacity='0.9'%3E%3Cpolygon points='20,20 23,28 32,28 25,34 28,44 20,38 12,44 15,34 8,28 17,28' fill='yellow'/%3E%3Cpolygon points='120,50 123,58 132,58 125,64 128,74 120,68 112,74 115,64 108,58 117,58' fill='yellow'/%3E%3Ccircle cx='50' cy='110' r='2' fill='white'/%3E%3Ccircle cx='130' cy='30' r='1.5' fill='white'/%3E%3Ccircle cx='90' cy='80' r='2' fill='white'/%3E%3Ccircle cx='30' cy='60' r='1.5' fill='white'/%3E%3Ccircle cx='150' cy='120' r='2' fill='white'/%3E%3Ccircle cx='70' cy='40' r='1.5' fill='white'/%3E%3C/g%3E%3C/svg%3E");
+
+  background-repeat: repeat;
+  background-size: 160px 160px;
+  background-attachment: fixed;
+}
+
+/* Text contrast for light background */
+body.christmas8-bg h1,
+body.christmas8-bg p {
+  color: #1b3f5c;
+}
+
 /* ================= GENERAL ================= */
 body {
   margin:0;
@@ -518,7 +560,7 @@ h1 { color:#b492ee; }
 
 </head>
 
-<body>
+<body class="birthday14-bg">
 
 <!-- ================= AUDIO ================= -->
 <audio id="birthdayAudio" src="Images/birthday.mp3" loop></audio>
@@ -716,7 +758,8 @@ function hideAll(){
 
 function goHome(){
   hideAll();
-  document.body.classList.remove("christmas-bg");
+  document.body.classList.remove("birthday7-bg", "christmas8-bg");
+  document.body.classList.add("birthday14-bg"); // default home bg
   document.getElementById("home").style.display="block";
 }
 
@@ -737,6 +780,9 @@ function logout(){
 function openBirthday(){
   hideAll();
 
+  document.body.classList.remove("birthday14-bg", "christmas8-bg");
+  document.body.classList.add("birthday7-bg");
+
   document.getElementById("birthday").style.display="block";
 
   bdayAudio.play();
@@ -746,7 +792,9 @@ function openBirthday(){
 function openChristmas(){
   hideAll();
 
-  document.body.classList.add("christmas-bg");
+  document.body.classList.remove("birthday14-bg", "birthday7-bg");
+  document.body.classList.add("christmas8-bg");
+
   document.getElementById("christmas").style.display="block";
 
   xmasAudio.play();

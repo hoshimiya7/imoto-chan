@@ -11,6 +11,55 @@
 
 <style>
 /* ================= 2026 ONLY overrides ================= */
+/* ================= BIRTHDAY diagonal purple stripes BACKGROUND ================= */
+body.birthday16-bg {
+  background-color: #e6d6ff;
+  background-image: repeating-linear-gradient(
+    45deg,
+    #e6d6ff 0px,
+    #e6d6ff 20px,
+    #c4a1ff 20px,
+    #c4a1ff 40px
+  );
+  background-attachment: fixed;
+}
+
+/* ================= BIRTHDAY hearts and flowers BACKGROUND ================= */
+
+body.birthday4-bg {
+  background-color: #f2d6ff; /* soft pink-purple base */
+
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'><g fill-opacity='0.85'><path d='M22 38s-8-5-8-11a5 5 0 0 1 8-3 5 5 0 0 1 8 3c0 6-8 11-8 11z' fill='%23ff6fb1' transform='rotate(-18 22 30)'/><path d='M88 34s-7-4-7-9a4.5 4.5 0 0 1 7-3 4.5 4.5 0 0 1 7 3c0 5-7 9-7 9z' fill='%239a5cff' transform='rotate(22 88 26)'/><g transform='translate(40 78) rotate(12)'><circle cx='0' cy='-6' r='4' fill='%23ffb3d9'/><circle cx='6' cy='0' r='4' fill='%23ff8fd4'/><circle cx='0' cy='6' r='4' fill='%23ffb3d9'/><circle cx='-6' cy='0' r='4' fill='%23ff8fd4'/><circle cx='0' cy='0' r='3' fill='%23ffd84d'/></g><g transform='translate(104 92) rotate(-20)'><circle cx='0' cy='-5' r='3.5' fill='%23c4a1ff'/><circle cx='5' cy='0' r='3.5' fill='%23b36bff'/><circle cx='0' cy='5' r='3.5' fill='%23c4a1ff'/><circle cx='-5' cy='0' r='3.5' fill='%23b36bff'/><circle cx='0' cy='0' r='2.5' fill='%23ffe066'/></g></g></svg>");
+
+  background-repeat: repeat;
+  background-size: 140px 140px;
+  background-attachment: fixed;
+}
+
+/* Birthday text contrast */
+body.birthday4-bg h1,
+body.birthday4-bg p {
+  color: #5a2a82;
+}
+
+/* ================= CHRISTMAS TREE + STAR BACKGROUND ================= */
+
+body.christmas6-bg {
+  background-color: #a8d0f0; /* soft winter blue */
+
+  /* SVG tile: trees + stars */
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'><g fill-opacity='0.9'><polygon points='20,60 35,30 50,60' fill='%2332a852' transform='rotate(-10 35 45)'/><rect x='32' y='60' width='6' height='8' fill='%235c3a1e'/><polygon points='90,58 108,26 126,58' fill='%2346c473' transform='rotate(12 108 42)'/><rect x='105' y='58' width='6' height='9' fill='%235c3a1e'/><polygon points='48,120 66,88 84,120' fill='%2332a852' transform='rotate(6 66 104)'/><rect x='63' y='120' width='6' height='8' fill='%235c3a1e'/><polygon points='112,118 126,92 140,118' fill='%2346c473' transform='rotate(-15 126 105)'/><rect x='123' y='118' width='6' height='8' fill='%235c3a1e'/><polygon points='30,10 33,16 40,16 34,20 36,27 30,22 24,27 26,20 20,16 27,16' fill='yellow'/><polygon points='120,20 123,26 130,26 124,30 126,37 120,32 114,37 116,30 110,26 117,26' fill='yellow'/><polygon points='70,50 73,56 80,56 74,60 76,67 70,62 64,67 66,60 60,56 67,56' fill='yellow'/></g></svg>");
+
+  background-repeat: repeat;
+  background-size: 160px 160px;
+  background-attachment: fixed;
+}
+
+/* Text contrast for lighter background */
+body.christmas6-bg h1,
+body.christmas6-bg p {
+  color: #1b3f5c;
+}
 
 /* Birthday */
 #cardPage .birthday-card-container{
@@ -364,7 +413,7 @@
 
 </head>
 
-<body>
+<body class="birthday16-bg">
 
 <!-- ================= AUDIO ================= -->
 <audio id="birthdayAudio" src="Images/birthday.mp3" loop></audio>
@@ -554,7 +603,8 @@ function hideAll(){
 
 function goHome(){
   hideAll();
-  document.body.classList.remove("christmas-bg");
+  document.body.classList.remove("birthday4-bg", "christmas6-bg");
+  document.body.classList.add("birthday16-bg"); // default home bg
   document.getElementById("home").style.display="block";
 }
 
@@ -575,6 +625,9 @@ function logout(){
 function openBirthday(){
   hideAll();
 
+  document.body.classList.remove("birthday16-bg", "christmas6-bg");
+  document.body.classList.add("birthday4-bg");
+
   document.getElementById("birthday").style.display="block";
 
   bdayAudio.play();
@@ -584,7 +637,9 @@ function openBirthday(){
 function openChristmas(){
   hideAll();
 
-  document.body.classList.add("christmas-bg");
+  document.body.classList.remove("birthday16-bg", "birthday4-bg");
+  document.body.classList.add("christmas6-bg");
+
   document.getElementById("christmasCardPage").style.display="block";
 
   xmasAudio.play();

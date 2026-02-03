@@ -11,6 +11,54 @@
 
 <style>
 /* ================= 2024 ONLY overrides ================= */
+/* ================= BIRTHDAY diagonal yellow stripes BACKGROUND ================= */
+body.birthday15-bg {
+  background-color: #fff3b0;
+  background-image: repeating-linear-gradient(
+    45deg,
+    #fff3b0 0px,
+    #fff3b0 20px,
+    #ffd966 20px,
+    #ffd966 40px
+  );
+  background-attachment: fixed;
+}
+
+/* ================= BIRTHDAY dramatic heart patterned BACKGROUND ================= */
+body.birthday8-bg {
+  /*background-color: #ffe6f2; /* soft pastel base */
+  background-color: #d883ac; /* soft pastel base */
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'><g fill-opacity='0.85'><path d='M10 30s-8-5-8-11a5 5 0 0 1 8-3 5 5 0 0 1 8 3c0 6-8 11-8 11z' fill='%23ff4d6a' transform='translate(20 20) rotate(-25) scale(1.5)'/><path d='M10 30s-8-5-8-11a5 5 0 0 1 8-3 5 5 0 0 1 8 3c0 6-8 11-8 11z' fill='%23ff99cc' transform='translate(80 50) rotate(10) scale(0.8)'/><path d='M10 30s-8-5-8-11a5 5 0 0 1 8-3 5 5 0 0 1 8 3c0 6-8 11-8 11z' fill='%239a5cff' transform='translate(50 100) rotate(-15) scale(2)'/><path d='M10 30s-8-5-8-11a5 5 0 0 1 8-3 5 5 0 0 1 8 3c0 6-8 11-8 11z' fill='%23ff8000' transform='translate(120 120) rotate(30) scale(1)'/><path d='M10 30s-8-5-8-11a5 5 0 0 1 8-3 5 5 0 0 1 8 3c0 6-8 11-8 11z' fill='%23ff66b2' transform='translate(30 140) rotate(-10) scale(0.6)'/><path d='M10 30s-8-5-8-11a5 5 0 0 1 8-3 5 5 0 0 1 8 3c0 6-8 11-8 11z' fill='%23cc33ff' transform='translate(100 20) rotate(5) scale(1.8)'/></g></svg>");
+  background-repeat: repeat;
+  background-size: 160px 160px;
+  background-attachment: fixed;
+  color: #7723bb; /* text contrast */
+}
+
+/* Birthday text contrast */
+body.birthday8-bg h1,
+body.birthday8-bg p {
+  color: #7723bb;
+}
+
+/* ================= CHRISTMAS REALISTIC SNOWFLAKE BACKGROUND ================= */
+
+body.christmas10-bg {
+  background-color: #a8d0f0; /* soft winter blue */
+
+  /* SVG tile: star-shaped snowflakes */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cg fill='white' fill-opacity='0.9'%3E%3Cpolygon points='10,2 12,7 17,7 13,11 15,16 10,13 5,16 7,11 3,7 8,7'/%3E%3Cpolygon points='50,40 52,45 57,45 53,49 55,54 50,51 45,54 47,49 43,45 48,45'/%3E%3Cpolygon points='120,30 122,35 127,35 123,39 125,44 120,41 115,44 117,39 113,35 118,35'/%3E%3Cpolygon points='80,80 82,85 87,85 83,89 85,94 80,91 75,94 77,89 73,85 78,85'/%3E%3Cpolygon points='30,60 32,65 37,65 33,69 35,74 30,71 25,74 27,69 23,65 28,65'/%3E%3Cpolygon points='150,120 152,125 157,125 153,129 155,134 150,131 145,134 147,129 143,125 148,125'/%3E%3Cpolygon points='70,40 72,45 77,45 73,49 75,54 70,51 65,54 67,49 63,45 68,45'/%3E%3Cpolygon points='110,100 112,105 117,105 113,109 115,114 110,111 105,114 107,109 103,105 108,105'/%3E%3Cpolygon points='50,140 52,145 57,145 53,149 55,154 50,151 45,154 47,149 43,145 48,145'/%3E%3Cpolygon points='140,70 142,75 147,75 143,79 145,84 140,81 135,84 137,79 133,75 138,75'/%3E%3C/g%3E%3C/svg%3E");
+
+  background-repeat: repeat;
+  background-size: 160px 160px;
+  background-attachment: fixed;
+}
+
+/* Text contrast for light background */
+body.christmas10-bg h1,
+body.christmas10-bg p {
+  color: #1b3f5c;
+}
 
 /* Birthday */
 #cardPage .birthday-card-container{
@@ -209,7 +257,7 @@
 
 </head>
 
-<body>
+<body class="birthday15-bg">
 
 <!-- ================= AUDIO ================= -->
 <audio id="birthdayAudio" src="Images/birthday.mp3" loop></audio>
@@ -335,7 +383,8 @@ function hideAll(){
 
 function goHome(){
   hideAll();
-  document.body.classList.remove("christmas-bg");
+  document.body.classList.remove("birthday8-bg", "christmas10-bg");
+  document.body.classList.add("birthday15-bg"); // default home bg
   document.getElementById("home").style.display="block";
 }
 
@@ -356,6 +405,9 @@ function logout(){
 function openBirthday(){
   hideAll();
 
+  document.body.classList.remove("birthday15-bg", "christmas10-bg");
+  document.body.classList.add("birthday8-bg");
+
   document.getElementById("cardPage").style.display="block";
 
   bdayAudio.play();
@@ -367,7 +419,9 @@ function openBirthday(){
 function openChristmas(){
   hideAll();
 
-  document.body.classList.add("christmas-bg");
+  document.body.classList.remove("birthday15-bg", "birthday8-bg");
+  document.body.classList.add("christmas10-bg");
+
   document.getElementById("christmasCardPage").style.display="block";
 
   xmasAudio.play();

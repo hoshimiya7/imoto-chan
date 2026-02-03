@@ -7,6 +7,48 @@
 <title>2022 Memories</title>
 
 <style>
+/* ================= BIRTHDAY diagonal red stripes BACKGROUND ================= */
+body.birthday13-bg {
+  background-color: #ffd6d6;
+  background-image: repeating-linear-gradient(
+    45deg,
+    #ffd6d6 0px,
+    #ffd6d6 20px,
+    #ff9a9a 20px,
+    #ff9a9a 40px
+  );
+  background-attachment: fixed;
+}
+
+/* ================= BIRTHDAY random flowers BACKGROUND ================= */
+
+body.birthday5-bg {
+  background-color: #ffe6f0; /* soft pastel base */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cg%3E%3Ccircle cx='20' cy='30' r='6' fill='%23d580ff'/%3E%3Ccircle cx='40' cy='80' r='5' fill='%23ff66a3'/%3E%3Ccircle cx='90' cy='40' r='7' fill='%23ff4d4d'/%3E%3Ccircle cx='60' cy='60' r='4' fill='%23c266ff'/%3E%3Ccircle cx='100' cy='100' r='5' fill='%23ff99cc'/%3E%3Ccircle cx='30' cy='90' r='6' fill='%23b34dff'/%3E%3Ccircle cx='80' cy='20' r='5' fill='%23ff6699'/%3E%3Ccircle cx='50' cy='30' r='4' fill='%23cc33ff'/%3E%3Ccircle cx='10' cy='50' r='6' fill='%23ff4d99'/%3E%3Ccircle cx='70' cy='70' r='5' fill='%23e699ff'/%3E%3C/g%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 120px 120px;
+  background-attachment: fixed;
+  color: #5a1a4b; /* optional text contrast */
+}
+
+/* ================= CHRISTMAS TREE BACKGROUND ================= */
+
+body.christmas4-bg {
+  background-color: #0f3b5f; /* deep winter blue */
+
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'><g fill-opacity='0.9'><polygon points='20,60 35,30 50,60' fill='%232e8b57' transform='rotate(-10 35 45)'/><rect x='32' y='60' width='6' height='8' fill='%235c3a1e'/><polygon points='90,58 108,26 126,58' fill='%232f9e62' transform='rotate(12 108 42)'/><rect x='105' y='58' width='6' height='9' fill='%235c3a1e'/><polygon points='48,120 66,88 84,120' fill='%232b7a4b' transform='rotate(6 66 104)'/><rect x='63' y='120' width='6' height='8' fill='%235c3a1e'/><polygon points='112,118 126,92 140,118' fill='%2335a46f' transform='rotate(-15 126 105)'/><rect x='123' y='118' width='6' height='8' fill='%235c3a1e'/></g></svg>");
+
+  background-repeat: repeat;
+  background-size: 160px 160px;
+  background-attachment: fixed;
+}
+
+/* Optional: lighter text for dark background */
+body.christmas4-bg h1,
+body.christmas4-bg p {
+  color: #eaf6ff;
+}
+
 /* ==================== GENERAL ==================== */
 body{
   margin:0;
@@ -415,7 +457,7 @@ body.christmas-bg {
 
 </head>
 
-<body>
+<body class="birthday13-bg">
 
 <!-- ================= AUDIO ================= -->
 <audio id="birthdayAudio" src="Images/birthday.mp3" loop></audio>
@@ -515,7 +557,7 @@ body.christmas-bg {
 </div>
 
 
-<!--<script src="auth.js"></script>-->
+<script src="auth.js"></script>
 
 <script>
 /* =====================================================
@@ -539,7 +581,8 @@ function hideAll(){
 
 function goHome(){
   hideAll();
-  document.body.classList.remove("christmas-bg");
+  document.body.classList.remove("birthday5-bg", "christmas4-bg");
+  document.body.classList.add("birthday13-bg"); // default home bg
   document.getElementById("home").style.display="block";
 }
 
@@ -552,6 +595,10 @@ function goDashboard(){
 ===================================================== */
 function openBirthday(){
   hideAll();
+
+  document.body.classList.remove("birthday13-bg", "christmas4-bg");
+  document.body.classList.add("birthday5-bg");
+
   document.getElementById("birthday").style.display="block";
   bdayAudio.play();
   startBalloons();
@@ -559,7 +606,10 @@ function openBirthday(){
 
 function openChristmas(){
   hideAll();
-  document.body.classList.add("christmas-bg");
+
+  document.body.classList.remove("birthday13-bg", "birthday5-bg");
+  document.body.classList.add("christmas4-bg");
+
   document.getElementById("christmas").style.display="block";
   xmasAudio.play();
   startSnow();

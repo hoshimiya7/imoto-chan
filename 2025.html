@@ -11,6 +11,47 @@
 
 <style>
 /* ================= 2024 ONLY overrides ================= */
+/* ================= BIRTHDAY diagonal greeny-turquoise stripes BACKGROUND ================= */
+body.birthday17-bg {
+  background-color: #d9f5f2;
+  background-image: repeating-linear-gradient(
+    45deg,
+    #d9f5f2 0px,
+    #d9f5f2 20px,
+    #9be3db 20px,
+    #9be3db 40px
+  );
+  background-attachment: fixed;
+}
+
+/* ================= BIRTHDAY surprise PARTY patterned BACKGROUND ================= */
+body.birthday11-bg {
+  background-color: #fff0f5; /* soft pastel base */
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'><g fill-opacity='0.85'><circle cx='20' cy='20' r='3' fill='%23ff4d6a'/><circle cx='50' cy='30' r='4' fill='%23ff99cc'/><circle cx='80' cy='10' r='2.5' fill='%23ff8000'/><circle cx='110' cy='50' r='3' fill='%239a5cff'/><circle cx='140' cy='20' r='3.5' fill='%23ff66b2'/><ellipse cx='30' cy='120' rx='8' ry='12' fill='%23ff4d6a'/><path d='M30 132 C32 140, 28 150, 30 155' stroke='%239944ff' stroke-width='1' fill='none'/><ellipse cx='90' cy='100' rx='10' ry='14' fill='%23ff99cc'/><path d='M90 114 C92 125, 88 135, 90 145' stroke='%23cc33ff' stroke-width='1' fill='none'/><polygon points='60,60 65,70 55,70' fill='%23ffe066'/><polygon points='120,30 125,40 115,40' fill='%23ffe066'/><polygon points='100,80 105,90 95,90' fill='%23ffe066'/></g></svg>");
+  background-repeat: repeat;
+  background-size: 160px 160px;
+  background-attachment: fixed;
+  color: #5a2a82; /* text contrast */
+}
+
+/* ================= SPADE & HEART RANDOM BACKGROUND ================= */
+
+body.christmas15-bg {
+  background-color: #d0e7f9; /* light blue base */
+
+  /* SVG tile: multiple spades & hearts in random rotations */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='%23ffffff'%3E%3Cpath transform='rotate(10 20 20)' d='M20,5 C15,0 5,10 20,30 C35,10 25,0 20,5 Z'/%3E%3Cpath transform='rotate(-15 60 20)' d='M60,20 C60,15 55,10 60,5 C65,0 70,5 70,10 C70,15 65,20 60,20 Z'/%3E%3Cpath transform='rotate(30 40 60)' d='M40,50 C35,45 25,55 40,70 C55,55 45,45 40,50 Z'/%3E%3Cpath transform='rotate(-25 10 70)' d='M10,60 C10,55 5,50 10,45 C15,40 20,45 20,50 C20,55 15,60 10,60 Z'/%3E%3Cpath transform='rotate(15 70 70)' d='M70,60 C70,55 65,50 70,45 C75,40 80,45 80,50 C80,55 75,60 70,60 Z'/%3E%3C/g%3E%3C/svg%3E");
+
+  background-repeat: repeat;
+  background-size: 80px 80px;
+  background-attachment: fixed;
+}
+
+/* Text contrast for background */
+body.christmas15-bg h1,
+body.christmas15-bg p {
+  color: #1b3f5c;
+}
 
 /* Birthday */
 #cardPage .birthday-card-container{
@@ -290,7 +331,7 @@
 
 </head>
 
-<body>
+<body class="birthday17-bg">
 
 <!-- ================= AUDIO ================= -->
 <audio id="birthdayAudio" src="Images/birthday.mp3" loop></audio>
@@ -457,7 +498,8 @@ function hideAll(){
 
 function goHome(){
   hideAll();
-  document.body.classList.remove("christmas-bg");
+  document.body.classList.remove("birthday11-bg", "christmas15-bg");
+  document.body.classList.add("birthday17-bg"); // default home bg
   document.getElementById("home").style.display="block";
 }
 
@@ -478,6 +520,9 @@ function logout(){
 function openBirthday(){
   hideAll();
 
+  document.body.classList.remove("birthday17-bg", "christmas15-bg");
+  document.body.classList.add("birthday11-bg");
+
   document.getElementById("birthday").style.display="block";
 
   bdayAudio.play();
@@ -488,7 +533,9 @@ function openBirthday(){
 function openChristmas(){
   hideAll();
 
-  document.body.classList.add("christmas-bg");
+  document.body.classList.remove("birthday17-bg", "birthday11-bg");
+  document.body.classList.add("christmas15-bg");
+
   document.getElementById("christmasCardPage").style.display="block";
 
   xmasAudio.play();

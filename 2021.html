@@ -11,6 +11,52 @@
 
 <style>
 /* ================= 2021 ONLY RESPONSIVE CSS ================= */
+/* ================= BIRTHDAY 2 colour heart random orientation BACKGROUND ================= */
+body.birthday3-bg {
+  background-color: #f3d9ff; /* soft pink-purple base */
+
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'><g fill-opacity='0.85'><path d='M22 36s-8-5-8-11a5 5 0 0 1 8-3 5 5 0 0 1 8 3c0 6-8 11-8 11z' fill='%23ff6fb1' transform='rotate(-20 22 28)'/><path d='M76 32s-7-4-7-9a4.5 4.5 0 0 1 7-3 4.5 4.5 0 0 1 7 3c0 5-7 9-7 9z' fill='%239a5cff' transform='rotate(18 76 24)'/><path d='M44 82s-6-4-6-9a4 4 0 0 1 6-2.5 4 4 0 0 1 6 2.5c0 5-6 9-6 9z' fill='%23ff8fd4' transform='rotate(8 44 72)'/><path d='M94 88s-5-3-5-7a3.5 3.5 0 0 1 5-2 3.5 3.5 0 0 1 5 2c0 4-5 7-5 7z' fill='%23b36bff' transform='rotate(-25 94 80)'/></g></svg>");
+
+  background-repeat: repeat;
+  background-size: 120px 120px;
+  background-attachment: fixed;
+}
+
+/* Optional: birthday text contrast */
+body.birthday3-bg h1,
+body.birthday3-bg p {
+  color: #5a2a82;
+}
+
+/* ================= CHRISTMAS random heart orientation BACKGROUND ================= */
+body.christmas3-bg {
+  background-color: #9ecff5; /* deeper soft blue */
+
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'><g fill='white' fill-opacity='0.9'><path d='M20 38s-8-5-8-11a5 5 0 0 1 8-3 5 5 0 0 1 8 3c0 6-8 11-8 11z' transform='rotate(-18 20 30)'/><path d='M78 34s-6-4-6-8a4 4 0 0 1 6-2 4 4 0 0 1 6 2c0 4-6 8-6 8z' transform='rotate(22 78 26)'/><path d='M42 82s-7-4.5-7-10a4.5 4.5 0 0 1 7-2.5 4.5 4.5 0 0 1 7 2.5c0 5.5-7 10-7 10z' transform='rotate(9 42 72)'/><path d='M92 88s-5-3-5-7a3.5 3.5 0 0 1 5-2 3.5 3.5 0 0 1 5 2c0 4-5 7-5 7z' transform='rotate(-27 92 80)'/></g></svg>");
+
+  background-repeat: repeat;
+  background-size: 120px 120px;
+  background-attachment: fixed;
+}
+
+/* Optional: text contrast */
+body.christmas3-bg h1,
+body.christmas3-bg p {
+  color: #1f3f5c;
+}
+
+/* ================= BIRTHDAY diagonal pink stripes BACKGROUND ================= */
+body.birthday12-bg {
+  background-color: #ffd6e8;
+  background-image: repeating-linear-gradient(
+    45deg,
+    #ffd6e8 0px,
+    #ffd6e8 20px,
+    #ffb3d9 20px,
+    #ffb3d9 40px
+  );
+  background-attachment: fixed;
+}
 
 /* limit page width nicely on desktop */
 #home,
@@ -139,7 +185,7 @@
 </style>
 </head>
 
-<body>
+<body class="birthday12-bg">
 
 <!-- ================= AUDIO ================= -->
 <audio id="birthdayAudio" src="Images/birthday.mp3" loop></audio>
@@ -239,7 +285,8 @@ function hideAll(){
 
 function goHome(){
   hideAll();
-  document.body.classList.remove("christmas-bg");
+  document.body.classList.remove("birthday3-bg", "christmas3-bg");
+  document.body.classList.add("birthday12-bg"); // default home bg
   document.getElementById("home").style.display="block";
 }
 
@@ -289,6 +336,9 @@ function positionPetals(containerId) {
 function openBirthday(){
   hideAll();
 
+  document.body.classList.remove("birthday12-bg", "christmas3-bg");
+  document.body.classList.add("birthday3-bg");
+
   const cardPage = document.getElementById("cardPage");
   cardPage.style.display="block";
 
@@ -303,7 +353,9 @@ function openBirthday(){
 function openChristmas(){
   hideAll();
 
-  document.body.classList.add("christmas-bg");
+  document.body.classList.remove("birthday12-bg", "birthday3-bg");
+  document.body.classList.add("christmas3-bg");
+
   document.getElementById("christmasCardPage").style.display="block";
 
   xmasAudio.play();
