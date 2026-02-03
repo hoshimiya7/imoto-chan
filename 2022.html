@@ -141,13 +141,13 @@ h1{color:#b492ee;}
 
 /* ================= BIRTHDAY CARD ================= */
 .birthday-card-wrapper{
-  width: 0px; /*calc(0.45 * 100%);   /* enough width to hold 3 cards */
-  overflow-x:auto;
-  -webkit-overflow-scrolling: touch;
+  width: auto;  /* natural width */
+  overflow-x: visible;  /* remove scroll for desktop */
   display:flex;
   justify-content:flex-start; /* left align so front isn't cut */
-  padding: 0 450px; /* optional, so front card has space */
+  padding: 0 0; /* optional: remove extra spacing */
 }
+
 .birthday-card-container{
   position:relative;
   display:flex;
