@@ -62,37 +62,59 @@
 }
 
 /* ================= MOBILE SNAP & OVERLAP — FINAL CENTERING ================= */
-@media (max-width: 900px) {
+/* 📱 Portrait Fix based on 2024 Logic */
+@media (max-width:900px) and (orientation: portrait){
+
   #cardPage {
     display: flex;
     flex-direction: column;
-    height: 100dvh;
-    width: 100vw;
+    height: 100dvh; 
     overflow: hidden;
   }
 
+  .card-header {
+    flex: 0 0 auto;
+    text-align: center;
+    padding: 10px 0;
+    z-index: 5;
+  }
+
   .kinetic-gallery {
-    flex: 1;
+    flex: 1 1 auto;
     display: flex;
+    flex-direction: row;
     align-items: center;
+    /* Remove gap to let margins/spacers handle it */
+    gap: 0; 
     overflow-x: auto;
     overflow-y: hidden;
+    scroll-behavior: smooth;
     scroll-snap-type: x mandatory;
-    scroll-padding: 0 50%; 
-    gap: 0;
     padding: 0;
+    box-sizing: border-box;
+    perspective: none; /* Disable 3D for cleaner mobile snap */
     scrollbar-width: none;
-    -webkit-overflow-scrolling: touch;
   }
   .kinetic-gallery::-webkit-scrollbar { display: none; }
 
+  /* These create the "Rebounce" effect to center */
+  .kinetic-gallery::before,
+  .kinetic-gallery::after {
+    content: "";
+    flex: 0 0 calc(50vw - 130px); /* 130px is half of your 260px card */
+  }
+
   .kinetic-anchor {
+    flex: 0 0 auto;
+    width: 260px; /* Your mobile card width */
+    height: auto;
+    aspect-ratio: 1429/2000;
+    scroll-snap-align: center;
     position: relative;
-    flex: 0 0 260px; /* Card width */
-    margin: 0 -40px; /* Overlap: 40px left, 40px right */
     transform: none !important;
     animation: none !important;
-    scroll-snap-align: center;
+    /* Use small negative margins here if you still want a slight overlap */
+    margin: 0 -20px; 
     z-index: 1;
   }
 
@@ -222,16 +244,14 @@ function initKineticGallery() {
   // --- ADD THIS STARTUP CENTERING LOGIC ---
   if (window.innerWidth <= 900) {
     setTimeout(() => {
-      const cards = container.querySelectorAll('.kinetic-anchor');
-      // Index 1 is the 2nd card
-      if (cards[1]) {
-        cards[1].scrollIntoView({
-          behavior: 'auto', // 'auto' for instant jump on load, 'smooth' for animation
-          inline: 'center',
-          block: 'nearest'
-        });
-      }
-    }, 100); // Small delay to ensure CSS styles are applied first
+        const container = document.getElementById("birthdayGallery");
+        const cards = container.querySelectorAll('.kinetic-anchor');
+        if (cards[1]) {
+            // This is the most reliable way to trigger the "bounce" on load
+            const targetX = cards[1].offsetLeft - (container.offsetWidth / 2) + (cards[1].offsetWidth / 2);
+            container.scrollTo({ left: targetX, behavior: 'smooth' });
+        }
+    }, 300); // Small delay to ensure CSS styles are applied first
   }
 }
 
