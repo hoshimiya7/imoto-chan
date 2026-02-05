@@ -162,7 +162,7 @@
     flex: 0 0 auto;
     text-align: center;
     /* FIX: Reduced padding and ensured z-index doesn't hide text */
-    padding: 150px 0 20px 0; /*change 150px to push header down from top so it's visible*/
+    padding: 150px 0 15px 0; /*change 150px to push header down from top so it's visible*/
     position: relative; 
     width: 100%;
   }
@@ -182,7 +182,7 @@
     overflow-x: auto;
     overflow-y: hidden;
     scroll-snap-type: x mandatory;
-    margin-top: 20px; /* Space between header and cards */
+    margin-top: 15px; /* Space between header and cards */
     scrollbar-width: none;
   }
   .kinetic-gallery::-webkit-scrollbar { display: none; }
@@ -191,12 +191,12 @@
   .kinetic-gallery::before,
   .kinetic-gallery::after {
     content: "";
-    flex: 0 0 calc(50vw - 70px); 
+    flex: 0 0 calc(50vw - 90px); 
   }
 
   .kinetic-anchor {
     flex: 0 0 auto;
-    width: 200px; /*Change this to adjust size of cards*/
+    width: 180px; /*Change this to adjust size of cards*/
     height: auto;
     aspect-ratio: 1429/2000;
     scroll-snap-align: center;
