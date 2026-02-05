@@ -154,28 +154,35 @@
     min-height: 100dvh; 
     overflow-y: auto; 
     overflow-x: hidden;
+    /* FIX: Ensure content starts below the status bar/notch */
+    padding-top: env(safe-area-inset-top, 10px);
   }
 
   .card-header {
     flex: 0 0 auto;
     text-align: center;
-    padding: 20px 0; /* Give it some breathing room */
-    z-index: 5;
+    /* FIX: Reduced padding and ensured z-index doesn't hide text */
+    padding: 200px 0 5px 0; 
+    position: relative; 
+    width: 100%;
+  }
+
+  .card-header h1 {
+    font-size: 1.3rem; /* Slightly smaller for landscape */
+    margin: 0;
+    line-height: 1.2;
   }
 
   .kinetic-gallery {
-    /* CHANGE: Fixed height to ensure the "rebounce" logic has a stable track */
-    flex: 0 0 450px; 
+    /* FIX: Reduced from 450px to ensure it doesn't push the header up */
+    flex: 0 0 380px; 
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 0; 
     overflow-x: auto;
     overflow-y: hidden;
-    scroll-behavior: smooth;
     scroll-snap-type: x mandatory;
-    padding: 0;
-    perspective: none;
+    margin-top: 10px; /* Space between header and cards */
     scrollbar-width: none;
   }
   .kinetic-gallery::-webkit-scrollbar { display: none; }
