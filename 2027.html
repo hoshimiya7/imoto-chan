@@ -106,7 +106,7 @@
 
   .kinetic-anchor {
     flex: 0 0 auto;
-    width: 260px; /* Your mobile card width */
+    width: 180px; /* Your mobile card width */
     height: auto;
     aspect-ratio: 1429/2000;
     scroll-snap-align: center;
@@ -143,73 +143,73 @@
   .kinetic-anchor:last-child { margin-right: calc(50vw - 100px + 30px) !important; }
 }*/
 
+/* LANDSCAPE FIX */
 @media (max-width:900px) and (orientation: landscape){
 
   #cardPage {
     display: flex;
     flex-direction: column;
-    height: 100dvh; 
-    overflow: hidden;
+    /* CHANGE: Allow height to grow and page to scroll vertically */
+    height: auto; 
+    min-height: 100dvh; 
+    overflow-y: auto; 
+    overflow-x: hidden;
   }
 
   .card-header {
     flex: 0 0 auto;
     text-align: center;
-    padding: 10px 0;
+    padding: 20px 0; /* Give it some breathing room */
     z-index: 5;
   }
 
   .kinetic-gallery {
-    flex: 1 1 auto;
+    /* CHANGE: Fixed height to ensure the "rebounce" logic has a stable track */
+    flex: 0 0 450px; 
     display: flex;
     flex-direction: row;
     align-items: center;
-    /* Remove gap to let margins/spacers handle it */
     gap: 0; 
     overflow-x: auto;
     overflow-y: hidden;
     scroll-behavior: smooth;
     scroll-snap-type: x mandatory;
     padding: 0;
-    box-sizing: border-box;
-    perspective: none; /* Disable 3D for cleaner mobile snap */
+    perspective: none;
     scrollbar-width: none;
   }
   .kinetic-gallery::-webkit-scrollbar { display: none; }
 
-  /* These create the "Rebounce" effect to center */
+  /* Centers a 140px card */
   .kinetic-gallery::before,
   .kinetic-gallery::after {
     content: "";
-    flex: 0 0 calc(50vw - 130px); /* 130px is half of your 260px card */
+    flex: 0 0 calc(50vw - 70px); 
   }
 
   .kinetic-anchor {
     flex: 0 0 auto;
-    width: 140px; /* Your mobile card width */
+    width: 140px; 
     height: auto;
     aspect-ratio: 1429/2000;
     scroll-snap-align: center;
     position: relative;
     transform: none !important;
     animation: none !important;
-    /* Use small negative margins here if you still want a slight overlap */
     margin: 0 -20px; 
     z-index: 1;
   }
 
-  /* FIX: The first card needs the spacer PLUS the overlap amount to not be cut off */
+  /* Syncing the spacers with your portrait fix logic */
   .kinetic-anchor:first-child {
-    margin-left: calc(50vw - 130px + 450px) !important;
+    margin-left: calc(50vw - 70px + 20px) !important;
   }
 
-  /* FIX: The last card needs the spacer PLUS the overlap amount to reach center */
   .kinetic-anchor:last-child {
-    margin-right: calc(50vw - 130px + 40px) !important;
+    margin-right: calc(50vw - 70px + 20px) !important;
   }
 
   .kinetic-anchor:active { z-index: 10; }
-
 }
 
 @keyframes drift {
