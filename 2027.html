@@ -180,19 +180,35 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+    gap: 0; /*added*/
     overflow-x: auto;
     overflow-y: hidden;
+    scroll-behavior: smooth; /*added*/
     scroll-snap-type: x mandatory;
     margin-top: 15px; /* Space between header and cards */
+    padding: 0; /* Ensure no internal padding is adding space */
     scrollbar-width: none;
   }
   .kinetic-gallery::-webkit-scrollbar { display: none; }
 
   /* Centers a 140px card */
-  .kinetic-gallery::before,
+  /*.kinetic-gallery::before,
   .kinetic-gallery::after {
     content: "";
     flex: 0 0 calc(50vw -70px); 
+  }*/
+
+  /* REMOVE ::before and ::after for landscape to prevent double-spacing */
+  /*.kinetic-gallery::before,
+  .kinetic-gallery::after {
+    display: none;
+  }*/
+
+  /* KILL pseudo-elements completely for landscape */
+  .kinetic-gallery::before,
+  .kinetic-gallery::after {
+    content: none !important;
+    display: none !important;
   }
 
   .kinetic-anchor {
@@ -209,12 +225,16 @@
   }
 
   /* Syncing the spacers with your portrait fix logic */
+  /* FIX: Spacer logic for 200px width (50vw - 100px) */
   .kinetic-anchor:first-child {
-    margin-left: calc(50vw - 70px + 20px) !important;
+    /* (Half Screen - Half Card Width (changed 70 to 100) + Overlap Offset) */
+    margin-left: calc(50vw - 100px + 20px) !important;
   }
 
   .kinetic-anchor:last-child {
-    margin-right: calc(50vw - 70px + 20px) !important;
+    /* This creates the stop point. If there is still too much space on right of scroll, 
+       reduce the 20px or the 100px until it feels tight. */
+    margin-right: calc(50vw - 100px - 100px) !important;
   }
 
   .kinetic-anchor:active { z-index: 10; }
@@ -235,7 +255,7 @@
 <div id="fireworks" class="effect-layer"></div>
 
 <div class="card page" id="home" style="display:block;">
-  <h1>2028</h1>
+  <h1>2027</h1>
   <div class="tiles">
     <div class="tile" onclick="openBirthday()">🎂 Birthday</div>
     <div class="tile" onclick="openChristmas()">🎄 Christmas</div>
