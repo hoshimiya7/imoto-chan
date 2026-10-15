@@ -641,7 +641,7 @@ body.graduation-bg{
     /*height: min(65dvh, calc(100dvh - 500px));*/
     height: auto;
     max-height: calc(
-      110vh - 50px - 50px - env(safe-area-inset-top) - env(safe-area-inset-bottom)
+      112vh - 50px - 50px - env(safe-area-inset-top) - env(safe-area-inset-bottom)
     ); 
     /* 50px approx for title + 50px for back button */
     /*aspect-ratio: auto;*/
@@ -655,9 +655,13 @@ body.graduation-bg{
   .page#graduationVideoPage .video-3x4 {
     flex: 0 0 auto;
     width: 55vw;
-    height: min(65dvh, calc(100dvh - 500px));
+    /*height: min(65dvh, calc(100dvh - 500px));
     aspect-ratio: auto;
-    max-height: none;
+    max-height: none;*/
+    height: auto;
+    max-height: calc(
+      112vh - 50px - 50px - env(safe-area-inset-top) - env(safe-area-inset-bottom)
+    ); 
     margin: 6px auto;
     background: #000;
     overflow: hidden;
