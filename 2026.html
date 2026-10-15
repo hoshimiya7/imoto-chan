@@ -75,38 +75,6 @@ body.christmas6-bg p {
   aspect-ratio: 1429 / 2000;
 }
 
-/* ================= VIDEO RESIZE ================= */
-
-#videoPage iframe{
-  display:block;
-  margin:auto;
-  width:min(90vw,420px);
-  aspect-ratio:5/7;
-}
-
-/* VIDEO WRAPPER */
-.video-wrap {
-  width: min(90vw, 420px);  /* max width */
-  aspect-ratio: 5 / 7;      /* keep 5:7 ratio */
-  margin: 20px auto;
-  background: black;
-  border-radius: 1rem;
-  overflow: hidden;
-  display: flex;            /* center iframe */
-  justify-content: center;
-  align-items: center;
-}
-
-/* Iframe fills wrapper proportionally */
-.video-wrap iframe {
-  width: 100%;
-  height: 100%;
-  border: none;
-  border-radius: 1rem;
-  object-fit: contain;      /* maintain ratio, show full video */
-}
-
-
 /* ================= Enter Code ================= */
 .code-input{
   padding:12px;
@@ -357,57 +325,6 @@ body.christmas6-bg p {
   }
 }
 
-/* Mobile portrait keeps previous size */
-@media (max-width: 768px) and (orientation: portrait) {
-  #videoPage iframe {
-    width: 90vw;
-    aspect-ratio: 5/7;
-    height: auto;
-  }
-}
-
-/* =========================================================
-   🎥 BIRTHDAY VIDEO PAGE — MOBILE LANDSCAPE
-========================================================= */
-@media (max-width:900px) and (orientation: landscape) {
-
-  .page#videoPage {
-    display: flex;
-    flex-direction: column;
-    min-height: 0;
-    padding: env(safe-area-inset-top) 12px env(safe-area-inset-bottom);
-    box-sizing: border-box;
-  }
-
-  /* title/header fully visible */
-  .page#videoPage h1 {
-    flex: 0 0 auto;
-    text-align: center;
-    margin: 6px 0;
-    padding-top: 60px; /* extra top padding for visibility */
-  }
-
-  /* video wrapper for portrait 9:16 videos in landscape */
-  .page#videoPage .video-9x16 {
-    flex: 1 1 auto;
-    width: 55vw;
-    height: auto;
-    max-height: calc(
-      100vh - 50px - 50px - env(safe-area-inset-top) - env(safe-area-inset-bottom)
-    ); 
-    /* 50px approx for title + 50px for back button */
-    margin: 6px auto;
-    overflow-y: auto;
-  }
-
-  /* back button always visible */
-  .page#videoPage .back-btn {
-    flex: 0 0 auto;
-    margin: 6px auto 6px auto;
-  }
-
-}
-
 /* ================= EFFECT LAYERS ================= */
 .effect-layer{
   position:fixed;
@@ -439,16 +356,18 @@ body.graduation-bg{
         url("Images/backgrounde.png") center center / cover no-repeat fixed;
 }
 
-/* ================= VIDEO RESIZE ================= */
+/* =========================================================
+   VIDEO PAGES — DESKTOP AND MOBILE PORTRAIT
+========================================================= */
 
-/* Birthday video: 2160 x 2924 aspect ratio */
+/* Birthday video: 2160 × 2924 */
 #videoPage .video-2160x2924 {
   width: min(90vw, 420px);
   aspect-ratio: 2160 / 2924;
   height: auto;
   max-height: 80dvh;
   margin: 20px auto;
-  background: black;
+  background: #000;
   border-radius: 1rem;
   overflow: hidden;
   display: flex;
@@ -457,87 +376,14 @@ body.graduation-bg{
   box-sizing: border-box;
 }
 
-/* Fill the wrapper without stretching the video */
-#videoPage .video-2160x2924 iframe {
-  display: block;
-  width: 100%;
-  height: 100%;
-  border: none;
-  border-radius: 1rem;
-}
-
-/* ================= MOBILE PORTRAIT ================= */
-
-@media (max-width: 768px) and (orientation: portrait) {
-  #videoPage .video-2160x2924 {
-    width: min(90vw, calc(75dvh * 2160 / 2924));
-    max-height: 75dvh;
-    margin: 12px auto;
-  }
-
-  #videoPage .video-2160x2924 iframe {
-    width: 100%;
-    height: 100%;
-  }
-}
-
-/* ================= MOBILE LANDSCAPE ================= */
-/*
-@media (max-width: 900px) and (orientation: landscape) {
-
-  .page#videoPage {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-height: 0;
-    padding:
-      env(safe-area-inset-top)
-      12px
-      env(safe-area-inset-bottom);
-    box-sizing: border-box;
-    overflow-y: auto;
-    overflow-x: hidden;
-  }
-
-  .page#videoPage h1 {
-    flex: 0 0 auto;
-    text-align: center;
-    font-size: 1.3rem;
-    margin: 6px 0;
-    padding-top: 0;
-  }
-
-  #videoPage .video-2160x2924 {
-    width: min(
-      55vw,
-      calc((100dvh - 110px) * 2160 / 2924)
-    );
-    aspect-ratio: 2160 / 2924;
-    max-height: calc(100dvh - 110px);
-    flex: 0 0 auto;
-    margin: 6px auto;
-  }
-
-  #videoPage .video-2160x2924 iframe {
-    width: 100%;
-    height: 100%;
-  }
-
-  .page#videoPage .back-btn {
-    flex: 0 0 auto;
-    margin: 6px auto;
-  }
-}
-*/
-/* ================= GRADUATION VIDEO: 2160 x 2880 (3:4) ================= */
-
+/* Graduation video: 2160 × 2880 (3:4) */
 #graduationVideoPage .video-3x4 {
   width: min(90vw, 420px);
-  aspect-ratio: 2160 / 2880;
+  aspect-ratio: 3 / 4;
   height: auto;
   max-height: 80dvh;
   margin: 20px auto;
-  background: black;
+  background: #000;
   border-radius: 1rem;
   overflow: hidden;
   display: flex;
@@ -546,16 +392,19 @@ body.graduation-bg{
   box-sizing: border-box;
 }
 
+/* Google Drive player fills its wrapper */
+#videoPage .video-2160x2924 iframe,
 #graduationVideoPage .video-3x4 iframe {
   display: block;
   width: 100%;
   height: 100%;
-  border: none;
-  border-radius: 1rem;
+  border: 0;
+  border-radius: inherit;
 }
 
 /* Mobile portrait */
 @media (max-width: 768px) and (orientation: portrait) {
+  #videoPage .video-2160x2924,
   #graduationVideoPage .video-3x4 {
     width: min(90vw, calc(75dvh * 3 / 4));
     max-height: 75dvh;
@@ -563,48 +412,9 @@ body.graduation-bg{
   }
 }
 
-/* Mobile landscape *//*
-@media (max-width: 900px) and (orientation: landscape) {
-
-  .page#graduationVideoPage {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-height: 0;
-    padding:
-      env(safe-area-inset-top)
-      12px
-      env(safe-area-inset-bottom);
-    box-sizing: border-box;
-    overflow-y: auto;
-    overflow-x: hidden;
-  }
-
-  .page#graduationVideoPage h1 {
-    flex: 0 0 auto;
-    text-align: center;
-    font-size: 1.3rem;
-    margin: 6px 0;
-  }
-
-  #graduationVideoPage .video-3x4 {
-    width: min(55vw, calc((100dvh - 110px) * 3 / 4));
-    aspect-ratio: 3 / 4;
-    max-height: calc(100dvh - 110px);
-    flex: 0 0 auto;
-    margin: 6px auto;
-  }
-
-  .page#graduationVideoPage .back-btn {
-    flex: 0 0 auto;
-    margin: 6px auto;
-  }
-}
-*/
-
 /* =========================================================
    GOOGLE DRIVE VIDEOS — MOBILE LANDSCAPE
-   Wider player frame, matching the working layout
+   Preserve the working wider, centred player layout
 ========================================================= */
 
 @media (max-width: 900px) and (orientation: landscape) {
@@ -616,8 +426,8 @@ body.graduation-bg{
     align-items: center;
     min-height: 0;
     height: 100dvh;
-    overflow-y: auto;
     overflow-x: hidden;
+    overflow-y: auto;
     padding:
       env(safe-area-inset-top)
       12px
@@ -634,42 +444,41 @@ body.graduation-bg{
     padding-top: 0;
   }
 
-  /* WIDER birthday player frame */
+  /* Birthday: preserve the working landscape dimensions */
   .page#videoPage .video-2160x2924 {
     flex: 0 0 auto;
     width: 55vw;
-    /*height: min(65dvh, calc(100dvh - 500px));*/
     height: auto;
     max-height: calc(
-      112vh - 50px - 50px - env(safe-area-inset-top) - env(safe-area-inset-bottom)
-    ); 
-    /* 50px approx for title + 50px for back button */
-    /*aspect-ratio: auto;*/
-    /*max-height: none;*/
+      112vh - 50px - 50px
+      - env(safe-area-inset-top)
+      - env(safe-area-inset-bottom)
+    );
+    aspect-ratio: auto;
     margin: 6px auto;
     background: #000;
     overflow: hidden;
   }
 
-  /* WIDER graduation player frame */
+  /* Graduation: same working landscape layout */
   .page#graduationVideoPage .video-3x4 {
     flex: 0 0 auto;
     width: 55vw;
-    /*height: min(65dvh, calc(100dvh - 500px));
-    aspect-ratio: auto;
-    max-height: none;*/
     height: auto;
     max-height: calc(
-      112vh - 50px - 50px - env(safe-area-inset-top) - env(safe-area-inset-bottom)
-    ); 
+      112vh - 50px - 50px
+      - env(safe-area-inset-top)
+      - env(safe-area-inset-bottom)
+    );
+    aspect-ratio: auto;
     margin: 6px auto;
     background: #000;
     overflow: hidden;
   }
 
-  /* Let Google Drive manage its own video presentation */
-  .page#videoPage .video-wrap iframe,
-  .page#graduationVideoPage .video-wrap iframe {
+  /* Keep the embedded Google Drive player centred */
+  .page#videoPage .video-2160x2924 iframe,
+  .page#graduationVideoPage .video-3x4 iframe {
     display: block;
     flex: none;
     width: 100%;
