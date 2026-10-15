@@ -1,4 +1,4 @@
-<!-- ================= 2026 complete with christmas tile commented out, will work by uncommenting that 1 line 132 ================= -->
+<!-- ================= 2026 complete -- added actual cards, songs and video - added graduation page - with christmas tile commented out, will work by uncommenting that 1 line 468 ================= -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -408,6 +408,36 @@ body.christmas6-bg p {
 
 }
 
+/* ================= EFFECT LAYERS ================= */
+.effect-layer{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:1;
+}
+@keyframes fallPetals{
+  0%{transform:translateY(0) rotate(0deg); opacity:1;}
+  100%{transform:translateY(110vh) rotate(360deg); opacity:0;}
+}
+.petal{
+  position:absolute;
+  font-size:1.2rem;
+  animation:fallPetals linear forwards;
+  pointer-events:none;
+}
+
+/* ================= Graduation Background ================= */
+/*Changes background of the middle card on just graduation page*/
+/*#graduation{
+    background:
+        url("Images/backgrounda.png") center/cover no-repeat;
+}*/
+
+body.graduation-bg{
+    background:
+        linear-gradient(rgba(255,255,255,.35), rgba(255,255,255,.35)),
+        url("Images/backgrounde.png") center center / cover no-repeat fixed;
+}
 
 </style>
 
@@ -418,11 +448,13 @@ body.christmas6-bg p {
 <!-- ================= AUDIO ================= -->
 <audio id="birthdayAudio" src="Images/birthday.mp3" loop></audio>
 <audio id="christmasAudio" src="Images/christmas.mp3" loop></audio>
+<audio id="Birthday2026Audio" src="Images/Birthday_2026.mp3" loop></audio>
 
 
 <!-- ================= EFFECT LAYERS ================= -->
 <div id="snow" class="effect-layer"></div>
 <div id="heartConfetti" class="effect-layer"></div>
+<div id="petals" class="effect-layer"></div>
 
 
 <!-- ================= HOME ================= -->
@@ -432,6 +464,7 @@ body.christmas6-bg p {
   <button class="logout-btn" onclick="logout()">Logout</button>
 
   <div class="tiles">
+    <div class="tile" onclick="openGraduation()">👩‍🎓 Graduation</div>
     <div class="tile" onclick="openBirthday()">🎂 Birthday</div>
     <!--<div class="tile" onclick="openChristmas()">🎄 Christmas</div>-->
   </div>
@@ -440,6 +473,68 @@ body.christmas6-bg p {
 </div>
 
 
+
+<!-- ================= Graduation ================= -->
+<div class="card page" id="graduation">
+  <h1>2026 Graduation 👩‍🎓</h1>
+
+  <div class="tiles">
+    <div class="tile" onclick="openGraduationCard()">💌 Card</div>
+    <div class="tile" onclick="openGraduationVideo()">🎥 Video</div>
+  </div>
+
+  <button class="back-btn" onclick="goHome()">Back</button>
+</div>
+
+<!-- ================= CARD (FULL 2022 ANIMATION COPY) ================= -->
+
+<div class="card page" id="graduationCardPage" style="display:none;">
+  <!-- Stationary header for mobile scroll -->
+  <div class="card-header">
+    <h1>Memory Card 💌</h1>
+    <button class="back-btn" onclick="openGraduation()">Back</button>
+  </div>
+
+  <!-- Scrollable wrapper -->
+  <div class="birthday-card-wrapper">
+    <div class="birthday-card-container">
+
+      <div class="card-inner2">
+        <img src="Images/Happy_Graduation_3.gif" class="card-photo">
+      </div>
+
+      <div class="card-flip c" id="cardFlip">
+        <div class="card-front">
+          <img src="Images/Happy_Graduation _1.gif" class="card-photo">
+        </div>
+
+        <div class="card-inner1">
+          <img src="Images/Happy_Graduation_2.gif" class="card-photo">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= VIDEO ================= -->
+
+<div class="card page" id="graduationVideoPage" style="display:none;">
+  <h1>Memory Video 🎥</h1>
+
+  <div class="video-wrap video-9x16 birthday-video">
+    <iframe
+        id="driveVideo"
+        src="https://drive.google.com/file/d/1bLRK_ujRXLsDrLGVUmFg97MU4CO4lKuI/preview"
+        frameborder="0" 
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+        allowfullscreen
+        style="border-radius:1rem;">
+    </iframe>
+  </div>
+  
+
+  <button class="back-btn" onclick="openGraduation()">Back</button>
+</div>
 
 <!-- ================= BIRTHDAY ================= -->
 <div class="card page" id="birthday">
@@ -492,16 +587,16 @@ body.christmas6-bg p {
     <div class="birthday-card-container">
 
       <div class="card-inner2">
-        <img src="Images/Birthday_2025_3.gif" class="card-photo">
+        <img src="Images/Birthday_2026_3.gif" class="card-photo">
       </div>
 
       <div class="card-flip c" id="cardFlip">
         <div class="card-front">
-          <img src="Images/Birthday_2025_1.gif" class="card-photo">
+          <img src="Images/Birthday_2026_1.gif" class="card-photo">
         </div>
 
         <div class="card-inner1">
-          <img src="Images/Birthday_2025_2.gif" class="card-photo">
+          <img src="Images/Birthday_2026_2.gif" class="card-photo">
         </div>
       </div>
     </div>
@@ -516,7 +611,7 @@ body.christmas6-bg p {
   <div class="video-wrap video-9x16 birthday-video">
     <iframe
         id="driveVideo"
-        src="https://drive.google.com/file/d/1tnu1bR_GRkwVhU-D2tj-O7no0IKLgkgt/preview"
+        src="https://drive.google.com/file/d/1tIfNcX7AvOv1zbToVKFteq-jqYHJSOd6/preview"
         frameborder="0" 
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
         allowfullscreen
@@ -583,12 +678,14 @@ body.christmas6-bg p {
 
 const snow = document.getElementById("snow");
 const hearts = document.getElementById("heartConfetti");
+const petals = document.getElementById("petals");
 
 const bdayAudio = document.getElementById("birthdayAudio");
+const bday2026Audio = document.getElementById("Birthday2026Audio");
 const xmasAudio = document.getElementById("christmasAudio");
 
 let snowInterval = null;
-
+let petalInterval=null;
 
 
 /* =====================================================
@@ -603,7 +700,7 @@ function hideAll(){
 
 function goHome(){
   hideAll();
-  document.body.classList.remove("birthday4-bg", "christmas6-bg");
+  document.body.classList.remove("birthday4-bg", "christmas6-bg", "graduation-bg");
   document.body.classList.add("birthday16-bg"); // default home bg
   document.getElementById("home").style.display="block";
 }
@@ -625,7 +722,7 @@ function logout(){
 function openBirthday(){
   hideAll();
 
-  document.body.classList.remove("birthday16-bg", "christmas6-bg");
+  document.body.classList.remove("birthday16-bg", "christmas6-bg", "graduation-bg");
   document.body.classList.add("birthday4-bg");
 
   document.getElementById("birthday").style.display="block";
@@ -634,10 +731,27 @@ function openBirthday(){
   startHeartConfetti();
 }
 
+function openGraduation(){
+  hideAll();
+
+  /*document.body.classList.remove("birthday16-bg", "christmas6-bg");
+  document.body.classList.add("birthday4-bg");*/
+
+  document.body.classList.remove(
+    "birthday16-bg",
+    "birthday4-bg",
+    "christmas6-bg"
+);
+
+document.body.classList.add("graduation-bg");
+
+  document.getElementById("graduation").style.display="block";
+}
+
 function openChristmas(){
   hideAll();
 
-  document.body.classList.remove("birthday16-bg", "birthday4-bg");
+  document.body.classList.remove("birthday16-bg", "birthday4-bg", "graduation-bg");
   document.body.classList.add("christmas6-bg");
 
   document.getElementById("christmasCardPage").style.display="block";
@@ -670,7 +784,7 @@ function realOpenCard(){
 
   document.getElementById("cardPage").style.display="block";
 
-  bdayAudio.play();
+  bday2026Audio.play();
   startHeartConfetti();
   flipCard2023();
 }
@@ -682,7 +796,21 @@ function realOpenVideo(){
 
 }
 
+function openGraduationCard(){
+  hideAll();
 
+  document.getElementById("graduationCardPage").style.display="block";
+
+  startPetals();
+  graduationCardFlip();
+}
+
+function openGraduationVideo(){
+  hideAll();
+
+  document.getElementById("graduationVideoPage").style.display="block";
+
+}
 
 /* =====================================================
    STOP EVERYTHING WHEN LEAVING PAGE  ⭐
@@ -705,10 +833,14 @@ function stopEffects(){
   snow.innerHTML="";
   snow.style.display="none";
 
+  stopPetals();
+
   /* audio */
   bdayAudio.pause();
+  bday2026Audio.pause();
   xmasAudio.pause();
   bdayAudio.currentTime=0;
+  bday2026Audio.currentTime=0;
   xmasAudio.currentTime=0;
 
   /* stop video */
@@ -772,7 +904,53 @@ function startSnow(){
   },150);
 }
 
+/* =====================================================
+   FLOWERS / PETALS ANIMATION
+===================================================== */
+/*function startPetals(){
+  petals.style.display="block";
+  petalInterval=setInterval(()=>{
+    const p=document.createElement("div");
+    p.className="petal";
+    p.style.left=Math.random()*100+"vw";
+    p.style.fontSize=(12+Math.random()*12)+"px";
+    p.style.animationDuration=(4+Math.random()*3)+"s";
+    p.textContent="🌸";
+    petals.appendChild(p);
+    setTimeout(()=>p.remove(),7000);
+  },200);
+}*/
 
+function startPetals() {
+  petals.style.display = "block";
+
+  petalInterval = setInterval(() => {
+    const p = document.createElement("div");
+    p.className = "petal";
+
+    // Randomly choose a flower
+    const flowers = ["🌸", "🌹", "🌺", "🌷", "🌼", "🌻", "💐"];
+    p.textContent = flowers[Math.floor(Math.random() * flowers.length)];
+
+    // Random position across the screen
+    p.style.left = Math.random() * 100 + "vw";
+
+    // Random size
+    p.style.fontSize = (18 + Math.random() * 18) + "px";
+
+    // Random animation speed
+    p.style.animationDuration = (5 + Math.random() * 4) + "s";
+
+    // Slight random rotation
+    p.style.transform = `rotate(${Math.random() * 360}deg)`;
+
+    petals.appendChild(p);
+
+    setTimeout(() => p.remove(), 9000);
+  }, 180);
+}
+
+function stopPetals(){ if(petalInterval){ clearInterval(petalInterval); petalInterval=null; } petals.innerHTML=""; }
 
 /* =====================================================
    RESPONSIVE CARD FLIP FUNCTIONS
@@ -781,6 +959,58 @@ function startSnow(){
 /* Birthday Card Flip */
 function flipCard2023() {
   const container = document.getElementById("cardPage");
+  const cardFlip = container.querySelector(".card-flip");
+  const cardFront = container.querySelector(".card-front");
+  const cardInner1 = container.querySelector(".card-inner1");
+  const cardInner2 = container.querySelector(".card-inner2");
+
+  // Reset
+  cardFlip.style.transition = "none";
+  cardFlip.style.transform = "rotateY(0deg)";
+  [cardFront, cardInner1, cardInner2].forEach(c => {
+    c.classList.remove("card-horizontal");
+    c.style.transform = "";
+  });
+
+  // Flip animation
+  setTimeout(() => {
+    cardFlip.style.transition = "transform 0.8s ease-out";
+    cardFlip.style.transform = "rotateY(-90deg)";
+  }, 300);
+
+  setTimeout(() => {
+    cardFlip.style.transition = "transform 0.8s ease-in";
+    cardFlip.style.transform = "rotateY(-180deg)";
+  }, 1200);
+
+  // Horizontal spread after flip
+  setTimeout(() => {
+    cardFlip.style.transition = "none";
+    cardFlip.style.transform = "none";
+    [cardFront, cardInner1, cardInner2].forEach(c => c.classList.add("card-horizontal"));
+
+    //const spread = container.clientWidth * 0.45; // 40% of container width
+
+    let spread;
+    if(window.innerWidth <= 900){
+      if(window.matchMedia("(orientation: landscape)").matches){
+        spread = container.clientWidth * 0.28;
+      }else{
+        spread = container.clientWidth * 0.55;
+      }
+    }else{
+      spread = container.clientWidth * 0.4; // desktop
+    }
+
+    cardFront.style.transform = `translateX(-${spread}px)`;
+    cardInner1.style.transform = `translateX(0px)`;
+    cardInner2.style.transform = `translateX(${spread}px)`;
+  }, 2000);
+}
+
+/* Graduation Card Flip */
+function graduationCardFlip() {
+  const container = document.getElementById("graduationCardPage");
   const cardFlip = container.querySelector(".card-flip");
   const cardFront = container.querySelector(".card-front");
   const cardInner1 = container.querySelector(".card-inner1");
@@ -911,7 +1141,7 @@ document.addEventListener("click", e => {
   if(!img) return;
 
   /* only trigger inside card pages */
-  if(!img.closest("#cardPage, #christmasCardPage")) return;
+  if(!img.closest("#cardPage, #christmasCardPage, #graduationCardPage")) return;
 
   photos = Array.from(
     img.closest(".birthday-card-container").querySelectorAll(".card-photo")
@@ -972,7 +1202,7 @@ window.addEventListener("DOMContentLoaded", () => {
    LOCK SYSTEM
 ===================================================== */
 
-const ACCESS_CODE = "2026"; // <<< change your code here
+const ACCESS_CODE = "HAPPYBIRTHDAY2026"; // <<< change your code here
 
 function showLock(){
   hideAll();
