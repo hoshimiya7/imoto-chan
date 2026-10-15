@@ -1,4 +1,4 @@
-<!-- ================= 2026 complete -- added actual cards, songs and video - added graduation page - with christmas tile commented out, will work by uncommenting that 1 line 468 ================= -->
+<!-- ================= 2026 complete -- Video page fixed - added actual cards, songs and video - added graduation page - with christmas tile commented out, will work by uncommenting that 1 line 468 ================= -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -439,6 +439,95 @@ body.graduation-bg{
         url("Images/backgrounde.png") center center / cover no-repeat fixed;
 }
 
+/* ================= VIDEO RESIZE ================= */
+
+/* Birthday video: 2160 x 2924 aspect ratio */
+#videoPage .video-2160x2924 {
+  width: min(90vw, 420px);
+  aspect-ratio: 2160 / 2924;
+  height: auto;
+  max-height: 80dvh;
+  margin: 20px auto;
+  background: black;
+  border-radius: 1rem;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+/* Fill the wrapper without stretching the video */
+#videoPage .video-2160x2924 iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: 1rem;
+}
+
+/* ================= MOBILE PORTRAIT ================= */
+
+@media (max-width: 768px) and (orientation: portrait) {
+  #videoPage .video-2160x2924 {
+    width: min(90vw, calc(75dvh * 2160 / 2924));
+    max-height: 75dvh;
+    margin: 12px auto;
+  }
+
+  #videoPage .video-2160x2924 iframe {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+/* ================= MOBILE LANDSCAPE ================= */
+
+@media (max-width: 900px) and (orientation: landscape) {
+
+  .page#videoPage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 0;
+    padding:
+      env(safe-area-inset-top)
+      12px
+      env(safe-area-inset-bottom);
+    box-sizing: border-box;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .page#videoPage h1 {
+    flex: 0 0 auto;
+    text-align: center;
+    font-size: 1.3rem;
+    margin: 6px 0;
+    padding-top: 0;
+  }
+
+  #videoPage .video-2160x2924 {
+    width: min(
+      55vw,
+      calc((100dvh - 110px) * 2160 / 2924)
+    );
+    aspect-ratio: 2160 / 2924;
+    max-height: calc(100dvh - 110px);
+    flex: 0 0 auto;
+    margin: 6px auto;
+  }
+
+  #videoPage .video-2160x2924 iframe {
+    width: 100%;
+    height: 100%;
+  }
+
+  .page#videoPage .back-btn {
+    flex: 0 0 auto;
+    margin: 6px auto;
+  }
+}
 </style>
 
 </head>
@@ -521,7 +610,7 @@ body.graduation-bg{
 <div class="card page" id="graduationVideoPage" style="display:none;">
   <h1>2026 Graduation Video 🎥</h1>
 
-  <div class="video-wrap video-9x16 birthday-video">
+  <div class="video-wrap video-2160x2924 birthday-video">
     <iframe
         id="driveVideo"
         src="https://drive.google.com/file/d/1bLRK_ujRXLsDrLGVUmFg97MU4CO4lKuI/preview"
@@ -608,7 +697,7 @@ body.graduation-bg{
 <div class="card page" id="videoPage" style="display:none;">
   <h1>2026 Birthday Video 🎥</h1>
 
-  <div class="video-wrap video-9x16 birthday-video">
+  <div class="video-wrap video-2160x2924 birthday-video">
     <iframe
         id="driveVideo"
         src="https://drive.google.com/file/d/1tIfNcX7AvOv1zbToVKFteq-jqYHJSOd6/preview"
