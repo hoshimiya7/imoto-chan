@@ -68,6 +68,12 @@ body.christmas6-bg p {
   aspect-ratio: 5 / 7;   /* correct image ratio */
 }
 
+#graduationCardPage .birthday-card-container{
+  width: min(90vw, 420px);
+  height: auto;                /* cancel fixed height */
+  aspect-ratio: 5 / 7;   /* correct image ratio */
+}
+
 /* Christmas */
 #christmasCardPage .birthday-card-container{
   width: min(70vw, 300px);
@@ -177,7 +183,7 @@ body.christmas6-bg p {
 
 /* Mobile portrait */
 @media (max-width: 768px) and (orientation: portrait) {
-  #cardPage .birthday-card-container {
+  #cardPage .birthday-card-container, #graduationCardPage .birthday-card-container {
     width: 85vw;
   }
   #christmasCardPage .birthday-card-container {
@@ -187,7 +193,7 @@ body.christmas6-bg p {
 
 /* Mobile landscape */
 @media (max-width: 768px) and (orientation: landscape) {
-  #cardPage .birthday-card-container {
+  #cardPage .birthday-card-container, #graduationCardPage .birthday-card-container {
     width: 60vw;
   }
   #christmasCardPage .birthday-card-container {
@@ -217,7 +223,7 @@ body.christmas6-bg p {
 @media (max-width:900px) and (orientation: portrait){
 
   /* Birthday + Christmas page layout */
-  #cardPage, #christmasCardPage {
+  #cardPage, #christmasCardPage, #graduationCardPage {
     display:flex;
     flex-direction: column;
     height: 100dvh; 
@@ -261,7 +267,7 @@ body.christmas6-bg p {
 
 /* 📱 Landscape */
 @media (max-width:900px) and (orientation: landscape){
-  #cardPage, #christmasCardPage {
+  #cardPage, #christmasCardPage, #graduationCardPage {
     display:flex;
     flex-direction: column;
     height: 100dvh;
@@ -307,7 +313,7 @@ body.christmas6-bg p {
 
 /* Mobile portrait */
 @media (max-width: 768px) and (orientation: portrait) {
-  #cardPage .birthday-card-container {
+  #cardPage .birthday-card-container, #graduationCardPage .birthday-card-container {
     width: 60vw;  /* reduced from 85vw */
   }
   #christmasCardPage .birthday-card-container {
@@ -317,7 +323,7 @@ body.christmas6-bg p {
 
 /* Mobile landscape */
 @media (max-width: 768px) and (orientation: landscape) {
-  #cardPage .birthday-card-container {
+  #cardPage .birthday-card-container, #graduationCardPage .birthday-card-container {
     width: 23vw;  /* reduced from 60vw */
   }
   #christmasCardPage .birthday-card-container {
