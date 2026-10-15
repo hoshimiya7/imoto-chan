@@ -482,7 +482,7 @@ body.graduation-bg{
 }
 
 /* ================= MOBILE LANDSCAPE ================= */
-
+/*
 @media (max-width: 900px) and (orientation: landscape) {
 
   .page#videoPage {
@@ -528,6 +528,155 @@ body.graduation-bg{
     margin: 6px auto;
   }
 }
+*/
+/* ================= GRADUATION VIDEO: 2160 x 2880 (3:4) ================= */
+
+#graduationVideoPage .video-3x4 {
+  width: min(90vw, 420px);
+  aspect-ratio: 2160 / 2880;
+  height: auto;
+  max-height: 80dvh;
+  margin: 20px auto;
+  background: black;
+  border-radius: 1rem;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+#graduationVideoPage .video-3x4 iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: 1rem;
+}
+
+/* Mobile portrait */
+@media (max-width: 768px) and (orientation: portrait) {
+  #graduationVideoPage .video-3x4 {
+    width: min(90vw, calc(75dvh * 3 / 4));
+    max-height: 75dvh;
+    margin: 12px auto;
+  }
+}
+
+/* Mobile landscape *//*
+@media (max-width: 900px) and (orientation: landscape) {
+
+  .page#graduationVideoPage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 0;
+    padding:
+      env(safe-area-inset-top)
+      12px
+      env(safe-area-inset-bottom);
+    box-sizing: border-box;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .page#graduationVideoPage h1 {
+    flex: 0 0 auto;
+    text-align: center;
+    font-size: 1.3rem;
+    margin: 6px 0;
+  }
+
+  #graduationVideoPage .video-3x4 {
+    width: min(55vw, calc((100dvh - 110px) * 3 / 4));
+    aspect-ratio: 3 / 4;
+    max-height: calc(100dvh - 110px);
+    flex: 0 0 auto;
+    margin: 6px auto;
+  }
+
+  .page#graduationVideoPage .back-btn {
+    flex: 0 0 auto;
+    margin: 6px auto;
+  }
+}
+*/
+
+/* =========================================================
+   VIDEO PAGES — MOBILE LANDSCAPE FIX
+   Birthday:   2160 x 2924
+   Graduation: 2160 x 2880 (3:4)
+========================================================= */
+
+@media (max-width: 900px) and (orientation: landscape) {
+
+  /* Both video pages */
+  .page#videoPage,
+  .page#graduationVideoPage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 0;
+    height: 100dvh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding:
+      env(safe-area-inset-top)
+      12px
+      env(safe-area-inset-bottom);
+    box-sizing: border-box;
+  }
+
+  /* Keep headings visible */
+  .page#videoPage h1,
+  .page#graduationVideoPage h1 {
+    flex: 0 0 auto;
+    text-align: center;
+    font-size: 1.3rem;
+    margin: 6px 0;
+    padding-top: 0;
+  }
+
+  /* Birthday video wrapper */
+  .page#videoPage .video-2160x2924 {
+    flex: 0 0 auto;
+    width: min(55vw, calc((100dvh - 110px) * 2160 / 2924));
+    aspect-ratio: 2160 / 2924;
+    height: auto;
+    max-height: calc(100dvh - 110px);
+    margin: 6px auto;
+    overflow: hidden;
+  }
+
+  /* Graduation video wrapper */
+  .page#graduationVideoPage .video-3x4 {
+    flex: 0 0 auto;
+    width: min(55vw, calc((100dvh - 110px) * 3 / 4));
+    aspect-ratio: 3 / 4;
+    height: auto;
+    max-height: calc(100dvh - 110px);
+    margin: 6px auto;
+    overflow: hidden;
+  }
+
+  /* Make each iframe fill its wrapper */
+  .page#videoPage .video-wrap iframe,
+  .page#graduationVideoPage .video-wrap iframe {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 1rem;
+  }
+
+  /* Keep Back buttons accessible */
+  .page#videoPage .back-btn,
+  .page#graduationVideoPage .back-btn {
+    flex: 0 0 auto;
+    margin: 6px auto;
+  }
+}
+
 </style>
 
 </head>
@@ -610,7 +759,7 @@ body.graduation-bg{
 <div class="card page" id="graduationVideoPage" style="display:none;">
   <h1>2026 Graduation Video 🎥</h1>
 
-  <div class="video-wrap video-2160x2924 birthday-video">
+  <div class="video-wrap video-3x4 graduation-video">
     <iframe
         id="driveVideo"
         src="https://drive.google.com/file/d/1bLRK_ujRXLsDrLGVUmFg97MU4CO4lKuI/preview"
