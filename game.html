@@ -129,7 +129,7 @@ button:hover{
       ⛔ Avoid obstacles<br>
       ⬆️⬇️ Arrow keys, swipe, or mobile buttons<br>
       Tap/click to shoot<br>
-      Need to score 100 or more to unlock the code for your b-day card and video
+      📋 Need to score 100 or more to unlock the code for your b-day card and video
     </p>
     <h3>🏆 Highest Score: <span id="highScore">0</span></h3>
     <button onclick="startGame()">▶ Play Game</button>
@@ -269,7 +269,8 @@ function endGame(){
     const gameBox=gameOverScreen.querySelector(".game-box");
     let message=document.getElementById("gameOverMessage");
     if(!message){ message=document.createElement("p"); message.id="gameOverMessage"; message.style.margin="1rem 0"; message.style.fontWeight="bold"; message.style.fontSize="16px"; gameBox.insertBefore(message,gameBox.querySelector("button")); }
-    if(score>=100){ message.innerHTML=`🎉 Congrats! Code: <span id="birthdayCode">HAPPYBIRTHDAY2026</span>`; }
+    // if(score>=100){ message.innerHTML=`🎉 Congrats! Code: <span id="birthdayCode">HAPPYBIRTHDAY2026</span>`; }
+    if(score>=100){ message.innerHTML=`🎉 Congrats! Code: <span id="birthdayCode">HAPPYBIRTHDAY2026</span><br><br>📋 Copy your code, go to the dashboard, and back to unlock your surprise! 🎁`; }
     else{ message.textContent="👍 Great try! Keep going!"; }
     gameOverScreen.style.display="flex";
 }
