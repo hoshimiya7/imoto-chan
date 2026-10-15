@@ -808,6 +808,9 @@ function openCard(){
 
   //startBalloons();
   flipCard2023();
+
+  bdayAudio.play();
+  startBalloons();
 }
 
 function openVideo(){
@@ -897,7 +900,7 @@ function startSnow(){
   snowInterval=setInterval(()=>{
 
     const s=document.createElement("div");
-    s.innerHTML="❄";
+    s.innerHTML="🎄";
     s.style.position="absolute";
     s.style.left=Math.random()*100+"vw";
     s.style.animation="fallSnow 5s linear forwards";
@@ -976,6 +979,9 @@ function openChristmasCard() {
   document.body.classList.add("christmas-bg");
   document.getElementById("christmasCardPage").style.display = "block";
   flipChristmasCard();
+
+  xmasAudio.play();
+  startSnow();
 }
 
 function openChristmasVideo() {

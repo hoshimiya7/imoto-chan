@@ -672,6 +672,9 @@ function openCard(){
   hideAll();
   document.getElementById("cardPage").style.display="block";
   flipCard2023();
+
+  bdayAudio.play();
+  startBalloons();
 }
 
 function openVideo(){
@@ -722,7 +725,7 @@ function startSnow(){
   snow.style.display="block";
   snowInterval=setInterval(()=>{
     const s=document.createElement("div");
-    s.innerHTML="❄";
+    s.innerHTML="🎅";
     s.style.position="absolute";
     s.style.left=Math.random()*100+"vw";
     s.style.animation="fallSnow 5s linear forwards";
